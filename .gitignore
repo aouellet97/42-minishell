@@ -1,0 +1,13 @@
+# Ignore all
+*
+
+# Except
+!Makefile
+
+!src/
+!*.c
+
+!include/
+!*.h
+
+!.gitignore

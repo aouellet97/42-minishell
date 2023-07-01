@@ -3,7 +3,7 @@
 #------------------------------------------------------------------------------#
 
 ARGS	=	""
-NAME	=	main
+NAME	=	minishell
 
 # Colors
 GREEN	=	\033[0;32m
@@ -15,7 +15,6 @@ NC		=	\033[0m
 LIBDIR	=	lib/
 INCDIR	=	include/
 SRCDIR	=	src/
-BONDIR	=	bonus_src/
 
 # Libraries
 LIBFT	=	$(LIBDIR)/libft/libft.a
@@ -32,13 +31,10 @@ RM		=	rm
 SRCS	:=	main.c
 B_SRCS	:=	$(SRCS:%=bonus_%)
 
-
 # Objects
 OBJDIR	=	obj/
 OBJS		:=	$(SRCS:%.c=$(OBJDIR)%.o)
 SRCS		:=	$(SRCS:%.c=$(SRCDIR)%.c)
-B_OBJS	:=	$(B_SRCS:%.c=$(OBJDIR)%.o)
-B_SRCS		:=	$(B_SRCS:%=$(BONDIR)%)
 DEPS		:=	$(OBJS:%.o=%.d)
 
 
@@ -63,16 +59,6 @@ $(OBJDIR)%.o : $(SRCDIR)%.c
 # Compile libft
 $(LIBFT):
 	@ $(MAKE) -C $(LIBDIR)/libft -s
-
-# Compile Bonus
-bonus : $(LIBFT) $(BONUS_OBJS)
-	@echo "$(GREEN)	Compiling $@ ... $(NC)"
-	$(CC) $(CFLAGS) $(BONUS_OBJS) $(LIBS) -o $@ -I/bonus_src/ $(INCLUDES)
-
-$(OBJDIR)%.o : $(BONDIR)%.c
-	@mkdir -p $(OBJDIR);
-	$(CC) -c $(CFLAGS) -MMD -MP $< -o $@ $(INCLUDES)
-
 
 # Remove objects
 clean :

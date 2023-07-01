@@ -1,6 +1,6 @@
-# include "header.h"
+# include "minishell.h"
 
 int main(void)
 {
-	ft_putstr_fd("Hello W000rld\n", STDIN_FILENO);
+	ft_putstr_fd("Hello MiniShell !!\n", STDIN_FILENO);
 }
