@@ -18,13 +18,15 @@ SRCDIR	=	src/
 
 # Libraries
 LIBFT	=	$(LIBDIR)/libft/libft.a
+LIBRLINE	= $(LIBDIR)/libreadline.a
+RLINE_V	=	readline-8.2
 INCLUDES=	-I $(LIBDIR)/libft -I $(INCDIR)
-LIBS	=	$(LIBFT)
+LIBS	=	$(LIBFT) $(LIBRLINE) 
 
 # Compiler and flags
 CC		=	gcc
 CFLAGS	=	-Wall -Werror -Wextra
-CFLAGS +=	-Wunreachable-code -Ofast
+# CFLAGS +=	-Wunreachable-code -Ofast
 RM		=	rm
 
 # Sources
@@ -44,10 +46,13 @@ DEPS		:=	$(OBJS:%.o=%.d)
 
 all : $(NAME)
 
+exe : 
+	./$(NAME)
+
 # Compile program
-$(NAME) : $(LIBFT) $(OBJS)
+$(NAME) : $(LIBS) $(OBJS)
 	@echo "$(GREEN)	Compiling $@ ... $(NC)"
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME) -I. $(INCLUDES)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -lncurses -o $(NAME) -I. $(INCLUDES)
 
 # Compile objects
 $(OBJDIR)%.o : $(SRCDIR)%.c
@@ -55,6 +60,17 @@ $(OBJDIR)%.o : $(SRCDIR)%.c
 	$(CC) -c $(CFLAGS) -MMD -MP $< -o $@ $(INCLUDES)
 
 -include $(DEPS)
+
+$(LIBRLINE) :
+	@if [ ! -f ./libs/readline/libreadline.a ]; then \
+		curl -O https://ftp.gnu.org/gnu/readline/$(RLINE_V).tar.gz; \
+		tar -xf $(RLINE_V).tar.gz && rm -rf $(RLINE_V).tar.gz; \
+		cd $(RLINE_V) && bash configure; \
+		echo "${BLUE}COMPILING READLINE ..." && make -s; \
+		mv ./libreadline.a ../$(LIBDIR); \
+		rm -rf ../$(RLINE_V); \
+		echo "${GREEN}READLINE INSTALLED${NC}"; \
+	fi
 
 # Compile libft
 $(LIBFT):
@@ -69,8 +85,9 @@ clean :
 # Remove all
 fclean : clean
 	@$(RM) -f $(NAME) bonus
-	@$(MAKE) fclean -C $(LIBDIR)/libft -s
-	@echo "$(RED)	Removed executables and libft	$(NC)"
+#	@$(MAKE) fclean -C $(LIBDIR)/libft -s
+#	@$(RM) -f $(LIB_RLINE)
+	@echo "$(RED)	Removed executables 	$(NC)"
 
 # Remake
 re : fclean all
