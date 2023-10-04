@@ -30,7 +30,10 @@ CFLAGS	=	-Wall -Werror -Wextra
 RM		=	rm
 
 # Sources
-SRCS	:=	main.c
+SRCS	:=	main.c	\
+			minishell_setup.c	\
+			
+
 B_SRCS	:=	$(SRCS:%=bonus_%)
 
 # Objects
