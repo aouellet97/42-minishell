@@ -31,11 +31,11 @@ void set_signal_actions(void)
 	sigset_t signal_set;
 
 	setup_term();
-	
+
 	ft_bzero(&sa, sizeof(sa));
 	sa.sa_handler = handle_sigint;
 	sigemptyset(&signal_set);
-	sa.sa_flags = signal_set;
+	sa.sa_mask = signal_set;
 
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
@@ -44,7 +44,7 @@ void set_signal_actions(void)
 int main(void)
 {
 	char *line;
-	
+
 	set_signal_actions();
 
 	while (1)
