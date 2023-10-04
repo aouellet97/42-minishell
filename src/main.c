@@ -6,7 +6,7 @@
 /*   By: aouellet <aouellet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 10:50:43 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/04 18:13:56 by aouellet         ###   ########.fr       */
+/*   Updated: 2023/10/04 18:58:34 by aouellet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(void)
 		line = readline("minishell > ");
 		if (!line || ft_strcmp(line, "exit") == 0)
 		{
-			printf("exit");
+			printf("exit\n");
 			exit(0);
 		}
 		if (*line)
