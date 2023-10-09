@@ -31,7 +31,7 @@ RM		=	rm
 
 # Sources
 SRCS	:=	main.c	\
-			minishell_setup.c	\
+			signal.c	\
 			
 
 B_SRCS	:=	$(SRCS:%=bonus_%)
