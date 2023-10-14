@@ -1,42 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   testing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/28 10:50:43 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/14 12:07:42 by kmehour          ###   ########.fr       */
+/*   Created: 2023/10/14 11:51:46 by kmehour           #+#    #+#             */
+/*   Updated: 2023/10/14 12:06:17 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "testing.h"
-void test_parsing(char *line);
 
-int	main(void)
-{
-	char	*line;
-
-	set_signal_actions();
-	while (1)
-	{
-		//init
-		line = readline("minishell > ");
-		if (!line || ft_strcmp(line, "exit") == 0)
-		{
-			printf("exit\n");
-			exit(0);
-		}
-
-		//parser
-		char **cmd_tab = parse_cmd(line);
-		print_tab(cmd_tab);
-		
-		//minishell loop
-		if (*line)
-			add_history(line);
-			
-		free(line);
-	}
+void test_parsing(char *line){
+	change_wspace(line);
+	char **list = ft_split(line, SPLIT_SEP);
+	print_tab(list);
 }
+
+void print_tab(char **list)
+{
+	int i = 0;
+
+	printf("\n\n========= DEBUG =========\n\n");
+	while(list[i])
+	{
+		printf("%s\n", list[i]);
+		i++;
+	}
+	printf("\n\n=========================\n\n");
+}
+
+
+

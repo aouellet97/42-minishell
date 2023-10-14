@@ -2,9 +2,8 @@
 
 
 
-# define SPLIT_SEP 22
-
-int is_whitespace(char c){
+int is_whitespace(char c)
+{
 	return ((c >= 9 && c <= 13) || c == 32);
 }
 
@@ -32,13 +31,12 @@ void change_wspace(char *str)
 	}
 }
 
-void print_list(char **list)
+char **parse_cmd(char *cmd_str)
 {
-	int i = 0;
+	char **new_tab;
 
-	while(list[i])
-	{
-		printf("%s\n", list[i]);
-		i++;
-	}
+	change_wspace(cmd_str);
+	new_tab= ft_split(cmd_str, SPLIT_SEP);
+	return (new_tab);
 }
+
