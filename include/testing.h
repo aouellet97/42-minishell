@@ -6,7 +6,7 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:51:38 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/15 13:50:52 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/10/15 15:24:58 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 # include <unistd.h>
 
 
-void	ft_test_parsing(char *line);
+// void	ft_test_parsing(char *line);
 void	ft_print_tab(char **list);
-int		ft_exec_strcmd(char *cmd, char *const envp[]);
+// int		ft_exec_strcmd(char *cmd, char *const envp[]);
+void	ft_print_exec_struct(t_exec *cmd);
 
 #endif

@@ -6,12 +6,12 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 13:08:22 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/15 14:13:40 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/10/15 15:33:12 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "execution.h"
-# include "parsing.h"
+#include "minishell.h"
+
 /* 
 	@brief Raise error
 
@@ -27,18 +27,17 @@ void	ft_raise_err(char *err_str, int err_nb)
 /* 
 	@brief Execute Command given as a string
 */
-int	ft_exec_strcmd(char *cmd, char *const envp[])
+int	ft_exec_struct(t_exec *cmd, char *const envp[])
 {
-	char	**cmd_tab;
-	char	*cmd_path;
 
-	cmd_tab = ft_parse_cmd(cmd);
-	cmd_path = ft_get_cmd_path(cmd_tab[0], envp);
+	ft_print_exec_struct(cmd);
+	
+// /* 		
 	int res = -5;
-	if (cmd_path)
-		res = execve(cmd_path, cmd_tab, envp);
+	if (cmd->path)
+		res = execve(cmd->path, cmd->tab, envp);
 
-	ft_free_tab(cmd_tab);
+	ft_free_tab(cmd->tab);
 	ft_raise_err("command not found", 1);
-	return (2);
+ 	return (2);
 }

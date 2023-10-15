@@ -1,5 +1,5 @@
 # include "minishell.h"
-# include "testing.h"
+
 
 /* 
 	@brief Check if a cher is a white space
@@ -57,4 +57,24 @@ char	*ft_getfwd(char *str)
 		i++;
 	word = ft_substr(str, 0, i);
 	return (word);
+}
+
+/* 
+	@biref Parse the raw input of a command into a t_exec structure
+
+	@param strcmd Command in string format
+	@param envp Environment system variable
+ */
+t_exec	*ft_parse_input(char *strcmd, char *const envp[])
+{
+	t_exec	*cmd = NULL;
+
+	cmd = malloc(sizeof(t_exec));
+
+	cmd->infile = STDIN_FILENO;
+	cmd->outfile = STDOUT_FILENO;
+	cmd->tab = ft_parse_cmd(strcmd);
+	cmd->path = ft_get_cmd_path(cmd->tab[0], envp);
+
+	return cmd;
 }

@@ -6,13 +6,12 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:51:46 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/15 13:48:55 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/10/15 15:35:58 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "testing.h"
 #include "minishell.h"
-#include "libft.h"
+
 
 
 void test_parsing(char *line){
@@ -25,13 +24,27 @@ void ft_print_tab(char **list)
 {
 	int i = 0;
 
-	printf("\n\n========= DEBUG =========\n\n");
+	printf("\n\n\t========= TABLE =========\n");
 	while(list[i])
 	{
-		printf("%s\n", list[i]);
+		printf("\t- %s\n", list[i]);
 		i++;
 	}
-	printf("\n\n=========================\n\n");
+	printf("\n\t=========================\n\n");
+}
+
+void ft_print_exec_struct(t_exec *cmd)
+{
+	
+	printf("\
+	============ Command ============\n\
+	\tInput : %i\n\
+	\tOutput : %i\n\
+	\tPath : %s\n\
+	=================================\n\
+	", cmd->infile, cmd->outfile, cmd->path);
+	
+	ft_print_tab(cmd->tab);
 }
 
 
