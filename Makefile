@@ -30,10 +30,12 @@ CFLAGS	=	-Wall -Werror -Wextra
 RM		=	rm
 
 # Sources
-SRCS	:=	main.c		\
-			signal.c	\
-			parsing.c	\
-			testing.c	\
+SRCS	:=	main.c				\
+			signal.c			\
+			parsing.c			\
+			testing.c			\
+			execution.c			\
+			execution_utils.c	\
 
 B_SRCS	:=	$(SRCS:%=bonus_%)
 

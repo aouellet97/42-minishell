@@ -6,19 +6,22 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:51:46 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/14 12:06:17 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/10/15 13:48:55 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "testing.h"
+#include "minishell.h"
+#include "libft.h"
+
 
 void test_parsing(char *line){
-	change_wspace(line);
+	ft_change_wspace(line);
 	char **list = ft_split(line, SPLIT_SEP);
-	print_tab(list);
+	ft_print_tab(list);
 }
 
-void print_tab(char **list)
+void ft_print_tab(char **list)
 {
 	int i = 0;
 
@@ -30,6 +33,16 @@ void print_tab(char **list)
 	}
 	printf("\n\n=========================\n\n");
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -6,7 +6,7 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:51:38 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/14 12:03:52 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/10/15 13:50:52 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include "minishell.h"
 # include "libft.h"
 # include <stdio.h>
+# include <unistd.h>
 
 
-
-void test_parsing(char *line);
-void print_tab(char **list);
+void	ft_test_parsing(char *line);
+void	ft_print_tab(char **list);
+int		ft_exec_strcmd(char *cmd, char *const envp[]);
 
 #endif

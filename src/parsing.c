@@ -1,13 +1,15 @@
 # include "minishell.h"
+# include "testing.h"
 
-
-
-int is_whitespace(char c)
+/* 
+	@brief Check if a cher is a white space
+ */
+int	is_whitespace(char c)
 {
 	return ((c >= 9 && c <= 13) || c == 32);
 }
 
-void change_wspace(char *str)
+void	ft_change_wspace(char *str)
 {
 	int i;
 	char *next_quote;
@@ -31,12 +33,28 @@ void change_wspace(char *str)
 	}
 }
 
-char **parse_cmd(char *cmd_str)
+char	**ft_parse_cmd(char *cmd_str)
 {
 	char **new_tab;
 
-	change_wspace(cmd_str);
+	ft_change_wspace(cmd_str);
 	new_tab= ft_split(cmd_str, SPLIT_SEP);
 	return (new_tab);
 }
 
+/*
+Gets the first word of a string
+*/
+char	*ft_getfwd(char *str)
+{
+	int		i;
+	char	*word;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (str[i] && str[i] != 29)
+		i++;
+	word = ft_substr(str, 0, i);
+	return (word);
+}
