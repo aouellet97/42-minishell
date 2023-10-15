@@ -6,7 +6,7 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 10:50:43 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/15 15:33:26 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/10/15 15:57:26 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,14 @@ int	main(int argc, char **argv, char *const envp[])
 		}
 		//	Append to history
 		if (*line)
+		{
 			add_history(line);
-
-		//	Parse Input
-		command = ft_parse_input(line, envp);
-		
-		//	Execute Command(s)
-		ft_exec_struct(command, envp);
-		
-
+			//	Parse Input
+			command = ft_parse_input(line, envp);
+			
+			//	Execute Command(s)
+			ft_execute(command, envp);
+		}
 		free(line);
 	}
 }

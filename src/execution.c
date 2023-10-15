@@ -6,7 +6,7 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 13:08:22 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/15 15:33:12 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/10/18 18:23:55 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
 */
 void	ft_raise_err(char *err_str, int err_nb)
 {
-	perror(err_str);
+	(void) err_str;
+	perror(NULL);
+	
 	exit(err_nb);
 }
 
@@ -29,15 +31,25 @@ void	ft_raise_err(char *err_str, int err_nb)
 */
 int	ft_exec_struct(t_exec *cmd, char *const envp[])
 {
-
-	ft_print_exec_struct(cmd);
+	// ft_print_exec_struct(cmd);
+	int res;
 	
-// /* 		
-	int res = -5;
 	if (cmd->path)
 		res = execve(cmd->path, cmd->tab, envp);
-
-	ft_free_tab(cmd->tab);
+	// ft_free_tab(cmd->tab);
 	ft_raise_err("command not found", 1);
  	return (2);
+}
+
+void	ft_execute(t_exec *cmd, char *const envp[])
+{
+	int pid;
+
+	pid = fork();
+
+	if (pid == 0) 
+	{
+		ft_exec_struct(cmd, envp);	
+	}
+	wait(&pid);
 }
