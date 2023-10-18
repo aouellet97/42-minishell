@@ -6,7 +6,7 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 10:50:43 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/15 15:57:26 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/10/18 18:26:31 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char *const envp[])
 	(void)	argv;
 	t_exec	*command;
 
-	ft_set_signal_actions();
+	ft_set_signal_actions(SIG_MAIN);
 	while (1)
 	{
 		//	Readline

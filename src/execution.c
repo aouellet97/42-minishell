@@ -6,7 +6,11 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 13:08:22 by kmehour           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/10/18 18:23:55 by kmehour          ###   ########.fr       */
+=======
+/*   Updated: 2023/10/18 18:16:01 by kmehour          ###   ########.fr       */
+>>>>>>> dev/signal
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +47,19 @@ int	ft_exec_struct(t_exec *cmd, char *const envp[])
 
 void	ft_execute(t_exec *cmd, char *const envp[])
 {
+	// Cree list de pid
 	int pid;
 
-	pid = fork();
 
+	// set input outpu gracer a dup2()
+	
+	pid = fork();
+	
 	if (pid == 0) 
 	{
-		ft_exec_struct(cmd, envp);	
+		ft_set_signal_actions(SIG_CHILD);
+		ft_exec_struct(cmd, envp);
+		exit(555);
 	}
 	wait(&pid);
 }
