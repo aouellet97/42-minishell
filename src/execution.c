@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aouellet <aouellet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 13:08:22 by kmehour           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/10/18 18:23:55 by kmehour          ###   ########.fr       */
-=======
-/*   Updated: 2023/10/18 18:16:01 by kmehour          ###   ########.fr       */
->>>>>>> dev/signal
+/*   Updated: 2023/10/18 18:34:13 by aouellet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
