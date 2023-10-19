@@ -6,7 +6,11 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 10:50:43 by kmehour           #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2023/10/15 15:57:26 by kmehour          ###   ########.fr       */
+=======
+/*   Updated: 2023/10/18 20:18:51 by kmehour          ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +24,7 @@ int	main(int argc, char **argv, char *const envp[])
 	char	*line;
 	(void)	argc;
 	(void)	argv;
-	t_exec	*command;
+	t_exec	**exec_tab = NULL;
 
 	ft_set_signal_actions();
 	while (1)
@@ -39,10 +43,10 @@ int	main(int argc, char **argv, char *const envp[])
 		{
 			add_history(line);
 			//	Parse Input
-			command = ft_parse_input(line, envp);
+			exec_tab = ft_parse_pipes(line, envp);
 			
 			//	Execute Command(s)
-			ft_execute(command, envp);
+			// ft_execute(exec_tab, envp);
 		}
 		free(line);
 	}

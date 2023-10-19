@@ -6,7 +6,7 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 13:10:41 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/15 14:57:24 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/10/18 19:58:14 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char	*ft_get_cmd_path(char *cmd, char *const envp[])
 		i++;
 	}
 	ft_free_tab(path_tab);
-	free(cmd);
 	if (res == 0)
 		return (tmp);
 	return (NULL);

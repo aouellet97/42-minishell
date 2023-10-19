@@ -60,7 +60,7 @@ char	*ft_getfwd(char *str)
 }
 
 /* 
-	@biref Parse the raw input of a command into a t_exec structure
+	@brief Parse the raw input of a command into a t_exec structure
 
 	@param strcmd Command in string format
 	@param envp Environment system variable
@@ -77,4 +77,42 @@ t_exec	*ft_parse_input(char *strcmd, char *const envp[])
 	cmd->path = ft_get_cmd_path(cmd->tab[0], envp);
 
 	return cmd;
+}
+
+
+t_exec	**ft_parse_pipes(char *line, char *const envp[])
+{
+	// Count number of |
+	int cmd_count;
+	int i;
+
+	i = 0;
+	cmd_count = 1;
+	while(line[i])
+	{
+		if (line[i] == '|')
+			cmd_count++;
+		i++;
+	}
+
+	// Create t_exec array
+	t_exec **exec_tab = NULL;
+	char **cmd_tab = NULL;
+
+	cmd_tab = ft_split(line, '|');
+	exec_tab = (t_exec **) ft_calloc((cmd_count + 1),  sizeof(t_exec*));
+	// exec_tab[cmd_count] = NULL;
+
+	
+	i = 0;
+	while(i < cmd_count) 
+	{
+		// Populate structurs
+		exec_tab[i] = ft_parse_input(cmd_tab[i], envp);		
+		i++;
+	}
+	// ft_free_tab(cmd_tab);
+	i = 0;
+	
+	return exec_tab;
 }
