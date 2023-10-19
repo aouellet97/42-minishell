@@ -20,6 +20,7 @@ void	ft_free_tab(char **tab);
 int		ft_exec_struct(t_exec *cmd, char *const envp[]);
 void	ft_execute(t_exec *cmd, char *const envp[]);
 t_exec	**ft_parse_pipes(char *line, char *const envp[]);
+void	ft_execute_tab(t_exec **cmd_tab, char *const envp[]);
 
 
 #endif
