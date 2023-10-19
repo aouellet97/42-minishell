@@ -6,7 +6,7 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 10:50:39 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/15 15:18:16 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/10/16 19:25:49 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,14 @@
 
 # define SPLIT_SEP 29
 
+enum sig_mode{
+	SIG_MAIN,
+	SIG_CHILD
+};
+
 
 // =============== Signals ===============
-void	ft_set_signal_actions(void);
+void	ft_set_signal_actions(int mode);
 void	ft_change_wspace(char *str);
 
 

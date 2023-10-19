@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char *const envp[])
 	(void)	argv;
 	t_exec	**exec_tab = NULL;
 
-	ft_set_signal_actions();
+	ft_set_signal_actions(SIG_MAIN);
 	while (1)
 	{
 		//	Readline
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char *const envp[])
 			add_history(line);
 			//	Parse Input
 			exec_tab = ft_parse_pipes(line, envp);
-			
+
 			//	Execute Command(s)
 			ft_execute_tab(exec_tab, envp);
 		}
