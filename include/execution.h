@@ -5,6 +5,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include "libft.h"
+# include <sys/wait.h>
 
 typedef struct s_exec {
 	char **tab;

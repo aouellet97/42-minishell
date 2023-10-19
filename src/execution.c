@@ -38,7 +38,7 @@ int	ft_exec_struct(t_exec *cmd, char *const envp[])
 	if (cmd->path)
 		res = execve(cmd->path, cmd->tab, envp);
 	// ft_free_tab(cmd->tab);
-	ft_raise_err("command not found", 1);
+	ft_raise_err("command not found", res);
  	return (2);
 }
 
