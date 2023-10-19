@@ -6,11 +6,7 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 13:08:22 by kmehour           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/10/18 18:23:55 by kmehour          ###   ########.fr       */
-=======
-/*   Updated: 2023/10/15 15:59:40 by kmehour          ###   ########.fr       */
->>>>>>> 52380f134b5b2d153a04be4a4b03360cd744ea78
+/*   Updated: 2023/10/18 20:29:42 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +51,5 @@ void	ft_execute(t_exec *cmd, char *const envp[])
 	{
 		ft_exec_struct(cmd, envp);	
 	}
-<<<<<<< HEAD
 	wait(&pid);
-=======
-	
->>>>>>> 52380f134b5b2d153a04be4a4b03360cd744ea78
 }
