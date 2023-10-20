@@ -78,3 +78,92 @@ t_exec	*ft_parse_input(char *strcmd, char *const envp[])
 
 	return cmd;
 }
+
+int get_char_index(char*s, char c)
+{
+	int i;
+
+	i = 0;
+	while(s[i])
+	{
+		if(s[i] == c)
+			return i;
+		i++;
+	}
+	return -1;
+}
+
+char* get_var_string(char *var, char *const envp[])
+{
+	int i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 && 
+			get_char_index(envp[i],'=') == ft_strlen(var))
+			return envp[i];
+		i++;
+	}
+	//look user variables 
+	return NULL;
+}
+
+char* get_new_line(char*line, int start, int end, char*env_string)
+{
+	char *first_part = NULL;
+	char *second_part = NULL;
+	char *new_line = NULL;
+	char *var_value = NULL;
+
+	if(!env_string)
+		return line;
+
+	var_value = env_string + get_char_index(env_string,'=') + 1;
+	first_part = ft_substr(line,0,start - 1);
+	second_part = ft_strjoin(var_value,line + end);
+	new_line = ft_strjoin(first_part,second_part);
+
+	free(first_part);
+	free(second_part);
+	free(line);
+	
+	return new_line;
+}
+
+char* replace_vars_by_value(char *line, char *const envp[])
+{
+	char *user_var;
+	int flag;
+	int i;
+	int start;
+	int end;
+
+	start = 0;
+	end = 0;
+	i = 0;
+	flag = 0;
+	user_var = NULL;
+	while(line[i])
+	{
+		if(line[i] == '\'' && flag == 0)
+			flag = 1;
+		else if(line[i] == '\'' && flag == 1)
+			flag = 0;
+		if(line[i] == '$' && flag == 0)
+		{
+			start = i + 1;
+			end = start;
+				
+			while(line[end] && (ft_isalnum(line[end]) || line[end] == '_'))
+				end++;
+			
+			user_var = ft_substr(line, start, end - start);
+			line = get_new_line(line,start, end,get_var_string(user_var,envp)); 
+
+			free(user_var);
+		}
+		i++;
+	}
+	return line;
+}
