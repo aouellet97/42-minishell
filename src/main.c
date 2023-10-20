@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aouellet <aouellet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 10:50:43 by kmehour           #+#    #+#             */
-/*   Updated: 2023/10/18 18:26:31 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/10/20 17:48:52 by aouellet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char *const envp[])
 	char	*line;
 	(void)	argc;
 	(void)	argv;
-	t_exec	*command;
+	//t_exec	*command;
 
 	ft_set_signal_actions(SIG_MAIN);
 	while (1)

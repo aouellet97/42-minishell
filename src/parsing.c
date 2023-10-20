@@ -101,7 +101,7 @@ char* get_var_string(char *var, char *const envp[])
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 && 
-			get_char_index(envp[i],'=') == ft_strlen(var))
+			get_char_index(envp[i],'=') == (int)ft_strlen(var))
 			return envp[i];
 		i++;
 	}
