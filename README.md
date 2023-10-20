@@ -5,11 +5,12 @@
 A modifier au besoin !
 ### Execution :
   - [X] Execute Simple commands
-  - [ ] Pipe outputs between commzands
+  - [ ] Pipe outputs between commands
   - [ ] Handle redirections 
 ### Parsing :
   - [X] Parse Pipes
-  - [ ] Parse Dollard $ignes 
+  - [X] Parse Dollard $ignes for variables
+  - [ ] Parse  $? 
   - [ ] Parse Single Quotes
   - [ ] Parse Double Quotes
   - [ ] Parse redirections
@@ -23,3 +24,5 @@ A modifier au besoin !
 
 ### Other :
   - [ ] Implement HEREDOC
+  - [ ] Implement garbage collector 
+  - [ ] Implement new user variables
