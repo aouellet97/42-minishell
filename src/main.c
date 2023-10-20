@@ -15,6 +15,8 @@
 
 void test_parsing(char *line);
 
+char*replace_vars_by_value(char *line, char *const envp[]);
+
 int	main(int argc, char **argv, char *const envp[])
 {
 	char	*line;
@@ -34,16 +36,20 @@ int	main(int argc, char **argv, char *const envp[])
 			printf("exit\n");
 			exit(0);
 		}
+
 		//	Append to history
 		if (*line)
 		{
 			add_history(line);
 			//	Parse Input
-			command = ft_parse_input(line, envp);
+			//command = ft_parse_input(line, envp);
 			
 			//	Execute Command(s)
-			ft_execute(command, envp);
+			//ft_execute(command, envp);
 		}
+		line = replace_vars_by_value(line,envp);
+		printf("%s\n", line);
+		
 		free(line);
 	}
 }
