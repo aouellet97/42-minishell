@@ -6,12 +6,16 @@
 # include <stdio.h>
 # include "libft.h"
 # include <sys/wait.h>
+# include <fcntl.h>
+
 
 typedef struct s_exec {
 	char **tab;
 	char *path;
+	int pfd[2];
 	int outfile;
 	int infile;
+	int pid;
 } t_exec;
 
 
@@ -22,6 +26,7 @@ int		ft_exec_struct(t_exec *cmd, char *const envp[]);
 void	ft_execute(t_exec *cmd, char *const envp[]);
 t_exec	**ft_parse_pipes(char *line, char *const envp[]);
 void	ft_execute_tab(t_exec **cmd_tab, char *const envp[]);
+void ft_setio(t_exec **cmd);
 
 
 #endif

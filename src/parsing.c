@@ -1,7 +1,7 @@
 # include "minishell.h"
 
 
-/* 
+/*
 	@brief Check if a cher is a white space
  */
 int	is_whitespace(char c)
@@ -59,7 +59,7 @@ char	*ft_getfwd(char *str)
 	return (word);
 }
 
-/* 
+/*
 	@brief Parse the raw input of a command into a t_exec structure
 
 	@param strcmd Command in string format
@@ -103,16 +103,25 @@ t_exec	**ft_parse_pipes(char *line, char *const envp[])
 	exec_tab = (t_exec **) ft_calloc((cmd_count + 1),  sizeof(t_exec*));
 	// exec_tab[cmd_count] = NULL;
 
-	
+
 	i = 0;
-	while(i < cmd_count) 
+	while(i < cmd_count)
 	{
 		// Populate structurs
-		exec_tab[i] = ft_parse_input(cmd_tab[i], envp);		
+		exec_tab[i] = ft_parse_input(cmd_tab[i], envp);
+		i++;
+	}
+
+	// Set pipes
+	i = 0;
+	while (cmd_count > 1 && i < cmd_count - 1)
+	{
+		pipe(exec_tab[i]->pfd);
+		exec_tab[i]->outfile = exec_tab[i]->pfd[1];
+		exec_tab[i + 1]->infile = exec_tab[i]->pfd[0];
 		i++;
 	}
 	// ft_free_tab(cmd_tab);
-	i = 0;
-	
+
 	return exec_tab;
 }

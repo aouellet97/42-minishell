@@ -14,9 +14,6 @@
 
 #include "minishell.h"
 
-
-void test_parsing(char *line);
-
 int	main(int argc, char **argv, char *const envp[])
 {
 	char	*line;
@@ -42,8 +39,10 @@ int	main(int argc, char **argv, char *const envp[])
 			add_history(line);
 			//	Parse Input
 			exec_tab = ft_parse_pipes(line, envp);
-
+			// for (int i = 0; exec_tab[i]; i++)
+				// ft_print_exec_struct(exec_tab[i]);
 			//	Execute Command(s)
+			// ft_setio(exec_tab);
 			ft_execute_tab(exec_tab, envp);
 		}
 		free(line);
