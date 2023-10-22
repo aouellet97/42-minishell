@@ -27,6 +27,7 @@ int	ft_exec_struct(t_exec *cmd, char *const envp[])
 	// ft_print_exec_struct(cmd);
 	int res;
 
+	res = -1;
 	if (cmd->path)
 		res = execve(cmd->path, cmd->tab, envp);
 	// ft_free_tab(cmd->tab);
