@@ -25,11 +25,11 @@ int	main(int argc, char **argv, char *const envp[])
 		//	Append to history
 		if (*line)
 		{
-			// Parse dollard signe
-			line = replace_vars_by_value(line,envp);
-
 			// Add modified line to history
 			add_history(line);
+
+			// Parse dollard signe
+			line = replace_vars_by_value(line,envp);
 
 			//	Parse Modified input
 			exec_tab = ft_parse_pipes(line, envp);
