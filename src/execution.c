@@ -21,9 +21,13 @@
 */
 void	ft_raise_err(char *err_str, int err_nb)
 {
-	(void) err_str;
-	perror(NULL);
+	char *mod_err_str;
 
+	// DEBUG
+	// Distinguish between our raised errors, to be removed !!
+	mod_err_str = ft_strjoin("MINISHELL ERROR - ", err_str);
+	perror(mod_err_str);
+	free(mod_err_str);
 	exit(err_nb);
 }
 
@@ -49,59 +53,24 @@ void	ft_execute(t_exec *cmd, char *const envp[])
 	if (cmd->pid == 0)
 	{
 		// ft_set_signal_actions(SIG_CHILD);
-		dup2(cmd->infile, STDIN_FILENO);
-		dup2(cmd->outfile, STDOUT_FILENO);
+		dup2(cmd->input, STDIN_FILENO);
+		dup2(cmd->output, STDOUT_FILENO);
 
 		close(cmd->pfd[0]);
 		close(cmd->pfd[1]);
-		if (cmd->infile != STDIN_FILENO)
-			close(cmd->infile);
-		if (cmd->outfile != STDOUT_FILENO)
-			close(cmd->outfile);
+		if (cmd->input != STDIN_FILENO)
+			close(cmd->input);
+		if (cmd->output != STDOUT_FILENO)
+			close(cmd->output);
 
 
 		ft_exec_struct(cmd, envp);
 		exit(555);
 	}
-	if (cmd->infile != STDIN_FILENO)
-		close(cmd->infile);
-	if (cmd->outfile != STDOUT_FILENO)
-		close(cmd->outfile);
-}
-
-void ft_setio(t_exec **cmd_tab)
-{
-	// ==== DEBUG =====
-	// Set pipes manually
-
-	// int infile = open("infile", R_OK, 0644);
-	// int outfile = open("outfile", W_OK | O_TRUNC | O_CREAT, 0644);
-
-	// printf("infile %i | outfile %i\n", infile, outfile);
-	// dup2(cmd->infile, STDIN_FILENO);
-	// dup2(cmd->outfile, STDOUT_FILENO);
-
-	int i;
-	int pfd[2];
-
-	i = 0;
-
-	pfd[0] = STDIN_FILENO;
-	pfd[1] = STDOUT_FILENO;
-
-	while (cmd_tab[i])
-	{
-		cmd_tab[i]->infile = pfd[0];
-		if (cmd_tab[i + 1] && pipe(pfd) != 0)
-		{
-			ft_raise_err("Pipe error", 69);
-		}
-		cmd_tab[i]->outfile = pfd[1];
-		i++;
-	}
-
-
-	//=================
+	if (cmd->input != STDIN_FILENO)
+		close(cmd->input);
+	if (cmd->output != STDOUT_FILENO)
+		close(cmd->output);
 }
 
 void ft_execute_tab(t_exec **cmd_tab, char *const envp[])

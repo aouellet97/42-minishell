@@ -35,15 +35,15 @@ void ft_print_tab(char **list)
 
 void ft_print_exec_struct(t_exec *cmd)
 {
-	
+
 	printf("\
 	============ Command ============\n\
 	\tInput : %i\n\
 	\tOutput : %i\n\
 	\tPath : %s\n\
 	=================================\n\
-	", cmd->outfile, cmd->infile, cmd->path);
-	
+	", cmd->output, cmd->input, cmd->path);
+
 	ft_print_tab(cmd->tab);
 }
 

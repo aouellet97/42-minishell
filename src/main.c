@@ -42,7 +42,6 @@ int	main(int argc, char **argv, char *const envp[])
 			// for (int i = 0; exec_tab[i]; i++)
 				// ft_print_exec_struct(exec_tab[i]);
 			//	Execute Command(s)
-			// ft_setio(exec_tab);
 			ft_execute_tab(exec_tab, envp);
 		}
 		free(line);

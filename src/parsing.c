@@ -28,7 +28,6 @@ void	ft_change_wspace(char *str)
 				i += (next_quote - &str[i]);
 			}
 		}
-
 		i++;
 	}
 }
@@ -43,7 +42,7 @@ char	**ft_parse_cmd(char *cmd_str)
 }
 
 /*
-Gets the first word of a string
+	@brief Gets the first word of a string
 */
 char	*ft_getfwd(char *str)
 {
@@ -71,38 +70,49 @@ t_exec	*ft_parse_input(char *strcmd, char *const envp[])
 
 	cmd = malloc(sizeof(t_exec));
 
-	cmd->infile = STDIN_FILENO;
-	cmd->outfile = STDOUT_FILENO;
+	cmd->input = STDIN_FILENO;
+	cmd->output = STDOUT_FILENO;
 	cmd->tab = ft_parse_cmd(strcmd);
 	cmd->path = ft_get_cmd_path(cmd->tab[0], envp);
 
 	return cmd;
 }
 
-
-t_exec	**ft_parse_pipes(char *line, char *const envp[])
+/*
+	@brief Return the number of occurences if a char in a string
+ */
+int ft_str_char_count(const char *str, char c)
 {
-	// Count number of |
-	int cmd_count;
+	int count;
 	int i;
 
 	i = 0;
-	cmd_count = 1;
-	while(line[i])
+	count = 1;
+	while(str[i])
 	{
-		if (line[i] == '|')
-			cmd_count++;
+		if (str[i] == c)
+			count++;
 		i++;
 	}
+	return (count);
+}
 
-	// Create t_exec array
+/*
+	@brief Parse readline output and populate t_exec struct
+*/
+t_exec	**ft_parse_pipes(char *line, char *const envp[])
+{
+	int i;
+	int cmd_count;
 	t_exec **exec_tab = NULL;
 	char **cmd_tab = NULL;
 
+	// Count number of |
+	cmd_count = ft_str_char_count(line, '|');
+
+	// Create t_exec array
 	cmd_tab = ft_split(line, '|');
 	exec_tab = (t_exec **) ft_calloc((cmd_count + 1),  sizeof(t_exec*));
-	// exec_tab[cmd_count] = NULL;
-
 
 	i = 0;
 	while(i < cmd_count)
@@ -113,15 +123,8 @@ t_exec	**ft_parse_pipes(char *line, char *const envp[])
 	}
 
 	// Set pipes
-	i = 0;
-	while (cmd_count > 1 && i < cmd_count - 1)
-	{
-		pipe(exec_tab[i]->pfd);
-		exec_tab[i]->outfile = exec_tab[i]->pfd[1];
-		exec_tab[i + 1]->infile = exec_tab[i]->pfd[0];
-		i++;
-	}
-	// ft_free_tab(cmd_tab);
+	ft_set_pipes(exec_tab, cmd_count);
 
+	// ft_free_tab(cmd_tab);
 	return exec_tab;
 }

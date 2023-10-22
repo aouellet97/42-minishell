@@ -40,4 +40,7 @@ void	ft_change_wspace(char *str);
 char	**ft_parse_cmd(char *cmd_str);
 
 
+// =============== Errors ===============
+void	ft_raise_err(char *err_str, int err_nb);
+
 #endif
