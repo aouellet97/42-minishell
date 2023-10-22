@@ -5,7 +5,7 @@
 A modifier au besoin !
 ### Execution :
   - [X] Execute Simple commands
-  - [ ] Pipe outputs between commands
+  - [X] Pipe outputs between commands
   - [ ] Handle redirections 
 ### Parsing :
   - [X] Parse Pipes
