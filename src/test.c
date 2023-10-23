@@ -2,6 +2,10 @@
 
 char*replace_vars_by_value(char *line, char *const envp[]);
 
+
+t_ms_token *ft_tokenize_cmd(char *line);
+
+
 int	main(int argc, char **argv, char *const envp[])
 {
 	char	*line;
@@ -29,8 +33,7 @@ int	main(int argc, char **argv, char *const envp[])
 			// Add modified line to history
 			add_history(line);
 
-			printf("TEST enum : %i, %i, %i", TK_STR, TK_IN_REDIR, TK_HEREDOC);
-
+			ft_tokenize_cmd(line);
 			// Parse dollard signe
 			// line = replace_vars_by_value(line,envp);
 
