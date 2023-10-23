@@ -14,7 +14,8 @@
 
 # define SPLIT_SEP 29
 
-enum sig_mode{
+enum sig_mode
+{
 	SIG_MAIN,
 	SIG_CHILD
 };
