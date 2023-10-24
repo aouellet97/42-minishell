@@ -28,10 +28,7 @@ int	main(int argc, char **argv, char *const envp[])
 			// Add modified line to history
 			add_history(line);
 
-			// Parse dollard signe
-			line = replace_vars_by_value(line,envp);
-
-			//	Parse Modified input
+			//	Parse Raw input
 			exec_tab = ft_parse_pipes(line, envp);
 
 			//	Execute Command(s)

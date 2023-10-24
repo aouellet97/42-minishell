@@ -51,8 +51,15 @@ void ft_print_exec_tab(t_exec **tab)
 	printf("\n\t=========================\n\n");
 }
 
-
-
+void ft_print_tokens(t_ms_token *head)
+{
+	printf("============== Tokens ==============\n");
+	while(head)
+	{
+		printf("\t - %s\n", head->content);
+		head = head->next;
+	}
+}
 
 
 

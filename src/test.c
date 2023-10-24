@@ -1,9 +1,8 @@
 #include "minishell.h"
 
-char*replace_vars_by_value(char *line, char *const envp[]);
 
 
-t_ms_token *ft_tokenize_cmd(char *line);
+
 
 
 int	main(int argc, char **argv, char *const envp[])
@@ -20,6 +19,9 @@ int	main(int argc, char **argv, char *const envp[])
 		//	Readline
 		line = readline("TEST > ");
 
+		// TODO
+		// Copy envp[] into linked list
+
 		//	Check exit conditions
 		if (!line || ft_strcmp(line, "exit") == 0)
 		{
@@ -33,15 +35,10 @@ int	main(int argc, char **argv, char *const envp[])
 			// Add modified line to history
 			add_history(line);
 
-			ft_tokenize_cmd(line);
-			// Parse dollard signe
-			// line = replace_vars_by_value(line,envp);
+			// Create tokens from raw line
+			t_ms_token *tok = ft_tokenize_cmd(line, envp);
 
-			//	Parse Modified input
-			// exec_tab = ft_parse_pipes(line, envp);
-
-			//	Execute Command(s)
-			// ft_execute_tab(exec_tab, envp);
+			ft_print_tokens(tok);
 		}
 		free(line);
 	}

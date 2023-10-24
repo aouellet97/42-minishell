@@ -40,6 +40,15 @@ char	**ft_parse_cmd(char *cmd_str)
 	return (new_tab);
 }
 
+char	**ft_sep_tokens(char *cmd_str)
+{
+	char **new_tab;
+
+	ft_change_wspace(cmd_str);
+	new_tab= ft_split(cmd_str, SPLIT_SEP);
+	return (new_tab);
+}
+
 /*
 	@brief Gets the first word of a string
 */
@@ -124,7 +133,7 @@ char* get_new_line(char*line, int start, int end, char*env_string)
 
 	free(first_part);
 	free(second_part);
-	free(line);
+	// free(line);
 
 	return new_line;
 }
@@ -216,3 +225,5 @@ t_exec	**ft_parse_pipes(char *line, char *const envp[])
 	// ft_free_tab(cmd_tab);
 	return exec_tab;
 }
+
+
