@@ -36,9 +36,9 @@ int	main(int argc, char **argv, char *const envp[])
 			add_history(line);
 
 			// Create tokens from raw line
-			t_ms_token *tok = ft_tokenize_cmd(line, envp);
+			t_ms_token *token_list = ft_tokenize_cmd(line, envp);
 
-			ft_print_tokens(tok);
+			ft_print_tokens(token_list);
 		}
 		free(line);
 	}

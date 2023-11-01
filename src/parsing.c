@@ -131,6 +131,10 @@ char* get_new_line(char*line, int start, int end, char*env_string)
 	second_part = ft_strjoin(var_value,line + end);
 	new_line = ft_strjoin(first_part,second_part);
 
+	printf("DEBUG - first_part: %s\n", first_part);
+	printf("DEBUG - second_part: %s\n", second_part);
+
+
 	free(first_part);
 	free(second_part);
 	// free(line);
