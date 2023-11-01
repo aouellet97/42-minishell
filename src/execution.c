@@ -11,11 +11,12 @@ void	ft_raise_err(char *err_str, int err_nb)
 {
 	char *mod_err_str;
 
-	// DEBUG
+	// TODO : add free gc function
+
 	// Distinguish between our raised errors, to be removed !!
-	mod_err_str = ft_strjoin("MINISHELL ERROR - ", err_str);
+	mod_err_str = ft_strjoin("MINISHELL ERROR - ", err_str); // DEBUG line
 	perror(mod_err_str);
-	free(mod_err_str);
+	free(mod_err_str); // DEBUG line
 	exit(err_nb);
 }
 

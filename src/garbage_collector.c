@@ -1,7 +1,5 @@
-# include <stdio.h>
-# include <signal.h>
-# include <stdlib.h>
 
+#include "minishell.h"
 
 //memory block
 typedef struct s_mblock
@@ -19,30 +17,21 @@ t_mblock *garbage_collector(void)
 
 
 //malloc stuff and append to the garbage collector
-void * gc_malloc(size_t size)
+void * gc_calloc(size_t nmemb, size_t size)
 {
     t_mblock *new_mb;
-    t_mblock *gc_ptr;
 
-
-    //create new block and append to list
-    gc_ptr = garbage_collector();
-
-    new_mb = malloc(sizeof(t_mblock));
+    new_mb = ft_calloc(1,sizeof(t_mblock));
     if(!new_mb)
         return NULL;
-    
-    while(gc_ptr->next_mb)
-        gc_ptr = gc_ptr->next_mb;
-    gc_ptr->next_mb = new_mb;
 
-    //malloc content and set null 
-    new_mb->next_mb = NULL;
-    new_mb->address = malloc(size);
+    new_mb->next_mb = garbage_collector()->next_mb;
+    garbage_collector()->next_mb = new_mb;
+
+    new_mb->address = ft_calloc(nmemb,size);
     if(!new_mb->address)
         return NULL;
-    
-    //return pointer on malloced adresses
+     
     return new_mb->address;
 }
 
