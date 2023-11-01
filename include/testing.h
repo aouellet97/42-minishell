@@ -13,4 +13,8 @@ void	ft_print_tab(char **list);
 // int		ft_exec_strcmd(char *cmd, char *const envp[]);
 void	ft_print_exec_struct(t_exec *cmd);
 
+
+// TOKENS
+void ft_print_tokens(t_ms_token *head);
+
 #endif

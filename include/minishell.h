@@ -9,12 +9,14 @@
 # include "libft.h"
 # include "readline/readline.h"
 # include "readline/history.h"
+# include "sys/errno.h"
 
 # include "testing.h"
 
 # define SPLIT_SEP 29
 
-enum sig_mode{
+enum sig_mode
+{
 	SIG_MAIN,
 	SIG_CHILD
 };

@@ -18,6 +18,15 @@ typedef struct s_exec {
 	int pid;
 } t_exec;
 
+typedef struct s_exec_node {
+	char **tab;
+	char *path;
+	int pfd[2];
+	int input;
+	int output;
+	int pid;
+	struct s_exec_node *next;
+} t_exec_node;
 
 char	*ft_get_cmd_path(char *cmd, char *const envp[]);
 char	**ft_get_envpaths(char *const envp[]);

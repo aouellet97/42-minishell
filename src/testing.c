@@ -51,8 +51,22 @@ void ft_print_exec_tab(t_exec **tab)
 	printf("\n\t=========================\n\n");
 }
 
+void ft_print_tokens(t_ms_token *head)
+{
+	int count;
+	printf("============== Tokens ==============\n");
 
-
+	count = 0;
+	while(head)
+	{
+		printf(
+			"\tToken #%i\n\tcontent : %s\n\ttoken type : %i\n\n"
+			, count, head->content, head->tk_type
+		);
+		head = head->next;
+		count++;
+	}
+}
 
 
 

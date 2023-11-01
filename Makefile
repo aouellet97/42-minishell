@@ -21,7 +21,7 @@ LIBFT	=	$(LIBDIR)/libft/libft.a
 LIBRLINE	= $(LIBDIR)/libreadline.a
 RLINE_V	=	readline-8.2
 INCLUDES=	-I $(LIBDIR)/libft -I $(INCDIR)
-LIBS	=	$(LIBFT) $(LIBRLINE) 
+LIBS	=	$(LIBFT) $(LIBRLINE)
 
 # Compiler and flags
 CC		=	gcc
@@ -36,6 +36,7 @@ SRCS	:=	main.c				\
 			testing.c			\
 			execution.c			\
 			execution_utils.c	\
+			tokens.c			\
 
 B_SRCS	:=	$(SRCS:%=bonus_%)
 
@@ -45,6 +46,8 @@ OBJS		:=	$(SRCS:%.c=$(OBJDIR)%.o)
 SRCS		:=	$(SRCS:%.c=$(SRCDIR)%.c)
 DEPS		:=	$(OBJS:%.o=%.d)
 
+T_SRCS		:= $(subst main,test,$(SRCS))
+T_OBJS		:= $(subst main,test,$(OBJS))
 
 #------------------------------------------------------------------------------#
 #                                TARGETS                                       #
@@ -52,13 +55,19 @@ DEPS		:=	$(OBJS:%.o=%.d)
 
 all : $(NAME)
 
-exe : 
+exe :
 	./$(NAME)
+
 
 # Compile program
 $(NAME) : $(LIBS) $(OBJS)
 	@echo "$(GREEN)	Compiling $@ ... $(NC)"
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -lncurses -o $(NAME) -I. $(INCLUDES)
+
+test: $(LIBS) $(T_OBJS)
+	@echo "$(GREEN)	Compiling $@ ... $(NC)"
+	@$(CC) $(CFLAGS) $(T_OBJS) $(LIBS) -lncurses -o $@ -I. $(INCLUDES)
+	@./$@
 
 # Compile objects
 $(OBJDIR)%.o : $(SRCDIR)%.c
