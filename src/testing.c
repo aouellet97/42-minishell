@@ -31,7 +31,7 @@ void ft_print_exec_struct(t_exec *cmd)
 	\tOutput : %i\n\
 	\tPath : %s\n\
 	=================================\n\
-	", cmd->output, cmd->input, cmd->path);
+	", cmd->input, cmd->output, cmd->path);
 
 	ft_print_tab(cmd->tab);
 }
@@ -77,8 +77,8 @@ void ft_print_exec_nodes(t_exec_node *head)
 	while(head)
 	{
 		printf(
-			"\tNode #%i\n\tPath : %s\n\n"
-			, count, head->path
+			"\tNode #%i\n\tPath : %s\n\tinput: %i\n\toutput: %i\n"
+			, count, head->path, head->input, head->output
 		);
 		ft_print_tab(head->tab);
 		printf("-------------------------\n\n");

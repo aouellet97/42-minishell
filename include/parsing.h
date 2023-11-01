@@ -41,10 +41,12 @@ typedef struct s_exec_node {
 
 char		**ft_sep_tokens(char *cmd_str);
 char		*ft_getfwd(char *str);
-t_exec_node	*ft_parse_input(char *strcmd, char *const envp[]);
 int			is_whitespace(char c);
 char		**ft_parse_cmd(char *strcmd);
 t_ms_token	*ft_tokenize_cmd(char *line, char *const envp[]);
 char		*replace_vars_by_value(char *line, char *const envp[]);
+void		ft_execute_list(t_exec_node *head, char *const envp[]);
+void		ft_set_nodes_pipes(t_exec_node *head);
+t_exec_node	*ft_parse_input(char *strcmd, char *const envp[]);
 
 #endif

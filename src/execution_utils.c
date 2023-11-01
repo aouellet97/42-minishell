@@ -125,20 +125,21 @@ void ft_set_pipes(t_exec **exec_tab, int cmd_count)
 	}
 }
 
-void ft_set_nodes_pipes(t_exec_node *head)
+void	ft_set_nodes_pipes(t_exec_node *head)
 {
 	t_exec_node *ptr;
 
+	if (!head || !head->next)
+		return;
 	ptr = head;
-	while (cmd_count > 1 && i < cmd_count - 1)
+	while (ptr && ptr->next)
 	{
-		// TODO
-		if (pipe(exec_tab[i]->pfd) == -1)
+		if (pipe(ptr->pfd) == -1)
 		{
 			ft_raise_err("Pipe error", 4);
 		}
-		exec_tab[i]->output = exec_tab[i]->pfd[1];
-		exec_tab[i + 1]->input = exec_tab[i]->pfd[0];
-		i++;
+		ptr->output = ptr->pfd[1];
+		ptr->next->input = ptr->pfd[0];
+		ptr = ptr->next;
 	}
 }

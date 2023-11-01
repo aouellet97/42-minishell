@@ -33,6 +33,7 @@ RM		=	rm
 SRCS	:=	main.c				\
 			signal.c			\
 			parsing.c			\
+			parsing_utils.c		\
 			testing.c			\
 			execution.c			\
 			execution_utils.c	\

@@ -40,8 +40,10 @@ int	main(int argc, char **argv, char *const envp[])
 
 			t_exec_node *exec_list;
 			exec_list = ft_init_exec_list(token_list, envp);
+			ft_set_nodes_pipes(exec_list);
 			ft_print_exec_nodes(exec_list);
 
+			ft_execute_list(exec_list, envp);
 		}
 		free(line);
 	}
