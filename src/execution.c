@@ -139,3 +139,41 @@ void ft_execute_list(t_exec_node *head, char *const envp[])
 	}
 }
 
+t_exec_node *ft_init_exec_list(t_ms_token *head, char *const envp[])
+{
+	t_exec_node	dummy;
+	t_ms_token	*tk_ptr;
+	t_exec_node	*curr_node;
+	char		*strcmd;
+
+	tk_ptr = head;
+	curr_node = &dummy;
+	while(tk_ptr)
+	{
+		strcmd = NULL;
+		while (tk_ptr && tk_ptr->tk_type == TK_STR)
+		{
+			strcmd = ft_strjoin_char(strcmd, tk_ptr->content, 29);
+			tk_ptr = tk_ptr->next;
+		}
+		if (tk_ptr && tk_ptr->tk_type == TK_PIPE)
+		{
+			curr_node->next = ft_parse_input(strcmd, envp);
+			curr_node = curr_node->next;
+			tk_ptr = tk_ptr->next;
+		}
+	}
+	curr_node->next = ft_parse_input(strcmd, envp);
+	curr_node = curr_node->next;
+	return dummy.next;
+}
+
+t_exec_node *ft_creat_exec_node()
+{
+	t_exec_node *new_node;
+
+	new_node = ft_calloc(1, sizeof(t_exec_node));
+	if (new_node == NULL)
+		ft_raise_err("Mem allocation error", 1);
+	return new_node;
+}

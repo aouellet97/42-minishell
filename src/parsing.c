@@ -72,11 +72,11 @@ char	*ft_getfwd(char *str)
 	@param strcmd Command in string format
 	@param envp Environment system variable
  */
-t_exec	*ft_parse_input(char *strcmd, char *const envp[])
+t_exec_node	*ft_parse_input(char *strcmd, char *const envp[])
 {
-	t_exec	*cmd = NULL;
+	t_exec_node	*cmd = NULL;
 
-	cmd = malloc(sizeof(t_exec));
+	cmd = ft_creat_exec_node();
 
 	cmd->input = STDIN_FILENO;
 	cmd->output = STDOUT_FILENO;
@@ -85,6 +85,7 @@ t_exec	*ft_parse_input(char *strcmd, char *const envp[])
 
 	return cmd;
 }
+
 
 int get_char_index(char*s, char c)
 {
@@ -201,33 +202,31 @@ int ft_str_char_count(const char *str, char c)
 /*
 	@brief Parse readline output and populate t_exec struct
 */
-t_exec	**ft_parse_pipes(char *line, char *const envp[])
-{
-	int i;
-	int cmd_count;
-	t_exec **exec_tab = NULL;
-	char **cmd_tab = NULL;
+// t_exec	**ft_parse_pipes(char *line, char *const envp[])
+// {
+// 	t_exec **exec_tab = NULL;
+// 	char **cmd_tab = NULL;
 
-	// Count number of |
-	cmd_count = ft_str_char_count(line, '|');
+// 	// Count number of |
+// 	cmd_count = ft_str_char_count(line, '|');
 
-	// Create t_exec array
-	cmd_tab = ft_split(line, '|');
-	exec_tab = (t_exec **) ft_calloc((cmd_count + 1),  sizeof(t_exec*));
+// 	// Create t_exec array
+// 	cmd_tab = ft_split(line, '|');
+// 	exec_tab = (t_exec **) ft_calloc((cmd_count + 1),  sizeof(t_exec*));
 
-	i = 0;
-	while(i < cmd_count)
-	{
-		// Populate structurs
-		exec_tab[i] = ft_parse_input(cmd_tab[i], envp);
-		i++;
-	}
+// 	i = 0;
+// 	while(i < cmd_count)
+// 	{
+// 		// Populate structurs
+// 		exec_tab[i] = ft_parse_input(cmd_tab[i], envp);
+// 		i++;
+// 	}
 
-	// Set pipes
-	ft_set_pipes(exec_tab, cmd_count);
+// 	// Set pipes
+// 	ft_set_pipes(exec_tab, cmd_count);
 
-	// ft_free_tab(cmd_tab);
-	return exec_tab;
-}
+// 	// ft_free_tab(cmd_tab);
+// 	return exec_tab;
+// }
 
 

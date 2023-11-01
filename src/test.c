@@ -34,11 +34,14 @@ int	main(int argc, char **argv, char *const envp[])
 		{
 			// Add modified line to history
 			add_history(line);
-
 			// Create tokens from raw line
 			t_ms_token *token_list = ft_tokenize_cmd(line, envp);
-
 			ft_print_tokens(token_list);
+
+			t_exec_node *exec_list;
+			exec_list = ft_init_exec_list(token_list, envp);
+			ft_print_exec_nodes(exec_list);
+
 		}
 		free(line);
 	}

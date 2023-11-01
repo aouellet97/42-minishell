@@ -1,6 +1,7 @@
 #ifndef PARSING_H
 # define PARSING_H
 
+# include "execution.h"
 
 typedef struct s_ms_token
 {
@@ -19,9 +20,28 @@ enum tokens
 	TK_HEREDOC
 };
 
+typedef struct s_exec {
+	char **tab;
+	char *path;
+	int pfd[2];
+	int input;
+	int output;
+	int pid;
+} t_exec;
+
+typedef struct s_exec_node {
+	char **tab;
+	char *path;
+	int pfd[2];
+	int input;
+	int output;
+	int pid;
+	struct s_exec_node *next;
+} t_exec_node;
+
 char		**ft_sep_tokens(char *cmd_str);
 char		*ft_getfwd(char *str);
-t_exec		*ft_parse_input(char *strcmd, char *const envp[]);
+t_exec_node	*ft_parse_input(char *strcmd, char *const envp[]);
 int			is_whitespace(char c);
 char		**ft_parse_cmd(char *strcmd);
 t_ms_token	*ft_tokenize_cmd(char *line, char *const envp[]);

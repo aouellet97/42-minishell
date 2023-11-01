@@ -68,6 +68,24 @@ void ft_print_tokens(t_ms_token *head)
 	}
 }
 
+void ft_print_exec_nodes(t_exec_node *head)
+{
+	int count;
+	printf("============== Exec nodes ==============\n");
+
+	count = 0;
+	while(head)
+	{
+		printf(
+			"\tNode #%i\n\tPath : %s\n\n"
+			, count, head->path
+		);
+		ft_print_tab(head->tab);
+		printf("-------------------------\n\n");
+		head = head->next;
+		count++;
+	}
+}
 
 
 

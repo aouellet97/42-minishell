@@ -3,33 +3,48 @@
 # include "parsing.h"
 # include "testing.h"
 
-/*
-	@brief Concatenate strings, joined with '/'
-
-	@param parent left part of the joined path
-	@param child right part of the joined path
-	@return Full path string, Null if memory allocation crashed
-*/
-char	*ft_strjoin_path(const char *parent, const char *child)
+char	*ft_strjoin_sep(const char *s1, const char *s2, const char *separator)
 {
 	size_t	len_str1;
 	size_t	len_str2;
 	size_t	len_sep;
-	char	*separator;
+	// char	*separator;
 	char	*new_string;
 
-	separator = "/";
-	len_str1 = ft_strlen(parent);
-	len_str2 = ft_strlen(child);
+	if (separator == NULL)
+		separator = "";
+	len_str1 = ft_strlen(s1);
+	len_str2 = ft_strlen(s2);
 	len_sep  = ft_strlen(separator);
 	new_string = malloc(len_str1 + len_sep + len_str2 + 1);
 	if (!new_string)
 		return (NULL);
 	new_string[len_str1 + len_sep + len_str2] = '\0';
-	ft_memcpy(new_string, (void *)parent, len_str1);
+	ft_memcpy(new_string, (void *)s1, len_str1);
 	ft_memcpy((new_string + len_str1), separator, 1);
-	ft_memcpy((new_string + len_str1 + 1), (void *)child, len_str2);
+	ft_memcpy((new_string + len_str1 + 1), (void *)s2, len_str2);
 	return (new_string);
+}
+
+char	*ft_strjoin_char(const char *s1, const char *s2, char c)
+{
+	char sep[2];
+
+	sep[0] = c;
+	sep[1] = '\0';
+	return ft_strjoin_sep(s1, s2, sep);
+}
+
+/*
+	@brief Concatenate two strings, joined with a chosen separator
+
+	@param parent left part of the joined path
+	@param child right part of the joined path
+	@return Full path string, Null if memory allocation crashed
+*/
+char *ft_strjoin_path(const char *parent, const char *child)
+{
+	return ft_strjoin_sep(parent, child, "/");
 }
 
 /*
@@ -97,6 +112,24 @@ void ft_set_pipes(t_exec **exec_tab, int cmd_count)
 	int i;
 
 	i = 0;
+	while (cmd_count > 1 && i < cmd_count - 1)
+	{
+		// TODO
+		if (pipe(exec_tab[i]->pfd) == -1)
+		{
+			ft_raise_err("Pipe error", 4);
+		}
+		exec_tab[i]->output = exec_tab[i]->pfd[1];
+		exec_tab[i + 1]->input = exec_tab[i]->pfd[0];
+		i++;
+	}
+}
+
+void ft_set_nodes_pipes(t_exec_node *head)
+{
+	t_exec_node *ptr;
+
+	ptr = head;
 	while (cmd_count > 1 && i < cmd_count - 1)
 	{
 		// TODO
