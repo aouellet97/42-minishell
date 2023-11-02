@@ -2,6 +2,27 @@
 
 // divide line into a token linkedlist
 
+void ft_check_open_quotes(char *line)
+{
+	int i;
+	char *ptr;
+
+
+	i = 0;
+	while(line[i])
+	{
+		if( line[i] == '"' || line[i] == '\'')
+		{
+			ptr = ft_strchr(&line[i + 1], line[i]);
+			if (!ptr)
+				ft_raise_err("unclosed quotes", 99);
+			i += ptr - &line[i];
+		}
+
+		i++;
+	}
+}
+
 /*
 	@brief Assigns the token type according based on the content
 */
@@ -36,7 +57,7 @@ t_ms_token *ft_add_token(t_ms_token *head, char *content, char *const envp[])
 
 	(void) envp;
 	// Create new token
-	new_token = calloc(1, sizeof(t_ms_token));
+	new_token = ft_calloc(1, sizeof(t_ms_token));
 	new_token->content = ft_strdup(replace_vars_by_value(content, envp));
 	new_token->tk_type = ft_assigne_tk_type(content);
 
@@ -60,7 +81,7 @@ t_ms_token *ft_tokenize_cmd(char *line, char *const envp[])
 	t_ms_token *token_list;
 
 	// TODO : check simple, double quote
-
+	ft_check_open_quotes(line);
 	// split command with whitespaces
 	// TODO: make split work for -> echo hello ""|""wc -c
 	split_tab = ft_sep_tokens(line);

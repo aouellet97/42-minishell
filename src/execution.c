@@ -39,6 +39,8 @@ int	ft_exec_struct(t_exec *cmd, char *const envp[])
 void	ft_execute(t_exec *cmd, char *const envp[])
 {
 	// set input outpu gracer a dup2()
+	int res;
+	res = -1;
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
@@ -48,13 +50,14 @@ void	ft_execute(t_exec *cmd, char *const envp[])
 
 		close(cmd->pfd[0]);
 		close(cmd->pfd[1]);
+		// TODO: handle cat|...|cat|ls
 		if (cmd->input != STDIN_FILENO)
 			close(cmd->input);
 		if (cmd->output != STDOUT_FILENO)
 			close(cmd->output);
-
-
-		ft_exec_struct(cmd, envp);
+		if (cmd->path)
+			res = execve(cmd->path, cmd->tab, envp);
+		ft_raise_err("command not found", res);
 		exit(555);
 	}
 	if (cmd->input != STDIN_FILENO)
