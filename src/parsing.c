@@ -108,6 +108,24 @@ char* get_new_line(char*line, int start, int end, char*var_string)
 	return new_line;
 }
 
+int skip_single_quotes(char *str, int i)
+{
+	char *next_quote;
+	int j;
+
+	j = i;
+	while (str[j])
+	{
+		if( str[j] == '\'')
+		{
+			next_quote = ft_strchr(&str[j + 1], str[j]);
+			if (next_quote)
+				return j + (next_quote - &str[j]);
+		}
+		j++;
+	}
+	return i;
+}
 char* replace_vars_by_value(char *line, char *const envp[])
 {
 	char *user_var;
@@ -123,22 +141,25 @@ char* replace_vars_by_value(char *line, char *const envp[])
 	var_string = NULL;
 	while(line[i])
 	{
-		if(line[i] == '\'' && flag == 0)
-			flag = 1;
-		else if(line[i] == '\'' && flag == 1)
-			flag = 0;
-		if(line[i] == '$' && flag == 0)
+	
+		if(line[i] == '\"')
+			flag++;
+		if(line[i] == '\'' && flag % 2 == 0)
+			i = skip_single_quotes(line, i);
+		if(line[i] == '$')
 		{
 			start = i + 1;
 			while(line[start] && (ft_isalnum(line[start]) || line[start] == '_'))
 				start++;
+			if(start > i + 1)
+			{
+				user_var = ft_substr(line, i + 1, start - (i + 1));
+				var_string = get_var_string(user_var,envp);
 
-			user_var = ft_substr(line, i + 1, start - (i + 1));
-			var_string = get_var_string(user_var,envp);
-
-			line = get_new_line(line,i, start, var_string);
-			
-			free(user_var);
+				line = get_new_line(line,i, start, var_string);
+				free(user_var);
+				i--;
+			}
 		}
 		i++;
 	}
