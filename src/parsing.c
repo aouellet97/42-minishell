@@ -1,36 +1,5 @@
 # include "minishell.h"
 
-/*
-	@brief Check if a cher is a white space
- */
-int	is_whitespace(char c)
-{
-	return ((c >= 9 && c <= 13) || c == 32);
-}
-
-void	ft_change_wspace(char *str)
-{
-	int i;
-	char *next_quote;
-
-	i = 0;
-	while (str[i]){
-		if (is_whitespace(str[i])){
-			str[i] = SPLIT_SEP;
-		}
-		if( str[i] == '"' || str[i] == '\'')
-		{
-			next_quote = ft_strchr(&str[i + 1], str[i]);
-			if (next_quote){
-				// *next_quote = SPLIT_SEP;
-				// str[i] = SPLIT_SEP;
-				i += (next_quote - &str[i]);
-			}
-		}
-		i++;
-	}
-}
-
 char	**ft_parse_cmd(char *cmd_str)
 {
 	char **new_tab;
@@ -40,21 +9,24 @@ char	**ft_parse_cmd(char *cmd_str)
 	return (new_tab);
 }
 
-/*
-	@brief Gets the first word of a string
-*/
-char	*ft_getfwd(char *str)
+char	**ft_sep_tokens(char *cmd_str)
 {
-	int		i;
-	char	*word;
+	char **new_tab;
 
-	i = 0;
-	if (!str)
-		return (NULL);
-	while (str[i] && str[i] != 29)
-		i++;
-	word = ft_substr(str, 0, i);
-	return (word);
+	ft_change_wspace(cmd_str);
+	new_tab= ft_split(cmd_str, SPLIT_SEP);
+	return (new_tab);
+}
+
+t_exec_node *ft_creat_exec_node()
+{
+	t_exec_node *new_node;
+
+	new_node = ft_calloc(1, sizeof(t_exec_node));
+	if (new_node == NULL)
+		ft_raise_err("Mem allocation error", 1);
+	new_node->next = NULL;
+	return new_node;
 }
 
 /*
@@ -63,14 +35,16 @@ char	*ft_getfwd(char *str)
 	@param strcmd Command in string format
 	@param envp Environment system variable
  */
-t_exec	*ft_parse_input(char *strcmd, char *const envp[])
+t_exec_node	*ft_parse_input(char *strcmd, char *const envp[])
 {
-	t_exec	*cmd = NULL;
+	t_exec_node	*cmd = NULL;
 
-	cmd = malloc(sizeof(t_exec));
+	cmd = ft_creat_exec_node();
 
 	cmd->input = STDIN_FILENO;
 	cmd->output = STDOUT_FILENO;
+	cmd->pfd[0] = -1;
+	cmd->pfd[1] = -1;
 	cmd->tab = ft_parse_cmd(strcmd);
 	cmd->path = ft_get_cmd_path(cmd->tab[0], envp);
 
@@ -122,9 +96,13 @@ char* get_new_line(char*line, int start, int end, char*env_string)
 	second_part = ft_strjoin(var_value,line + end);
 	new_line = ft_strjoin(first_part,second_part);
 
+	printf("DEBUG - first_part: %s\n", first_part);
+	printf("DEBUG - second_part: %s\n", second_part);
+
+
 	free(first_part);
 	free(second_part);
-	free(line);
+	// free(line);
 
 	return new_line;
 }
@@ -183,36 +161,4 @@ int ft_str_char_count(const char *str, char c)
 		i++;
 	}
 	return (count);
-}
-
-/*
-	@brief Parse readline output and populate t_exec struct
-*/
-t_exec	**ft_parse_pipes(char *line, char *const envp[])
-{
-	int i;
-	int cmd_count;
-	t_exec **exec_tab = NULL;
-	char **cmd_tab = NULL;
-
-	// Count number of |
-	cmd_count = ft_str_char_count(line, '|');
-
-	// Create t_exec array
-	cmd_tab = ft_split(line, '|');
-	exec_tab = (t_exec **) ft_calloc((cmd_count + 1),  sizeof(t_exec*));
-
-	i = 0;
-	while(i < cmd_count)
-	{
-		// Populate structurs
-		exec_tab[i] = ft_parse_input(cmd_tab[i], envp);
-		i++;
-	}
-
-	// Set pipes
-	ft_set_pipes(exec_tab, cmd_count);
-
-	// ft_free_tab(cmd_tab);
-	return exec_tab;
 }
