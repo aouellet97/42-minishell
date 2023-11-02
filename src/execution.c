@@ -1,6 +1,41 @@
 
 #include "minishell.h"
 
+/* 
+	@breif Create a t_exec_node linked list from the t_ms_token list
+	@param head Head of the token linked list
+	@param envp environment
+	@return t_exec_node linked list
+ */
+t_exec_node *ft_init_exec_list(t_ms_token *head, char *const envp[])
+{
+	t_exec_node	dummy;
+	t_ms_token	*tk_ptr;
+	t_exec_node	*curr_node;
+	char		*strcmd;
+
+	tk_ptr = head;
+	curr_node = &dummy;
+	while(tk_ptr)
+	{
+		strcmd = NULL;
+		while (tk_ptr && tk_ptr->tk_type == TK_STR)
+		{
+			strcmd = ft_strjoin_char(strcmd, tk_ptr->content, 29);
+			tk_ptr = tk_ptr->next;
+		}
+		if (tk_ptr && tk_ptr->tk_type == TK_PIPE)
+		{
+			curr_node->next = ft_parse_input(strcmd, envp);
+			curr_node = curr_node->next;
+			tk_ptr = tk_ptr->next;
+		}
+	}
+	curr_node->next = ft_parse_input(strcmd, envp);
+	curr_node = curr_node->next;
+	return dummy.next;
+}
+
 /*
 	@brief Raise error
 
@@ -21,25 +56,12 @@ void	ft_raise_err(char *err_str, int err_nb)
 }
 
 /*
-	@brief Execute Command given as a string
+	@brief Executes a single t_exec_node after setting in and outs
 */
-int	ft_exec_struct(t_exec *cmd, char *const envp[])
+void	ft_execute_node(t_exec_node *cmd, char *const envp[])
 {
-	// ft_print_exec_struct(cmd);
 	int res;
-
-	res = -1;
-	if (cmd->path)
-		res = execve(cmd->path, cmd->tab, envp);
-	// ft_free_tab(cmd->tab);
-	ft_raise_err("command not found", res);
- 	return (2);
-}
-
-void	ft_execute(t_exec *cmd, char *const envp[])
-{
 	// set input outpu gracer a dup2()
-	int res;
 	res = -1;
 	cmd->pid = fork();
 	if (cmd->pid == 0)
@@ -47,7 +69,6 @@ void	ft_execute(t_exec *cmd, char *const envp[])
 		// ft_set_signal_actions(SIG_CHILD);
 		dup2(cmd->input, STDIN_FILENO);
 		dup2(cmd->output, STDOUT_FILENO);
-
 		close(cmd->pfd[0]);
 		close(cmd->pfd[1]);
 		// TODO: handle cat|...|cat|ls
@@ -66,23 +87,24 @@ void	ft_execute(t_exec *cmd, char *const envp[])
 		close(cmd->output);
 }
 
-void ft_execute_tab(t_exec **cmd_tab, char *const envp[])
+/*
+	@brief Execute t_exec_node list
+*/
+void ft_execute_list(t_exec_node *head, char *const envp[])
 {
-	int i;
-	// int pfd[2];
+	t_exec_node	*ptr;
 
-	i = 0;
-	while (cmd_tab[i])
+	ptr = head;
+	while (ptr)
 	{
-		ft_execute(cmd_tab[i], envp);
-		i++;
+		ft_execute_node(ptr, envp);
+		ptr = ptr->next;
 	}
 
-	i = 0;
-	while (cmd_tab[i])
+	ptr = head;
+	while (ptr)
 	{
-		wait(&cmd_tab[i]->pid);
-		i++;
+		wait(&(ptr->pid));
+		ptr = ptr->next;
 	}
 }
-
