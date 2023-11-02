@@ -81,27 +81,28 @@ char* get_var_string(char *var, char *const envp[])
 	return NULL;
 }
 
-char* get_new_line(char*line, int start, int end, char*env_string)
+char* get_new_line(char*line, int start, int end, char*var_string)
 {
 	char *first_part = NULL;
 	char *second_part = NULL;
 	char *new_line = NULL;
 	char *var_value = NULL;
 
-	if(!env_string)
-		return line;
+	first_part = ft_substr(line,0,start);
 
-	var_value = env_string + get_char_index(env_string,'=') + 1;
-	first_part = ft_substr(line,0,start - 1);
+	if(var_string)
+		var_value = var_string + get_char_index(var_string,'=') + 1;
+	
 	second_part = ft_strjoin(var_value,line + end);
 	new_line = ft_strjoin(first_part,second_part);
+	
+	
+	//printf("DEBUG - first_part: %s\n", first_part);
+	//printf("DEBUG - second_part: %s\n", second_part);
 
-	printf("DEBUG - first_part: %s\n", first_part);
-	printf("DEBUG - second_part: %s\n", second_part);
 
-
-	free(first_part);
-	free(second_part);
+	//free(first_part);
+	//free(second_part);
 	// free(line);
 
 	return new_line;
@@ -110,16 +111,16 @@ char* get_new_line(char*line, int start, int end, char*env_string)
 char* replace_vars_by_value(char *line, char *const envp[])
 {
 	char *user_var;
+	char *var_string;
 	int flag;
 	int i;
 	int start;
-	int end;
 
 	start = 0;
-	end = 0;
 	i = 0;
 	flag = 0;
 	user_var = NULL;
+	var_string = NULL;
 	while(line[i])
 	{
 		if(line[i] == '\'' && flag == 0)
@@ -129,14 +130,14 @@ char* replace_vars_by_value(char *line, char *const envp[])
 		if(line[i] == '$' && flag == 0)
 		{
 			start = i + 1;
-			end = start;
+			while(line[start] && (ft_isalnum(line[start]) || line[start] == '_'))
+				start++;
 
-			while(line[end] && (ft_isalnum(line[end]) || line[end] == '_'))
-				end++;
+			user_var = ft_substr(line, i + 1, start - (i + 1));
+			var_string = get_var_string(user_var,envp);
 
-			user_var = ft_substr(line, start, end - start);
-			line = get_new_line(line,start, end,get_var_string(user_var,envp));
-
+			line = get_new_line(line,i, start, var_string);
+			
 			free(user_var);
 		}
 		i++;
