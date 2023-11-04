@@ -38,6 +38,7 @@ SRCS	:=	main.c				\
 			execution.c			\
 			execution_utils.c	\
 			tokens.c			\
+			garbage_collector.c \
 
 B_SRCS	:=	$(SRCS:%=bonus_%)
 
