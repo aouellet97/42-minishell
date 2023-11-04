@@ -50,15 +50,15 @@ int ft_assigne_tk_type(char *content)
 /*
 	@brief Create or append a node to a token linked list
 */
-t_ms_token *ft_add_token(t_ms_token *head, char *content, char *const envp[])
+t_ms_token *ft_add_token(t_ms_token *head, char *content)
 {
 	t_ms_token *new_token;
 	t_ms_token *ptr;
 
-	(void) envp;
+	//(void) envp;
 	// Create new token
 	new_token = ft_calloc(1, sizeof(t_ms_token));
-	new_token->content = ft_strdup(replace_vars_by_value(content, envp));
+	new_token->content = ft_strdup(replace_vars_by_value(content));
 	new_token->tk_type = ft_assigne_tk_type(content);
 
 	if (head == NULL)
@@ -74,7 +74,7 @@ t_ms_token *ft_add_token(t_ms_token *head, char *content, char *const envp[])
 	return head;
 }
 
-t_ms_token *ft_tokenize_cmd(char *line, char *const envp[])
+t_ms_token *ft_tokenize_cmd(char *line)
 {
 	int i;
 	char **split_tab;
@@ -92,7 +92,7 @@ t_ms_token *ft_tokenize_cmd(char *line, char *const envp[])
 	while(split_tab[i])
 	{
 		// create node : node->val = from split_tab[i]
-		token_list = ft_add_token(token_list, split_tab[i], envp);
+		token_list = ft_add_token(token_list, split_tab[i]);
 		i++;
 	}
 	ft_free_tab(split_tab);

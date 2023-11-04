@@ -43,10 +43,10 @@ char		**ft_sep_tokens(char *cmd_str);
 char		*ft_getfwd(char *str);
 int			is_whitespace(char c);
 char		**ft_parse_cmd(char *strcmd);
-t_ms_token	*ft_tokenize_cmd(char *line, char *const envp[]);
-char		*replace_vars_by_value(char *line, char *const envp[]);
-void		ft_execute_list(t_exec_node *head, char *const envp[]);
+t_ms_token	*ft_tokenize_cmd(char *line);
+void		ft_execute_list(t_exec_node *head);
 void		ft_set_node_pipes(t_exec_node *head);
-t_exec_node	*ft_parse_input(char *strcmd, char *const envp[]);
+t_exec_node	*ft_parse_input(char *strcmd);
+char*replace_vars_by_value(char *line);
 
 #endif

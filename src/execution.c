@@ -4,10 +4,9 @@
 /*
 	@breif Create a t_exec_node linked list from the t_ms_token list
 	@param head Head of the token linked list
-	@param envp environment
 	@return t_exec_node linked list
  */
-t_exec_node *ft_init_exec_list(t_ms_token *head, char *const envp[])
+t_exec_node *ft_init_exec_list(t_ms_token *head)
 {
 	t_exec_node	dummy;
 	t_ms_token	*tk_ptr;
@@ -26,12 +25,12 @@ t_exec_node *ft_init_exec_list(t_ms_token *head, char *const envp[])
 		}
 		if (tk_ptr && tk_ptr->tk_type == TK_PIPE)
 		{
-			curr_node->next = ft_parse_input(strcmd, envp);
+			curr_node->next = ft_parse_input(strcmd);
 			curr_node = curr_node->next;
 			tk_ptr = tk_ptr->next;
 		}
 	}
-	curr_node->next = ft_parse_input(strcmd, envp);
+	curr_node->next = ft_parse_input(strcmd);
 	curr_node = curr_node->next;
 	return dummy.next;
 }
@@ -58,7 +57,7 @@ void	ft_raise_err(char *err_str, int err_nb)
 /*
 	@brief Executes a single t_exec_node after setting in and outs
 */
-void	ft_execute_node(t_exec_node *cmd, char *const envp[])
+void	ft_execute_node(t_exec_node *cmd)
 {
 	int res;
 	res = -1;
@@ -79,7 +78,7 @@ void	ft_execute_node(t_exec_node *cmd, char *const envp[])
 		close(cmd->pfd[0]);
 		close(cmd->pfd[1]);
 		if (cmd->path)
-			res = execve(cmd->path, cmd->tab, envp);
+			res = execve(cmd->path, cmd->tab, get_ms()->env);
 		ft_raise_err("command not found", res);
 		exit(555);
 	}
@@ -92,7 +91,7 @@ void	ft_execute_node(t_exec_node *cmd, char *const envp[])
 /*
 	@brief Execute t_exec_node list
 */
-void ft_execute_list(t_exec_node *head, char *const envp[])
+void ft_execute_list(t_exec_node *head)
 {
 	t_exec_node	*ptr;
 
@@ -100,7 +99,7 @@ void ft_execute_list(t_exec_node *head, char *const envp[])
 	while (ptr)
 	{
 		ft_set_node_pipes(ptr);
-		ft_execute_node(ptr, envp);
+		ft_execute_node(ptr);
 		ptr = ptr->next;
 	}
 

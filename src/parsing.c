@@ -35,7 +35,7 @@ t_exec_node *ft_creat_exec_node()
 	@param strcmd Command in string format
 	@param envp Environment system variable
  */
-t_exec_node	*ft_parse_input(char *strcmd, char *const envp[])
+t_exec_node	*ft_parse_input(char *strcmd)
 {
 	t_exec_node	*cmd = NULL;
 
@@ -46,7 +46,7 @@ t_exec_node	*ft_parse_input(char *strcmd, char *const envp[])
 	cmd->pfd[0] = -1;
 	cmd->pfd[1] = -1;
 	cmd->tab = ft_parse_cmd(strcmd);
-	cmd->path = ft_get_cmd_path(cmd->tab[0], envp);
+	cmd->path = ft_get_cmd_path(cmd->tab[0], get_ms()->env);
 
 	return cmd;
 }
@@ -65,16 +65,16 @@ int get_char_index(char*s, char c)
 	return -1;
 }
 
-char* get_var_string(char *var, char *const envp[])
+char* get_var_string(char *var, char **env)
 {
 	int i;
 
 	i = 0;
-	while (envp[i])
+	while (env[i])
 	{
-		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 &&
-			get_char_index(envp[i],'=') == (int)ft_strlen(var))
-			return envp[i];
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 &&
+			get_char_index(env[i],'=') == (int)ft_strlen(var))
+			return env[i];
 		i++;
 	}
 	//look user variables
@@ -126,7 +126,7 @@ int skip_single_quotes(char *str, int i)
 	}
 	return i;
 }
-char* replace_vars_by_value(char *line, char *const envp[])
+char* replace_vars_by_value(char *line)
 {
 	char *user_var;
 	char *var_string;
@@ -154,7 +154,7 @@ char* replace_vars_by_value(char *line, char *const envp[])
 			if(start > i + 1)
 			{
 				user_var = ft_substr(line, i + 1, start - (i + 1));
-				var_string = get_var_string(user_var,envp);
+				var_string = get_var_string(user_var,get_ms()->env);
 
 				line = get_new_line(line,i, start, var_string);
 				free(user_var);

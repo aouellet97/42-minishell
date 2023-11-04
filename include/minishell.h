@@ -21,6 +21,12 @@ enum sig_mode
 	SIG_CHILD
 };
 
+typedef struct s_minishell
+{
+	char **env;
+}	t_ms;
+
+t_ms* get_ms(void);
 
 // =============== Signals ===============
 void	ft_set_signal_actions(int mode);

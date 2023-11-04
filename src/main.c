@@ -1,6 +1,33 @@
 #include "minishell.h"
 
-char*replace_vars_by_value(char *line, char *const envp[]);
+
+
+t_ms* get_ms(void)
+{
+	static t_ms ms;
+
+	return &ms;
+}
+
+char** copy_env(char *const env[]) //delete
+{
+	char**new_env;
+	int i;
+
+	i = 0;
+	while(env[i])
+		i++;
+	new_env = (char**)malloc(sizeof(char*) * i + 1);
+	new_env[i] = NULL;
+
+	i = 0;
+	while(env[i])
+	{
+		new_env[i] = ft_strdup(env[i]);
+		i++;
+	}
+	return new_env;
+}
 
 int	main(int argc, char **argv, char *const envp[])
 {
@@ -10,6 +37,15 @@ int	main(int argc, char **argv, char *const envp[])
 	t_exec_node *exec_list;
 
 	ft_set_signal_actions(SIG_MAIN);
+	get_ms()->env = copy_env(envp); //replace with other copy env fucntion
+	
+	// while(*(get_ms()->env))
+	// {
+	// 	printf("%s\n",*(get_ms()->env));
+	// 	get_ms()->env++;
+	// }
+
+	
 	while (1)
 	{
 		//	Readline
@@ -30,13 +66,13 @@ int	main(int argc, char **argv, char *const envp[])
 
 			// Parse Raw input
 			// Create tokens from raw line
-			t_ms_token *token_list = ft_tokenize_cmd(line, envp);
+			t_ms_token *token_list = ft_tokenize_cmd(line);
 
 			// Create t_exec_node list from tokens
-			exec_list = ft_init_exec_list(token_list, envp);
+			exec_list = ft_init_exec_list(token_list);
 
 			//	Execute Command(s)
-			ft_execute_list(exec_list, envp);
+			ft_execute_list(exec_list);
 
 		}
 		free(line);
