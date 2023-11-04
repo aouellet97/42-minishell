@@ -34,9 +34,6 @@ int	main(int argc, char **argv, char *const envp[])
 
 			// Create t_exec_node list from tokens
 			exec_list = ft_init_exec_list(token_list, envp);
-			
-			// Set pipes
-			ft_set_nodes_pipes(exec_list);
 
 			//	Execute Command(s)
 			ft_execute_list(exec_list, envp);
