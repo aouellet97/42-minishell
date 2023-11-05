@@ -6,7 +6,7 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:17:39 by kmehour           #+#    #+#             */
-/*   Updated: 2023/11/05 11:38:32 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/11/05 12:10:28 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	ft_free_tab(char **tab)
 	if (!tab)
 		return ;
 	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+		gc_free(tab[i++]);
+	gc_free(tab);
 }
 
 char	*ft_cpword(char *str, char **tab, char sep)

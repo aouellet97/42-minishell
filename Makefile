@@ -108,9 +108,9 @@ fclean : clean
 # Remake
 re : fclean all
 
-leak :
+leak : re
 	echo "$(BLUE)	Checking leaks ...	$(NC)"
-	valgrind --leak-check=full --show-leak-kinds=all --trace-children=no --track-fds=no ./$(NAME) $(ARGS)
+	valgrind --leak-check=full --trace-children=no --track-fds=no ./$(NAME) $(ARGS)
 
 .PHONY:
 	all clean fclean re leak bonus

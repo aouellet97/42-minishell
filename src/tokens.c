@@ -57,7 +57,7 @@ t_ms_token *ft_add_token(t_ms_token *head, char *content)
 
 	//(void) envp;
 	// Create new token
-	new_token = ft_calloc(1, sizeof(t_ms_token));
+	new_token = gc_calloc(1, sizeof(t_ms_token));
 	new_token->content = ft_strdup(replace_vars_by_value(content));
 	new_token->tk_type = ft_assigne_tk_type(content);
 

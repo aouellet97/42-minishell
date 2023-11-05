@@ -22,7 +22,7 @@ t_exec_node *ft_creat_exec_node()
 {
 	t_exec_node *new_node;
 
-	new_node = ft_calloc(1, sizeof(t_exec_node));
+	new_node = gc_calloc(1, sizeof(t_exec_node));
 	if (new_node == NULL)
 		ft_raise_err("Mem allocation error", 1);
 	new_node->next = NULL;
@@ -96,15 +96,6 @@ char* get_new_line(char*line, int start, int end, char*var_string)
 	second_part = ft_strjoin(var_value,line + end);
 	new_line = ft_strjoin(first_part,second_part);
 	
-	
-	//printf("DEBUG - first_part: %s\n", first_part);
-	//printf("DEBUG - second_part: %s\n", second_part);
-
-
-	//free(first_part);
-	//free(second_part);
-	// free(line);
-
 	return new_line;
 }
 
@@ -157,7 +148,7 @@ char* replace_vars_by_value(char *line)
 				var_string = get_var_string(user_var,get_ms()->env);
 
 				line = get_new_line(line,i, start, var_string);
-				free(user_var);
+				gc_free(user_var);
 				i--;
 			}
 		}

@@ -9,7 +9,7 @@ char** copy_env(char *const env[]) //delete
 	i = 0;
 	while(env[i])
 		i++;
-	new_env = (char**)malloc(sizeof(char*) * i + 1);
+	new_env = (char**)gc_calloc(sizeof(char*), i + 1);
 	new_env[i] = NULL;
 
 	i = 0;
@@ -47,6 +47,7 @@ int	main(int argc, char **argv, char *const envp[])
 		if (!line || ft_strcmp(line, "exit") == 0)
 		{
 			printf("exit\n");
+			gc_free_all();
 			exit(0);
 		}
 
@@ -65,6 +66,7 @@ int	main(int argc, char **argv, char *const envp[])
 
 			//	Execute Command(s)
 			ft_execute_list(exec_list);
+			// (void) exec_list;
 
 		}
 		free(line);

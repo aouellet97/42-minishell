@@ -23,7 +23,7 @@ char	*ft_strjoin_sep(const char *s1, const char *s2, const char *separator)
 	len_str1 = ft_strlen(s1);
 	len_str2 = ft_strlen(s2);
 	len_sep  = ft_strlen(separator);
-	new_string = malloc(len_str1 + len_sep + len_str2 + 1);
+	new_string = gc_calloc((len_str1 + len_sep + len_str2 + 1), 1);
 	if (!new_string)
 		return (NULL);
 	new_string[len_str1 + len_sep + len_str2] = '\0';
@@ -77,7 +77,7 @@ char	*ft_get_cmd_path(char *cmd, char *const envp[])
 		res = access(tmp, R_OK);
 		if (res == 0)
 			break ;
-		free(tmp);
+		gc_free(tmp);
 		i++;
 	}
 	ft_free_tab(path_tab);
@@ -107,7 +107,7 @@ char	**ft_get_envpaths(char *const envp[])
 		envp++;
 	}
 	tab = ft_split(env_paths, ':');
-	free(env_paths);
+	gc_free(env_paths);
 	return (tab);
 }
 
