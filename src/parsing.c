@@ -1,4 +1,4 @@
-# include "minishell.h"
+#include "minishell.h"
 
 char	**ft_parse_cmd(char *cmd_str)
 {

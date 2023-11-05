@@ -3,6 +3,13 @@
 # include "parsing.h"
 # include "testing.h"
 
+t_ms* get_ms(void)
+{
+	static t_ms ms;
+
+	return &ms;
+}
+
 char	*ft_strjoin_sep(const char *s1, const char *s2, const char *separator)
 {
 	size_t	len_str1;

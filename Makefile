@@ -20,7 +20,7 @@ SRCDIR	=	src/
 LIBFT	=	$(LIBDIR)/libft/libft.a
 LIBRLINE	= $(LIBDIR)/libreadline.a
 RLINE_V	=	readline-8.2
-INCLUDES=	-I $(LIBDIR)/libft -I $(INCDIR)
+INCLUDES=	-I $(LIBDIR)/libft/lib -I $(INCDIR)
 LIBS	=	$(LIBFT) $(LIBRLINE)
 
 # Compiler and flags
@@ -38,7 +38,6 @@ SRCS	:=	main.c				\
 			execution.c			\
 			execution_utils.c	\
 			tokens.c			\
-			garbage_collector.c \
 
 B_SRCS	:=	$(SRCS:%=bonus_%)
 
@@ -66,10 +65,10 @@ $(NAME) : $(LIBS) $(OBJS)
 	@echo "$(GREEN)	Compiling $@ ... $(NC)"
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -lncurses -o $(NAME) -I. $(INCLUDES)
 
-test: $(LIBS) $(T_OBJS)
+test: fclean $(LIBS) $(T_OBJS)
 	@echo "$(GREEN)	Compiling $@ ... $(NC)"
 	@$(CC) $(CFLAGS) $(T_OBJS) $(LIBS) -lncurses -o $@ -I. $(INCLUDES)
-	@./$@
+	valgrind ./$@
 
 # Compile objects
 $(OBJDIR)%.o : $(SRCDIR)%.c
@@ -102,7 +101,7 @@ clean :
 # Remove all
 fclean : clean
 	@$(RM) -f $(NAME) bonus
-#	@$(MAKE) fclean -C $(LIBDIR)/libft -s
+	@$(MAKE) fclean -C $(LIBDIR)/libft -s
 #	@$(RM) -f $(LIB_RLINE)
 	@echo "$(RED)	Removed executables 	$(NC)"
 

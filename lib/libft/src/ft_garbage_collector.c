@@ -1,5 +1,5 @@
 
-#include "minishell.h"
+#include "libft.h"
 
 //memory block
 typedef struct s_mblock

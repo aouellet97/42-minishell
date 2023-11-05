@@ -40,10 +40,4 @@ char	**ft_parse_cmd(char *cmd_str);
 // =============== Errors ===============
 void	ft_raise_err(char *err_str, int err_nb);
 
-// =========== Garbage Collector ===========
-
-void * gc_calloc(size_t nmemb, size_t size);
-void gc_free(void*address);
-void gc_free_all(void);
-
 #endif

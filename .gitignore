@@ -4,6 +4,9 @@
 # Except
 !Makefile
 
+!lib/
+!lib/libft
+
 !src/
 !*.c
 

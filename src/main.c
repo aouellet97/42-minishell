@@ -1,13 +1,6 @@
 #include "minishell.h"
 
 
-t_ms* get_ms(void)
-{
-	static t_ms ms;
-
-	return &ms;
-}
-
 char** copy_env(char *const env[]) //delete
 {
 	char**new_env;
