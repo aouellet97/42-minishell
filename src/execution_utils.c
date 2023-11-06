@@ -3,33 +3,55 @@
 # include "parsing.h"
 # include "testing.h"
 
+t_ms* get_ms(void)
+{
+	static t_ms ms;
+
+	return &ms;
+}
+
+char	*ft_strjoin_sep(const char *s1, const char *s2, const char *separator)
+{
+	size_t	len_str1;
+	size_t	len_str2;
+	size_t	len_sep;
+	// char	*separator;
+	char	*new_string;
+
+	if (separator == NULL)
+		separator = "";
+	len_str1 = ft_strlen(s1);
+	len_str2 = ft_strlen(s2);
+	len_sep  = ft_strlen(separator);
+	new_string = gc_calloc((len_str1 + len_sep + len_str2 + 1), 1);
+	if (!new_string)
+		return (NULL);
+	new_string[len_str1 + len_sep + len_str2] = '\0';
+	ft_memcpy(new_string, (void *)s1, len_str1);
+	ft_memcpy((new_string + len_str1), separator, 1);
+	ft_memcpy((new_string + len_str1 + 1), (void *)s2, len_str2);
+	return (new_string);
+}
+
+char	*ft_strjoin_char(const char *s1, const char *s2, char c)
+{
+	char sep[2];
+
+	sep[0] = c;
+	sep[1] = '\0';
+	return ft_strjoin_sep(s1, s2, sep);
+}
+
 /*
-	@brief Concatenate strings, joined with '/'
+	@brief Concatenate two strings, joined with a chosen separator
 
 	@param parent left part of the joined path
 	@param child right part of the joined path
 	@return Full path string, Null if memory allocation crashed
 */
-char	*ft_strjoin_path(const char *parent, const char *child)
+char *ft_strjoin_path(const char *parent, const char *child)
 {
-	size_t	len_str1;
-	size_t	len_str2;
-	size_t	len_sep;
-	char	*separator;
-	char	*new_string;
-
-	separator = "/";
-	len_str1 = ft_strlen(parent);
-	len_str2 = ft_strlen(child);
-	len_sep  = ft_strlen(separator);
-	new_string = malloc(len_str1 + len_sep + len_str2 + 1);
-	if (!new_string)
-		return (NULL);
-	new_string[len_str1 + len_sep + len_str2] = '\0';
-	ft_memcpy(new_string, (void *)parent, len_str1);
-	ft_memcpy((new_string + len_str1), separator, 1);
-	ft_memcpy((new_string + len_str1 + 1), (void *)child, len_str2);
-	return (new_string);
+	return ft_strjoin_sep(parent, child, "/");
 }
 
 /*
@@ -55,7 +77,7 @@ char	*ft_get_cmd_path(char *cmd, char *const envp[])
 		res = access(tmp, R_OK);
 		if (res == 0)
 			break ;
-		free(tmp);
+		gc_free(tmp);
 		i++;
 	}
 	ft_free_tab(path_tab);
@@ -85,27 +107,21 @@ char	**ft_get_envpaths(char *const envp[])
 		envp++;
 	}
 	tab = ft_split(env_paths, ':');
-	free(env_paths);
+	gc_free(env_paths);
 	return (tab);
 }
 
 /*
-	@brief Create a pipe and set in/out for each command
+	@brief Create a pipe and sets the in/out of current and next node
  */
-void ft_set_pipes(t_exec **exec_tab, int cmd_count)
+void	ft_set_node_pipes(t_exec_node *node)
 {
-	int i;
-
-	i = 0;
-	while (cmd_count > 1 && i < cmd_count - 1)
+	if (!node || !node->next)
+		return;
+	if (pipe(node->pfd) == -1)
 	{
-		// TODO
-		if (pipe(exec_tab[i]->pfd) == -1)
-		{
-			ft_raise_err("Pipe error", 4);
-		}
-		exec_tab[i]->output = exec_tab[i]->pfd[1];
-		exec_tab[i + 1]->input = exec_tab[i]->pfd[0];
-		i++;
+		ft_raise_err("Pipe error", 4);
 	}
+	node->output = node->pfd[1];
+	node->next->input = node->pfd[0];
 }

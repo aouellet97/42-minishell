@@ -31,7 +31,7 @@ void ft_print_exec_struct(t_exec *cmd)
 	\tOutput : %i\n\
 	\tPath : %s\n\
 	=================================\n\
-	", cmd->output, cmd->input, cmd->path);
+	", cmd->input, cmd->output, cmd->path);
 
 	ft_print_tab(cmd->tab);
 }
@@ -51,9 +51,41 @@ void ft_print_exec_tab(t_exec **tab)
 	printf("\n\t=========================\n\n");
 }
 
+void ft_print_tokens(t_ms_token *head)
+{
+	int count;
+	printf("============== Tokens ==============\n");
 
+	count = 0;
+	while(head)
+	{
+		printf(
+			"\tToken #%i\n\tcontent : %s\n\ttoken type : %i\n\n"
+			, count, head->content, head->tk_type
+		);
+		head = head->next;
+		count++;
+	}
+}
 
+void ft_print_exec_nodes(t_exec_node *head)
+{
+	int count;
+	printf("============== Exec nodes ==============\n");
 
+	count = 0;
+	while(head)
+	{
+		printf(
+			"\tNode #%i\n\tPath : %s\n\tinput: %i\n\toutput: %i\n"
+			, count, head->path, head->input, head->output
+		);
+		ft_print_tab(head->tab);
+		printf("-------------------------\n\n");
+		head = head->next;
+		count++;
+	}
+}
 
 
 

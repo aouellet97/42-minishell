@@ -1,8 +1,52 @@
 #ifndef PARSING_H
 # define PARSING_H
 
-char	**ft_parse_cmd(char *cmd_str);
-char	*ft_getfwd(char *str);
-t_exec	*ft_parse_input(char *strcmd, char *const envp[]);
+# include "execution.h"
+
+typedef struct s_ms_token
+{
+	int					tk_type;
+	char				*content;
+	char				value;
+	struct s_ms_token	*next;
+}	t_ms_token;
+
+enum tokens
+{
+	TK_STR,
+	TK_IN_REDIR,
+	TK_OUT_REDIR,
+	TK_PIPE,
+	TK_HEREDOC
+};
+
+typedef struct s_exec {
+	char **tab;
+	char *path;
+	int pfd[2];
+	int input;
+	int output;
+	int pid;
+} t_exec;
+
+typedef struct s_exec_node {
+	char **tab;
+	char *path;
+	int pfd[2];
+	int input;
+	int output;
+	int pid;
+	struct s_exec_node *next;
+} t_exec_node;
+
+char		**ft_sep_tokens(char *cmd_str);
+char		*ft_getfwd(char *str);
+int			is_whitespace(char c);
+char		**ft_parse_cmd(char *strcmd);
+t_ms_token	*ft_tokenize_cmd(char *line);
+void		ft_execute_list(t_exec_node *head);
+void		ft_set_node_pipes(t_exec_node *head);
+t_exec_node	*ft_parse_input(char *strcmd);
+char*replace_vars_by_value(char *line);
 
 #endif

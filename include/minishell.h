@@ -9,16 +9,24 @@
 # include "libft.h"
 # include "readline/readline.h"
 # include "readline/history.h"
+# include "sys/errno.h"
 
 # include "testing.h"
 
 # define SPLIT_SEP 29
 
-enum sig_mode{
+enum sig_mode
+{
 	SIG_MAIN,
 	SIG_CHILD
 };
 
+typedef struct s_minishell
+{
+	char **env;
+}	t_ms;
+
+t_ms* get_ms(void);
 
 // =============== Signals ===============
 void	ft_set_signal_actions(int mode);

@@ -1,15 +1,43 @@
 #include "minishell.h"
 
-char*replace_vars_by_value(char *line, char *const envp[]);
+
+char** copy_env(char *const env[]) //delete
+{
+	char**new_env;
+	int i;
+
+	i = 0;
+	while(env[i])
+		i++;
+	new_env = (char**)gc_calloc(sizeof(char*), i + 1);
+	new_env[i] = NULL;
+
+	i = 0;
+	while(env[i])
+	{
+		new_env[i] = ft_strdup(env[i]);
+		i++;
+	}
+	return new_env;
+}
 
 int	main(int argc, char **argv, char *const envp[])
 {
 	char	*line;
 	(void)	argc;
 	(void)	argv;
-	t_exec	**exec_tab = NULL;
+	t_exec_node *exec_list;
 
 	ft_set_signal_actions(SIG_MAIN);
+	get_ms()->env = copy_env(envp); //replace with other copy env fucntion
+	
+	// while(*(get_ms()->env))
+	// {
+	// 	printf("%s\n",*(get_ms()->env));
+	// 	get_ms()->env++;
+	// }
+
+	
 	while (1)
 	{
 		//	Readline
@@ -19,6 +47,7 @@ int	main(int argc, char **argv, char *const envp[])
 		if (!line || ft_strcmp(line, "exit") == 0)
 		{
 			printf("exit\n");
+			gc_free_all();
 			exit(0);
 		}
 
@@ -28,14 +57,17 @@ int	main(int argc, char **argv, char *const envp[])
 			// Add modified line to history
 			add_history(line);
 
-			// Parse dollard signe
-			line = replace_vars_by_value(line,envp);
+			// Parse Raw input
+			// Create tokens from raw line
+			t_ms_token *token_list = ft_tokenize_cmd(line);
 
-			//	Parse Modified input
-			exec_tab = ft_parse_pipes(line, envp);
+			// Create t_exec_node list from tokens
+			exec_list = ft_init_exec_list(token_list);
 
 			//	Execute Command(s)
-			ft_execute_tab(exec_tab, envp);
+			ft_execute_list(exec_list);
+			// (void) exec_list;
+
 		}
 		free(line);
 	}
