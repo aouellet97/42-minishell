@@ -31,15 +31,18 @@ int ft_assigne_tk_type(char *content)
 	// TODO: Handle strings
 
 	// TODO: Handle heredoc
-
+	if (content[0] == '<' && content[1] == '<' && !content[2])
+		return TK_HEREDOC;
+	if (content[0] == '>' && content[1] == '>' && !content[2])
+		return TK_OUT_REDIR_AP;
 	// TODO: Handle redirections
-	if (content[0] == '<')
+	if (content[0] == '<' && !content[1])
 		return TK_IN_REDIR;
-	if (content[0] == '>')
+	if (content[0] == '>' && !content[1])
 		return TK_OUT_REDIR;
 
 	// TODO: Handle pipes
-	if (content[0] == '|')
+	if (content[0] == '|' && !content[1])
 		return TK_PIPE;
 
 
@@ -106,8 +109,8 @@ t_ms_token *get_token(t_ms_token *head, char *content)
 	//(void) envp;
 	// Create new token
 	new_token = gc_calloc(1, sizeof(t_ms_token));
+	new_token->tk_type = ft_assigne_tk_type(content);
 	new_token->content = replace_vars_by_value(content); //modify for it to work with $"$USER" and $? and fix garbage collector
-	new_token->tk_type = 0;
 	new_token->next = NULL;
 	if (head == NULL)
 	{
