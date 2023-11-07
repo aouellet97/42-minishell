@@ -106,7 +106,7 @@ t_ms_token *get_token(t_ms_token *head, char *content)
 	//(void) envp;
 	// Create new token
 	new_token = gc_calloc(1, sizeof(t_ms_token));
-	new_token->content = content; //modify for it to work with $"$USER" and $? and fix garbage collector
+	new_token->content = replace_vars_by_value(content); //modify for it to work with $"$USER" and $? and fix garbage collector
 	new_token->tk_type = 0;
 	new_token->next = NULL;
 	if (head == NULL)
@@ -160,18 +160,14 @@ t_ms_token *get_str_token(t_ms_token*head, char*line,int *i)
 
 t_ms_token *ft_tokenize(char *line)
 {
-	int i;
-	int start;
 	t_ms_token *token_list;
-	char *content;
+	int i;
 
-	content = NULL;
 	token_list = NULL;
-	start = 0;
 	i = 0;
 	ft_check_open_quotes(line);
-	//expend here maybe who knows
-	while(line[i]) //the fuck why does it creates too much nodes??
+	
+	while(line[i]) 
 	{
 		if(is_whitespace(line[i]))
 			i++;
