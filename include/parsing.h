@@ -48,5 +48,6 @@ void		ft_execute_list(t_exec_node *head);
 void		ft_set_node_pipes(t_exec_node *head);
 t_exec_node	*ft_parse_input(char *strcmd);
 char*replace_vars_by_value(char *line);
+int skip_single_quotes(char *str, int i);
 
 #endif
