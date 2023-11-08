@@ -117,6 +117,23 @@ int skip_single_quotes(char *str, int i)
 	}
 	return i;
 }
+
+char *replace_by_exit_status(char*line,int i)
+{
+	char*new_line;
+	char*first_part;
+	char*second_part;
+	int number;
+	
+	number = 123; //replace with exit status function
+
+	first_part = ft_substr(line,0,i);
+	second_part = ft_strjoin(ft_itoa(number),line + i + 2);
+	//printf("here %s\n",second_part);
+	new_line = ft_strjoin(first_part,second_part);
+	return new_line;
+}
+
 char* replace_vars_by_value(char *line)
 {
 	char *user_var;
@@ -137,6 +154,8 @@ char* replace_vars_by_value(char *line)
 			flag++;
 		if(line[i] == '\'' && flag % 2 == 0)
 			i = skip_single_quotes(line, i);
+		if(line[i] == '$' && line[i + 1] == '?')
+			line = replace_by_exit_status(line,i);
 		if(line[i] == '$')
 		{
 			start = i + 1;
