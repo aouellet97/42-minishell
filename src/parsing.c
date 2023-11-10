@@ -118,7 +118,7 @@ int skip_single_quotes(char *str, int i)
 	return i;
 }
 
-char *replace_by_exit_status(char*line,int i)
+char *expand_exit_status(char*line,int i)
 {
 	char*new_line;
 	char*first_part;
@@ -134,45 +134,99 @@ char *replace_by_exit_status(char*line,int i)
 	return new_line;
 }
 
-char* replace_vars_by_value(char *line)
+char* expand_dollar_sign(char *line,int *i) //could remove the int pointer and i-- at end
 {
 	char *user_var;
 	char *var_string;
-	int flag;
-	int i;
 	int start;
 
 	start = 0;
-	i = 0;
-	flag = 0;
 	user_var = NULL;
 	var_string = NULL;
+
+	start = *i + 1;
+	while(line[start] && (ft_isalnum(line[start]) || line[start] == '_'))
+		start++;
+	if(start > *i + 1)
+	{
+		user_var = ft_substr(line, *i + 1, start - (*i + 1));
+		var_string = get_var_string(user_var,get_ms()->env);
+
+		line = get_new_line(line,*i, start, var_string);
+		gc_free(user_var);
+		(*i)--;
+	}
+	
+	return line;
+}
+
+char* expand_quotes_dollar_sign(char *line,int *i)
+{
+	char *new_line;
+	char** split;
+	new_line = NULL;
+	if(*i == 0)
+	{
+		new_line = ft_strdup(line + 1);
+	}
+	else
+	{
+		line[*i] = SPLIT_SEP;
+		split = ft_split(line,	SPLIT_SEP);
+
+		new_line = ft_strjoin(split[0],split[1]);
+	}
+	(*i)--;
+	return new_line;
+}
+
+// void	ft_change_dollar_sign(char *str)
+// {
+// 	int i;
+// 	char *next_quote;
+
+// 	i = 0;
+// 	while (str[i]){
+// 		if (str[i] == '$'){
+// 			str[i] = SPLIT_SEP;
+// 		}
+// 		if( str[i] == '"' || str[i] == '\'')
+// 		{
+// 			next_quote = ft_strchr(&str[i + 1], str[i]);
+// 			if (next_quote){
+// 				// *next_quote = SPLIT_SEP;
+// 				// str[i] = SPLIT_SEP;
+// 				i += (next_quote - &str[i]);
+// 			}
+// 		}
+// 		i++;
+// 	}
+// }
+
+
+char* expand(char*line)
+{
+	int i;
+	int dq_count;
+
+	dq_count = 0; 
+	i = 0;
 	while(line[i])
 	{
-	
 		if(line[i] == '\"')
-			flag++;
-		if(line[i] == '\'' && flag % 2 == 0)
+			dq_count++;
+		if(line[i] == '\'' && dq_count % 2 == 0)
 			i = skip_single_quotes(line, i);
 		if(line[i] == '$' && line[i + 1] == '?')
-			line = replace_by_exit_status(line,i);
+			line = expand_exit_status(line,i);
+		if(line[i] == '$' && dq_count % 2 == 0 && (line[i + 1] == '\'' || line[i + 1] == '\"'))
+			line = expand_quotes_dollar_sign(line,&i);
 		if(line[i] == '$')
-		{
-			start = i + 1;
-			while(line[start] && (ft_isalnum(line[start]) || line[start] == '_'))
-				start++;
-			if(start > i + 1)
-			{
-				user_var = ft_substr(line, i + 1, start - (i + 1));
-				var_string = get_var_string(user_var,get_ms()->env);
+			line = expand_dollar_sign(line,&i);
 
-				line = get_new_line(line,i, start, var_string);
-				gc_free(user_var);
-				i--;
-			}
-		}
 		i++;
 	}
+	
 	return line;
 }
 

@@ -61,7 +61,7 @@ t_ms_token *ft_add_token(t_ms_token *head, char *content)
 	//(void) envp;
 	// Create new token
 	new_token = gc_calloc(1, sizeof(t_ms_token));
-	new_token->content = ft_strdup(replace_vars_by_value(content)); //modify for it to work with $"$USER" and $?
+	//new_token->content = ft_strdup(replace_vars_by_value(content)); //modify for it to work with $"$USER" and $?
 	new_token->tk_type = ft_assigne_tk_type(content);
 
 	if (head == NULL)
@@ -110,7 +110,7 @@ t_ms_token *get_token(t_ms_token *head, char *content)
 	// Create new token
 	new_token = gc_calloc(1, sizeof(t_ms_token));
 	new_token->tk_type = ft_assigne_tk_type(content);
-	new_token->content = replace_vars_by_value(content); //modify for it to work with $"$USER" and $? and fix garbage collector
+	new_token->content = expand(content); //modify for it to work with $"$USER" and $? and fix garbage collector
 	new_token->next = NULL;
 	if (head == NULL)
 	{
