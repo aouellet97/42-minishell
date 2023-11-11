@@ -2,6 +2,8 @@
 
 // divide line into a token linkedlist
 
+
+
 void ft_check_open_quotes(char *line)
 {
 	int i;
@@ -29,7 +31,8 @@ void ft_check_open_quotes(char *line)
 int ft_assigne_tk_type(char *content)
 {
 	// TODO: Handle strings
-
+	if(!content)
+		return 	TK_NULL;
 	// TODO: Handle heredoc
 	if (content[0] == '<' && content[1] == '<' && !content[2])
 		return TK_HEREDOC;
@@ -109,8 +112,8 @@ t_ms_token *get_token(t_ms_token *head, char *content)
 	//(void) envp;
 	// Create new token
 	new_token = gc_calloc(1, sizeof(t_ms_token));
-	new_token->tk_type = ft_assigne_tk_type(content);
 	new_token->content = expand(content); //modify for it to work with $"$USER" and $? and fix garbage collector
+	new_token->tk_type = ft_assigne_tk_type(new_token->content);
 	new_token->next = NULL;
 	if (head == NULL)
 	{

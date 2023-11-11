@@ -203,6 +203,37 @@ char* expand_quotes_dollar_sign(char *line,int *i)
 // 	}
 // }
 
+char*	remove_quotes(char *line)
+{
+	int i;
+	char *next_quote;
+	char	**split;
+
+	i = 0;
+	next_quote = NULL;
+	split = NULL;
+	while (line[i])
+	{
+		if(line[i] == '"' || line[i] == '\'')
+		{
+			next_quote = ft_strchr(&line[i + 1], line[i]);
+			*next_quote = SPLIT_SEP;
+			line[i] = SPLIT_SEP;
+			i += (next_quote - &line[i]);
+		}
+		i++;
+	}
+	split = ft_split(line,SPLIT_SEP);
+	line = NULL;
+	i = 0;
+	while(split[i])
+	{
+		line = ft_strjoin(line, split[i]);
+		i++;
+	}
+	printf("here %s \n",line);
+	return line;
+}
 
 char* expand(char*line)
 {
@@ -223,12 +254,20 @@ char* expand(char*line)
 			line = expand_quotes_dollar_sign(line,&i);
 		if(line[i] == '$')
 			line = expand_dollar_sign(line,&i);
-
 		i++;
 	}
-	
+	//check errors here
+	line = remove_quotes(line);
+
 	return line;
 }
+
+
+
+
+
+
+
 
 /*
 	@brief Return the number of occurences if a char in a string

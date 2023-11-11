@@ -19,6 +19,7 @@ enum tokens
 	TK_OUT_REDIR_AP,
 	TK_HEREDOC,
 	TK_PIPE,
+	TK_NULL,
 };
 
 typedef struct s_exec {
