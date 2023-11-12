@@ -231,7 +231,7 @@ char*	remove_quotes(char *line)
 		line = ft_strjoin(line, split[i]);
 		i++;
 	}
-	printf("here %s \n",line);
+	
 	return line;
 }
 

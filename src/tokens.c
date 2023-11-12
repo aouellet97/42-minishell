@@ -115,7 +115,7 @@ t_ms_token *get_token(t_ms_token *head, char *content)
 	exp_content = expand(content);
 	new_token->tk_type = ft_assigne_tk_type(exp_content);
 	new_token->content = remove_quotes(exp_content); //modify for it to work with $"$USER" and $? and fix garbage collector
-	printf("%s\n",new_token->content);
+	
 	new_token->next = NULL;
 	if (head == NULL)
 	{
@@ -142,7 +142,8 @@ t_ms_token *get_meta_token(t_ms_token*head, char*line,int *i)
 	while(line[*i] && line[*i] == c)
 		(*i)++;
 	content = ft_substr(line,start, *i - start);
-
+	if(!line[*i])
+		ft_raise_err("meta at end",1);//change message
 	if((ft_strlen(content) > 1 && c == '|') || (ft_strlen(content) > 2 && c != '|'))
 		ft_raise_err("error meta",1); //change message
 	return get_token(head,content);
