@@ -31,7 +31,7 @@ void ft_check_open_quotes(char *line)
 int ft_assigne_tk_type(char *content)
 {
 	// TODO: Handle strings
-	if(!content)
+	if(!content[0])  
 		return 	TK_NULL;
 	// TODO: Handle heredoc
 	if (content[0] == '<' && content[1] == '<' && !content[2])
@@ -115,6 +115,7 @@ t_ms_token *get_token(t_ms_token *head, char *content)
 	exp_content = expand(content);
 	new_token->tk_type = ft_assigne_tk_type(exp_content);
 	new_token->content = remove_quotes(exp_content); //modify for it to work with $"$USER" and $? and fix garbage collector
+	printf("%s\n",new_token->content);
 	new_token->next = NULL;
 	if (head == NULL)
 	{
