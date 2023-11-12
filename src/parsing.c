@@ -235,6 +235,8 @@ char*	remove_quotes(char *line)
 	return line;
 }
 
+
+
 char* expand(char*line)
 {
 	int i;
@@ -256,8 +258,8 @@ char* expand(char*line)
 			line = expand_dollar_sign(line,&i);
 		i++;
 	}
-	//check errors here
-	line = remove_quotes(line);
+	
+	
 
 	return line;
 }

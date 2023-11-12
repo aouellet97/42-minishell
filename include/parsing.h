@@ -52,4 +52,5 @@ t_exec_node	*ft_parse_input(char *strcmd);
 //char*replace_vars_by_value(char *line);
 int skip_single_quotes(char *str, int i);
 char* expand(char*line);
+char*	remove_quotes(char *line);
 #endif
