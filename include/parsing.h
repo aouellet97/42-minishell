@@ -41,6 +41,7 @@ typedef struct s_exec_node {
 	struct s_exec_node *next;
 } t_exec_node;
 
+t_ms_token *ft_tokenize(char *line);
 char		**ft_sep_tokens(char *cmd_str);
 char		*ft_getfwd(char *str);
 int			is_whitespace(char c);
@@ -53,4 +54,6 @@ t_exec_node	*ft_parse_input(char *strcmd);
 int skip_single_quotes(char *str, int i);
 char* expand(char*line);
 char*	remove_quotes(char *line);
+int get_char_index(char*s, char c);
+char* get_var_string(char *var, char **env);
 #endif

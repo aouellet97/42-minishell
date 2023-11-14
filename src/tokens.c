@@ -20,7 +20,6 @@ void ft_check_open_quotes(char *line)
 				ft_raise_err("unclosed quotes", 99);
 			i += ptr - &line[i];
 		}
-
 		i++;
 	}
 }

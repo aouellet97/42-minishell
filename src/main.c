@@ -1,27 +1,8 @@
 #include "minishell.h"
 
-t_ms_token *ft_tokenize(char *line);
 
-char** copy_env(char *const env[]) //delete
-{
-	char**new_env;
-	int i;
 
-	i = 0;
-	while(env[i])
-		i++;
-	new_env = (char**)gc_calloc(sizeof(char*), i + 1);
-	new_env[i] = NULL;
-
-	i = 0;
-	while(env[i])
-	{
-		new_env[i] = ft_strdup(env[i]);
-		i++;
-	}
-	return new_env;
-}
-
+//-------------------- delete
 void print_tokens(t_ms_token*token_list,char*line)
 {
 	int i;
@@ -42,6 +23,19 @@ void print_tokens(t_ms_token*token_list,char*line)
 	}
 }
 
+void print_env(char**env)
+{
+	int i;
+
+	i = 0;
+	while(env[i])
+	{
+		printf("%s\n",env[i]);
+		i++;
+	}
+	printf("env size: %d\n",i);
+}
+//--------------------
 
 
 int	main(int argc, char **argv, char *const envp[])
@@ -49,17 +43,12 @@ int	main(int argc, char **argv, char *const envp[])
 	char	*line;
 	(void)	argc;
 	(void)	argv;
-	//t_exec_node *exec_list;
+	t_exec_node *exec_list;
 
 	ft_set_signal_actions(SIG_MAIN);
-	get_ms()->env = copy_env(envp); //replace with other copy env fucntion
-	
-	// while(*(get_ms()->env))
-	// {
-	// 	printf("%s\n",*(get_ms()->env));
-	// 	get_ms()->env++;
-	// }
+	get_ms()->env = copy_env(envp + 31);
 
+	//print_env(get_ms()->env);
 	
 	while (1)
 	{
@@ -77,20 +66,37 @@ int	main(int argc, char **argv, char *const envp[])
 		//	Append to history
 		if (*line)
 		{
+
 			// Add modified line to history
 			add_history(line);
 
 			// Parse Raw input
 			// Create tokens from raw line
 			t_ms_token *token_list = ft_tokenize(line);
-			print_tokens(token_list,line);
+			//print_tokens(token_list,line);
 
 			// Create t_exec_node list from tokens
-			//exec_list = ft_init_exec_list(token_list);
-
+			exec_list = ft_init_exec_list(token_list);
+			//ft_print_exec_nodes(exec_list);
 			//	Execute Command(s)
 			//ft_execute_list(exec_list);
 			// (void) exec_list;
+
+			
+
+			if(strcmp(line,"env") == 0)
+				ft_env(get_ms());
+			if(strcmp(line,"pwd") == 0)
+				ft_pwd();
+			if(strcmp(exec_list->tab[0],"echo") == 0)
+				ft_echo(exec_list->tab);
+			if(strcmp(exec_list->tab[0],"cd") == 0)
+				ft_cd(exec_list->tab,get_ms());
+			if(strcmp(exec_list->tab[0],"export") == 0)
+				ft_export(get_ms(),exec_list->tab);
+			if(strcmp(exec_list->tab[0],"unset") == 0)
+				ft_unset(get_ms(),exec_list->tab);
+			
 
 		}
 		free(line);
