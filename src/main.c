@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char *const envp[])
 	t_exec_node *exec_list;
 
 	ft_set_signal_actions(SIG_MAIN);
-	get_ms()->env = copy_env(envp + 31);
+	get_ms()->env = copy_env(envp);
 
 	//print_env(get_ms()->env);
 	
@@ -73,7 +73,7 @@ int	main(int argc, char **argv, char *const envp[])
 			// Parse Raw input
 			// Create tokens from raw line
 			t_ms_token *token_list = ft_tokenize(line);
-			//print_tokens(token_list,line);
+			print_tokens(token_list,line);
 
 			// Create t_exec_node list from tokens
 			exec_list = ft_init_exec_list(token_list);
