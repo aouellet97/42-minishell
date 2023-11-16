@@ -258,7 +258,7 @@ int ft_cd(char**cmd,t_ms*s_ms) //deal with cd - ?
 	if(cmd[1] && cmd[2])
 		ft_raise_err("too much args\n",-1);
 	if(!cmd[1] || (cmd[1][0] == '~' && !cmd[1][1]))
-		path = getenv("HOME");
+		path = getenv("HOME"); //take home from copy instead <---
 	else
 		path = cmd[1];
 	if(!getcwd(oldpwd,PATH_MAX))
