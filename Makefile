@@ -113,7 +113,7 @@ re : fclean all
 
 leak : re
 	echo "$(BLUE)	Checking leaks ...	$(NC)"
-	valgrind --leak-check=full --trace-children=no --track-fds=no ./$(NAME) $(ARGS)
-
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes --suppressions=supp.txt ./$(NAME) $(ARGS)
+	
 .PHONY:
 	all clean fclean re leak bonus

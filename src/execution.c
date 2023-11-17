@@ -20,6 +20,8 @@ t_exec_node *ft_init_exec_list(t_ms_token *head)
 		strcmd = NULL;
 		while (tk_ptr && tk_ptr->tk_type == TK_STR)
 		{
+			if (tk_ptr->content == NULL)
+				tk_ptr->content = " "; // Handles cat ""
 			strcmd = ft_strjoin_char(strcmd, tk_ptr->content, 29);
 			tk_ptr = tk_ptr->next;
 		}
@@ -29,6 +31,13 @@ t_exec_node *ft_init_exec_list(t_ms_token *head)
 			curr_node = curr_node->next;
 			tk_ptr = tk_ptr->next;
 		}
+		// if redirct
+		//	update curr_node->in/out
+
+		// if Heredoc
+		//	create heredoc file and getnextline until EOF
+		if (tk_ptr)
+			tk_ptr = tk_ptr->next;
 	}
 	curr_node->next = ft_parse_input(strcmd);
 	curr_node = curr_node->next;

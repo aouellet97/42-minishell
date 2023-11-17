@@ -4,7 +4,7 @@ char** get_new_env(size_t size)
 {
 	char **new_env;
 
-	new_env = (char**)malloc(sizeof(char*) * (size + 1));
+	new_env = (char**)gc_calloc(sizeof(char*), (size + 1));
 	if(!new_env)
 		return NULL;
 	
