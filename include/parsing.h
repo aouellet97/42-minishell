@@ -56,4 +56,7 @@ char* expand(char*line);
 char*	remove_quotes(char *line);
 int get_char_index(char*s, char c);
 char* get_var_string(char *var, char **env);
+
+char* expand_dollar_sign(char *line,int *i);
+char *expand_exit_status(char*line,int i);
 #endif

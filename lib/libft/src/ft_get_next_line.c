@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_next_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aouellet <aouellet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:15:15 by kmehour           #+#    #+#             */
-/*   Updated: 2023/11/05 11:38:03 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/11/19 18:36:11 by aouellet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	*get_next_line(int fd)
 	cache = load_data(fd, cache);
 	if (!cache)
 		return (NULL);
+	
 	next_line = get_line(cache);
 	cache = trim_cache(cache);
 	return (next_line);

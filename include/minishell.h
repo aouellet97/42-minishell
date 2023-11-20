@@ -11,6 +11,7 @@
 # include "readline/readline.h"
 # include "readline/history.h"
 # include "sys/errno.h"
+# include <stdbool.h>
 
 # include "testing.h"
 
@@ -25,6 +26,10 @@ enum sig_mode
 typedef struct s_minishell
 {
 	char **env;
+	char *hdline;
+	bool heredeoc_mode;
+	int erno;
+	
 }	t_ms;
 
 t_ms* get_ms(void);
