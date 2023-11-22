@@ -36,7 +36,7 @@ t_exec_node *ft_init_exec_list(t_ms_token *head)
 
 		// if Heredoc
 		//	create heredoc file and getnextline until EOF
-		if (tk_ptr)
+		else if (tk_ptr)
 			tk_ptr = tk_ptr->next;
 	}
 	curr_node->next = ft_parse_input(strcmd);
