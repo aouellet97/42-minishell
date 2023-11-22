@@ -25,8 +25,8 @@ LIBS	=	$(LIBFT) $(LIBRLINE)
 
 # Compiler and flags
 CC		=	gcc
-CFLAGS	=	-g -Wall -Werror -Wextra
-# CFLAGS +=	-Wunreachable-code -Ofast
+CFLAGS	=	-g -Wall -Werror -Wextra 
+# CFLAGS +=	-Wunreachable-code -Ofast -fsanitize=address
 RM		=	rm
 
 # Sources
@@ -71,7 +71,7 @@ $(NAME) : $(LIBS) $(OBJS)
 test: fclean $(LIBS) $(T_OBJS)
 	@echo "$(GREEN)	Compiling $@ ... $(NC)"
 	@$(CC) $(CFLAGS) $(T_OBJS) $(LIBS) -lncurses -o $@ -I. $(INCLUDES)
-	valgrind ./$@
+	./$@
 
 # Compile objects
 $(OBJDIR)%.o : $(SRCDIR)%.c

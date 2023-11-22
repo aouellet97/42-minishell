@@ -181,10 +181,8 @@ int ft_env(t_ms*s_ms)
 int n_flag_check(char*cmd)
 {
 	int i;
-	int j;
 
 	i = 1;
-	j = 0;
 	if(cmd[0] != '-' || cmd[1] != 'n')  
 		return -1;
 	

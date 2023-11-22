@@ -16,8 +16,11 @@ void	ft_print_exec_struct(t_exec *cmd);
 
 // TOKENS
 void ft_print_tokens(t_ms_token *head);
+void print_tokens(t_ms_token*token_list,char*line);
 
 // exec list
 void ft_print_exec_nodes(t_exec_node *head);
+
+
 
 #endif

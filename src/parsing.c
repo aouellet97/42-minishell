@@ -33,13 +33,13 @@ t_exec_node *ft_creat_exec_node()
 	@brief Parse the raw input of a command into a t_exec structure
 
 	@param strcmd Command in string format
-	@param envp Environment system variable
+	@param exec_node The node to parse into
  */
-t_exec_node	*ft_parse_input(char *strcmd)
+t_exec_node	*ft_parse_input(char *strcmd, t_exec_node *node)
 {
 	t_exec_node	*cmd = NULL;
 
-	cmd = ft_creat_exec_node();
+	cmd = node;
 
 	cmd->input = STDIN_FILENO;
 	cmd->output = STDOUT_FILENO;

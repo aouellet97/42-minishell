@@ -1,48 +1,79 @@
 
 #include "minishell.h"
 
+/* 
+	@brief Check if token is any redirection type
+*/
+int	ft_is_redirection(t_ms_token *tk_ptr)
+{
+	return (tk_ptr->tk_type == TK_IN_REDIR ||
+			tk_ptr->tk_type == TK_OUT_REDIR ||
+			tk_ptr->tk_type == TK_OUT_REDIR_AP);
+}
+
+
+void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
+{
+	(void) node;
+	(void) tk_ptr;
+}
+
+
 /*
 	@breif Create a t_exec_node linked list from the t_ms_token list
 	@param head Head of the token linked list
 	@return t_exec_node linked list
  */
-t_exec_node *ft_init_exec_list(t_ms_token *head)
+t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
 {
-	t_exec_node	dummy;
+	t_exec_node	*head;
 	t_ms_token	*tk_ptr;
 	t_exec_node	*curr_node;
 	char		*strcmd;
 
-	tk_ptr = head;
-	curr_node = &dummy;
+	tk_ptr = tk_head;
+	curr_node = ft_creat_exec_node();
+	head = curr_node;
+	strcmd = NULL;
+
 	while(tk_ptr)
 	{
-		strcmd = NULL;
-		while (tk_ptr && tk_ptr->tk_type == TK_STR)
+		if (tk_ptr->tk_type == TK_STR)
 		{
 			if (tk_ptr->content == NULL)
 				tk_ptr->content = " "; // Handles cat ""
 			strcmd = ft_strjoin_char(strcmd, tk_ptr->content, 29);
-			tk_ptr = tk_ptr->next;
 		}
-		if (tk_ptr && tk_ptr->tk_type == TK_PIPE)
+		if (tk_ptr->tk_type == TK_PIPE)
 		{
-			curr_node->next = ft_parse_input(strcmd);
+			ft_parse_input(strcmd, curr_node);
+			strcmd = NULL;
+			curr_node->next = ft_creat_exec_node();
 			curr_node = curr_node->next;
-			tk_ptr = tk_ptr->next;
 		}
 		// if redirct
-		//	update curr_node->in/out
-
+			// update curr_node->in/out
+		if(ft_is_redirection(tk_ptr))
+		{
+			printf("DEBUG - Handling redirections !!!\n");
+			ft_handle_redirections(curr_node, tk_ptr);
+		}
 		// if Heredoc
 		//	create heredoc file and getnextline until EOF
-		else if (tk_ptr)
 			tk_ptr = tk_ptr->next;
 	}
-	curr_node->next = ft_parse_input(strcmd);
-	curr_node = curr_node->next;
-	return dummy.next;
+	ft_parse_input(strcmd, curr_node);
+	return head;
 }
+
+/* 
+	@brief assigns the current node in/out according the the redirection
+ */
+void ft_handle_redirection()
+{
+
+}
+
 
 /*
 	@brief Raise error

@@ -87,7 +87,24 @@ void ft_print_exec_nodes(t_exec_node *head)
 	}
 }
 
+void print_tokens(t_ms_token*token_list,char*line)
+{
+	int i;
 
+	i = 1;
+	if(token_list)
+		printf("\n\033[0;31m%s\n",line);
+	while(token_list)
+	{
+		printf("\033[0;33m\n====================\n\033[0;37m");
+		printf("\033[0;32mToken\033[0;34m %i\n", i);
+		printf("\033[0;32mcontent:\033[0;34m %s\n",token_list->content);
+		printf("\033[0;32mToken type\033[0;34m %i\n", token_list->tk_type);
+		printf("\033[0;33m====================\n\033[0;37m");
+		i++;
+		token_list = token_list->next;
+	}
+}
 
 
 
