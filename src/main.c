@@ -42,6 +42,7 @@ int	main(int argc, char **argv, char *const envp[])
 			exec_list = ft_init_exec_list(token_list);
 
 			// Execute Command(s)
+			//TODO : Move builtin verification in node execution
 			if(strcmp(line,"env") == 0)
 				ft_env(get_ms());
 			else if(strcmp(line,"pwd") == 0)

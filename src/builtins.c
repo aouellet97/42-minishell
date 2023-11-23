@@ -210,7 +210,7 @@ int ft_echo(char**cmd)
 	}
 	while(cmd[i])
 	{
-		printf("%s",cmd[i]);
+		printf("%s",cmd[i]); // TODO: Change with ft_putstr_fd
 		if(cmd[i + 1])
 			printf(" ");
 		i++;

@@ -15,24 +15,21 @@ int	ft_is_redirection(t_ms_token *tk_ptr)
 void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 {
 	int tk_type;
+	int fd;
+	char *path;
 
+	fd = -1;
+	path = tk_ptr->next->content;
 	tk_type = tk_ptr->tk_type;
-	(void) node;
-	(void) tk_ptr;
-
-	char *path = tk_ptr->next->content;
-
 	if (tk_type == TK_IN_REDIR)
 	{
 		// Check if file is readable ?
 		printf("DEBUG - Checking infile %s\n", path);
 		if (access(path, R_OK) == -1)
-			ft_raise_err("infile redirection error", 1);
+			ft_raise_err("infile access error", 1);
 		else
 		{
-			int fd = open(path, O_RDONLY);
-			printf("DEBUG - opened %s with fd %i\n", path, fd);
-			printf("DEBUG - node path %s\n", node->path);
+			fd = open(path, O_RDONLY);
 			node->input = fd;
 		}
 		// Set node->input
@@ -41,14 +38,22 @@ void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 	if (tk_type == TK_OUT_REDIR)
 	{	
 		// Create file with truncation
+		fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		//Set node->output
+		node->output = fd;
 	}
 
 	if (tk_type == TK_OUT_REDIR_AP)
 	{
 		// create or append to the file
+		fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		//Set node->output
+		node->output = fd;
 	}
-
+	if (fd == -1)
+	{
+		ft_raise_err("Redirection Error", 1);
+	}
 
 }
 
