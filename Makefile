@@ -25,7 +25,7 @@ LIBS	=	$(LIBFT) $(LIBRLINE)
 
 # Compiler and flags
 CC		=	gcc
-CFLAGS	=	-g -Wall -Werror -Wextra 
+# CFLAGS	=	-g -Wall -Werror -Wextra 
 # CFLAGS +=	-Wunreachable-code -Ofast -fsanitize=address
 RM		=	rm
 

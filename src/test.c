@@ -13,7 +13,8 @@ int	main(int argc, char **argv, char *const envp[])
 	while (1)
 	{
 		//	Readline
-		line = readline("minishell > ");
+		// line = readline("minishell > ");
+		line = "cat | echo | ls";
 
 		//	Check exit conditions
 		if (!line || ft_strcmp(line, "exit") == 0)
@@ -23,7 +24,7 @@ int	main(int argc, char **argv, char *const envp[])
 			exit(0);
 		}
 
-		//	Append to history
+			// Append to history
 		if (*line)
 		{
 
@@ -32,7 +33,7 @@ int	main(int argc, char **argv, char *const envp[])
 
 			// Create tokens from raw line
 			t_ms_token *token_list = ft_tokenize(line);
-			print_tokens(token_list, line);
+			// print_tokens(token_list, line);
 
 			// Create t_exec_node list from tokens
 			exec_list = ft_init_exec_list(token_list);
@@ -52,8 +53,11 @@ int	main(int argc, char **argv, char *const envp[])
 				ft_unset(get_ms(),exec_list->tab);
 			else
 				ft_execute_list(exec_list);
+			ft_print_exec_nodes(exec_list);
+			gc_free_all();
+			exit(0);
 		}
-		free(line);
+		// free(line);
 	}
 }
 

@@ -26,6 +26,10 @@ t_exec_node *ft_creat_exec_node()
 	if (new_node == NULL)
 		ft_raise_err("Mem allocation error", 1);
 	new_node->next = NULL;
+	new_node->input = STDIN_FILENO;
+	new_node->output = STDOUT_FILENO;
+	new_node->pfd[0] = -1;
+	new_node->pfd[1] = -1;
 	return new_node;
 }
 
@@ -41,10 +45,6 @@ t_exec_node	*ft_parse_input(char *strcmd, t_exec_node *node)
 
 	cmd = node;
 
-	cmd->input = STDIN_FILENO;
-	cmd->output = STDOUT_FILENO;
-	cmd->pfd[0] = -1;
-	cmd->pfd[1] = -1;
 	cmd->tab = ft_parse_cmd(strcmd);
 	cmd->path = ft_get_cmd_path(cmd->tab[0], get_ms()->env);
 

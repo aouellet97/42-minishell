@@ -29,9 +29,11 @@ void ft_print_exec_struct(t_exec *cmd)
 	============ Command ============\n\
 	\tInput : %i\n\
 	\tOutput : %i\n\
+	\tpfd[0] : %i\n\
+	\tpfd[1] : %i\n\
 	\tPath : %s\n\
 	=================================\n\
-	", cmd->input, cmd->output, cmd->path);
+	", cmd->input, cmd->output, cmd->pfd[0], cmd->pfd[1], cmd->path);
 
 	ft_print_tab(cmd->tab);
 }
@@ -68,6 +70,19 @@ void ft_print_tokens(t_ms_token *head)
 	}
 }
 
+void ft_print_exec_node(t_exec_node *head)
+{
+	printf("\
+		============ Command ============\n\
+		\tInput : %i\n\
+		\tOutput : %i\n\
+		\tpfd[0] : %i\n\
+		\tpfd[1] : %i\n\
+		\tPath : %s\n\
+		=================================\n\
+		", head->input, head->output, head->pfd[0], head->pfd[1], head->path);
+}
+
 void ft_print_exec_nodes(t_exec_node *head)
 {
 	int count;
@@ -76,11 +91,8 @@ void ft_print_exec_nodes(t_exec_node *head)
 	count = 0;
 	while(head)
 	{
-		printf(
-			"\tNode #%i\n\tPath : %s\n\tinput: %i\n\toutput: %i\n"
-			, count, head->path, head->input, head->output
-		);
-		ft_print_tab(head->tab);
+		ft_print_exec_node(head);
+		// ft_print_tab(head->tab);
 		printf("-------------------------\n\n");
 		head = head->next;
 		count++;
