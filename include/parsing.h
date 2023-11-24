@@ -7,6 +7,7 @@ typedef struct s_ms_token
 {
 	int					tk_type;
 	char				*content;
+	char				*raw_content;
 	char				value;
 	struct s_ms_token	*next;
 }	t_ms_token;

@@ -64,4 +64,6 @@ int ft_env(t_ms*s_ms);
 int ft_echo(char**cmd);
 int ft_cd(char**cmd,t_ms*s_ms);
 
+void heredoc(char*eof);
+
 #endif

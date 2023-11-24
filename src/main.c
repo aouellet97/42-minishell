@@ -23,7 +23,7 @@ void print_tokens(t_ms_token*token_list,char*line)
 	}
 }
 
-void heredoc(char*eof);
+
 
 int	main(int argc, char **argv, char *const envp[])
 {

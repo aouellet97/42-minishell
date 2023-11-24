@@ -110,11 +110,13 @@ t_ms_token *get_token(t_ms_token *head, char *content)
 	char *exp_content;
 	//(void) envp;
 	// Create new token
+	
 	new_token = gc_calloc(1, sizeof(t_ms_token));
 	exp_content = expand(content);
 	new_token->tk_type = ft_assigne_tk_type(exp_content);
 	new_token->content = remove_quotes(exp_content); //modify for it to work with $"$USER" and $? and fix garbage collector
-	
+	new_token->raw_content = content;
+
 	new_token->next = NULL;
 	if (head == NULL)
 	{
