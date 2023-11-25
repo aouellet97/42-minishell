@@ -19,7 +19,6 @@ int	main(int argc, char **argv, char *const envp[])
 	{
 		//	Readline
 		line = readline("minishell > ");
-
 		//	Check exit conditions
 		if (!line || ft_strcmp(line, "exit") == 0)
 		{
@@ -39,6 +38,7 @@ int	main(int argc, char **argv, char *const envp[])
 			t_ms_token *token_list = ft_tokenize(line);
 
 			// Create t_exec_node list from tokens
+
 			exec_list = ft_init_exec_list(token_list);
 
 			// Execute Command(s)

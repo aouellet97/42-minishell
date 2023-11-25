@@ -23,10 +23,18 @@ void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 	tk_type = tk_ptr->tk_type;
 	if (tk_type == TK_IN_REDIR)
 	{
+		if (node->input > 2)
+			close(node->input);
 		// Check if file is readable ?
-		printf("DEBUG - Checking infile %s\n", path);
 		if (access(path, R_OK) == -1)
-			ft_raise_err("infile access error", 1);
+		{
+			write(2, "File not found : ", ft_strlen("File not found : "));
+			write(2, path, ft_strlen(path));
+			write(2, "\n", 1);
+			fd = open("/dev/null", O_RDONLY);
+			node->input = fd;
+		}
+			// ft_raise_err("infile access error", 1);
 		else
 		{
 			fd = open(path, O_RDONLY);
@@ -37,6 +45,8 @@ void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 
 	if (tk_type == TK_OUT_REDIR)
 	{	
+		if (node->output > 2)
+			close(node->output);
 		// Create file with truncation
 		fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		//Set node->output
@@ -45,15 +55,17 @@ void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 
 	if (tk_type == TK_OUT_REDIR_AP)
 	{
+		if (node->output > 2)
+			close(node->output);
 		// create or append to the file
 		fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0777);
 		//Set node->output
 		node->output = fd;
 	}
-	if (fd == -1)
-	{
-		ft_raise_err("Redirection Error", 1);
-	}
+	// if (fd == -1)
+	// {
+	// 	ft_raise_err("Redirection Error", 1);
+	// }
 
 }
 
@@ -94,7 +106,6 @@ t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
 			// update curr_node->in/out
 		if(ft_is_redirection(tk_ptr))
 		{
-			printf("DEBUG - Handling redirections !!!\n");
 			ft_handle_redirections(curr_node, tk_ptr);
 			tk_ptr = tk_ptr->next;
 		}
@@ -141,16 +152,17 @@ void	ft_execute_node(t_exec_node *cmd)
 {
 	int res;
 	res = -1;
+
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
 		// ft_set_signal_actions(SIG_CHILD);
-		if (cmd->input != STDIN_FILENO)
+		if (cmd->input > 2)
 		{
 			dup2(cmd->input, STDIN_FILENO);
 			close(cmd->input);
 		}
-		if (cmd->output != STDOUT_FILENO)
+		if (cmd->output > 2)
 		{
 			dup2(cmd->output, STDOUT_FILENO);
 			close(cmd->output);
@@ -162,9 +174,9 @@ void	ft_execute_node(t_exec_node *cmd)
 		ft_raise_err("command not found", res);
 		exit(555);
 	}
-	if (cmd->input != STDIN_FILENO)
+	if (cmd->input > 2)
 		close(cmd->input);
-	if (cmd->output != STDOUT_FILENO)
+	if (cmd->output > 2)
 		close(cmd->output);
 }
 
