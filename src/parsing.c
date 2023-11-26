@@ -125,7 +125,7 @@ char *expand_exit_status(char*line,int i)
 	char*second_part;
 	int number;
 	
-	number = 123; //replace with exit status function
+	number = 123; //replace with struct erno
 
 	first_part = ft_substr(line,0,i);
 	second_part = ft_strjoin(ft_itoa(number),line + i + 2);
@@ -289,3 +289,10 @@ int ft_str_char_count(const char *str, char c)
 	}
 	return (count);
 }
+
+
+
+
+
+
+

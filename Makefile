@@ -40,6 +40,7 @@ SRCS	:=	main.c				\
 			tokens.c			\
 			env.c				\
 			builtins.c			\
+			heredocs.c			\
 
 
 B_SRCS	:=	$(SRCS:%=bonus_%)

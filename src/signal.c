@@ -4,7 +4,7 @@
 
 void	ft_handle_sigint(int sig)
 {
-	if (sig == SIGINT)
+	if (sig == SIGINT && get_ms()->heredeoc_mode == false)
 	{
 		write(1, "\n", 1);
 
@@ -35,9 +35,10 @@ void	ft_set_signal_actions(int mode)
 
 	if (mode == SIG_MAIN)
 	{
-		// ft_setup_term();
+		 ft_setup_term();
 		signal(SIGINT, ft_handle_sigint);
 		signal(SIGQUIT, SIG_IGN);
+		
 	}
 
 	if (mode == SIG_CHILD)

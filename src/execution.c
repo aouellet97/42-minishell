@@ -155,9 +155,9 @@ void	ft_raise_err(char *err_str, int err_nb)
 t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
 {
 	
-	if(strcmp(get_ms()->line,"env") == 0)
+	if(strcmp(cmd->tab[0],"env") == 0)
 		return (&ft_env);
-	if(strcmp(get_ms()->line,"pwd") == 0)
+	if(strcmp(cmd->tab[0],"pwd") == 0)
 		return (&ft_pwd);
 	if(strcmp(cmd->tab[0],"echo") == 0)
 		return (&ft_echo);

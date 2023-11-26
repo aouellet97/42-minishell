@@ -5,6 +5,8 @@
 //-------------------- delete
 
 
+
+
 int	main(int argc, char **argv, char *const envp[])
 {
 	char	*line;
@@ -17,9 +19,9 @@ int	main(int argc, char **argv, char *const envp[])
 	
 	while (1)
 	{
+		
 		//	Readline
 		line = readline("minishell > ");
-		get_ms()->line = line;
 		//	Check exit conditions
 		if (!line || ft_strcmp(line, "exit") == 0)
 		{

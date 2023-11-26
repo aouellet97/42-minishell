@@ -7,6 +7,7 @@ typedef struct s_ms_token
 {
 	int					tk_type;
 	char				*content;
+	char				*raw_content;
 	char				value;
 	struct s_ms_token	*next;
 }	t_ms_token;
@@ -56,4 +57,7 @@ char* expand(char*line);
 char*	remove_quotes(char *line);
 int get_char_index(char*s, char c);
 char* get_var_string(char *var, char **env);
+
+char* expand_dollar_sign(char *line,int *i);
+char *expand_exit_status(char*line,int i);
 #endif

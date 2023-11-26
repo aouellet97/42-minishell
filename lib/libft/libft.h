@@ -6,7 +6,7 @@
 /*   By: aouellet <aouellet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:26:56 by kmehour           #+#    #+#             */
-/*   Updated: 2023/11/19 20:37:36 by aouellet         ###   ########.fr       */
+/*   Updated: 2023/11/04 19:31:16 by aouellet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <stddef.h>
+#include "minishell.h"
 
 int			ft_isalpha(int c);
 
@@ -90,14 +91,5 @@ char		**ft_split(char const *s, char c);
 void		ft_free_tab(char **tab);
 
 char		*get_next_line(int fd);
-
-void	*gc_calloc(size_t nmemb, size_t size);
-
-void	gc_free(void*address);
-
-void	gc_free_all(void);
-
-void gc_detach(void*address);
-
 
 #endif

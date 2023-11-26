@@ -61,6 +61,27 @@ void gc_free(void*address)
     }
 }
 
+void gc_detach(void*address)
+{
+    t_mblock*gc_ptr;
+    t_mblock*ptr_copy;
+
+    gc_ptr = garbage_collector()->next_mb;
+    ptr_copy = garbage_collector();
+
+    while(gc_ptr)
+    {
+        if(gc_ptr->address == address)
+        {
+            ptr_copy->next_mb = gc_ptr->next_mb;
+
+            return ;
+        }
+        ptr_copy = gc_ptr;
+        gc_ptr = gc_ptr->next_mb;
+    }
+}
+
 //free entire garbage collector
 void gc_free_all(void)
 {
