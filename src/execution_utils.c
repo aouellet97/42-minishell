@@ -122,7 +122,6 @@ void	ft_set_node_pipes(t_exec_node *node)
 	{
 		ft_raise_err("Pipe error", 4);
 	}
-	printf("DEBUG - CREATING PIPE\n");
 	node->output = node->pfd[1];
 	node->next->input = node->pfd[0];
 }

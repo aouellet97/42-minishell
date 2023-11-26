@@ -25,7 +25,7 @@ LIBS	=	$(LIBFT) $(LIBRLINE)
 
 # Compiler and flags
 CC		=	gcc
-# CFLAGS	=	-g -Wall -Werror -Wextra 
+CFLAGS	=	-g -Wall -Werror -Wextra 
 # CFLAGS +=	-Wunreachable-code -Ofast -fsanitize=address
 RM		=	rm
 
@@ -105,7 +105,7 @@ clean :
 fclean : clean
 	@$(RM) -f $(NAME) bonus
 	@$(MAKE) fclean -C $(LIBDIR)/libft -s
-#	@$(RM) -f $(LIB_RLINE)
+	@$(RM) -f $(LIB_RLINE)
 	@echo "$(RED)	Removed executables 	$(NC)"
 
 # Remake

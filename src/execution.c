@@ -145,13 +145,45 @@ void	ft_raise_err(char *err_str, int err_nb)
 	exit(err_nb);
 }
 
+
+/* 
+	@brief Check if command is a builtin, if so return the builtin function pointer
+	
+	@param cmd Command to be checked
+	@returns A pointer to the builtin function if cmd is builtin, else NULL
+ */
+t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
+{
+	
+	if(strcmp(get_ms()->line,"env") == 0)
+		return (&ft_env);
+	if(strcmp(get_ms()->line,"pwd") == 0)
+		return (&ft_pwd);
+	if(strcmp(cmd->tab[0],"echo") == 0)
+		return (&ft_echo);
+	if(strcmp(cmd->tab[0],"cd") == 0)
+		return (&ft_cd);
+	if(strcmp(cmd->tab[0],"export") == 0)
+		return (&ft_export);
+	if(strcmp(cmd->tab[0],"unset") == 0)
+		return (&ft_unset);
+	return (NULL);
+}
+
+
 /*
 	@brief Executes a single t_exec_node after setting in and outs
 */
 void	ft_execute_node(t_exec_node *cmd)
 {
 	int res;
-	res = -1;
+	t_builtin_ptr builtin_ptr;
+
+	res = 0;
+	builtin_ptr = get_builtin_ptr(cmd);
+	if (builtin_ptr != NULL)
+		printf(COLOR_BLUE "DEBUG - this is a builtin\n" COLOR_RESET);
+	fflush(NULL);
 
 	cmd->pid = fork();
 	if (cmd->pid == 0)
@@ -169,8 +201,16 @@ void	ft_execute_node(t_exec_node *cmd)
 		}
 		close(cmd->pfd[0]);
 		close(cmd->pfd[1]);
-		if (cmd->path)
+		// Execut builtin
+		if (builtin_ptr)
+		{
+			builtin_ptr(get_ms(), cmd->tab);
+			exit (0);
+		}
+		else if (cmd->path)
+		{
 			res = execve(cmd->path, cmd->tab, get_ms()->env);
+		}
 		ft_raise_err("command not found", res);
 		exit(555);
 	}

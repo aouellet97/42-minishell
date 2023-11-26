@@ -9,6 +9,9 @@
 # include <fcntl.h>
 # include "parsing.h"
 
+
+
+
 char		*ft_get_cmd_path(char *cmd, char *const envp[]);
 char		**ft_get_envpaths(char *const envp[]);
 void		ft_free_tab(char **tab);
@@ -20,5 +23,6 @@ void		ft_set_pipes(t_exec **exec_tab, int cmd_count);
 t_exec_node *ft_init_exec_list(t_ms_token *head);
 char		*ft_strjoin_char(const char *s1, const char *s2, char c);
 t_exec_node	*ft_creat_exec_node();
+int ft_handle_builtins(t_exec_node *cmd);
 
 #endif

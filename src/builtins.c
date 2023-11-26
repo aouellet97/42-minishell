@@ -146,9 +146,12 @@ int ft_unset(t_ms *s_ms, char**cmd)
 
 //------------------------------------------------------
 
-int ft_pwd(void)
+int ft_pwd(t_ms *s_ms, char **cmd)
 {
 	char wd[PATH_MAX];
+
+	(void) s_ms;
+	(void) cmd;
 
 	if(getcwd(wd,PATH_MAX))
 	{
@@ -161,10 +164,11 @@ int ft_pwd(void)
 
 //------------------------------------------------------
 
-int ft_env(t_ms*s_ms)
+int ft_env(t_ms*s_ms, char **cmd)
 {
 	int i;
 
+	(void) cmd;
 	i = 0;
     while(s_ms->env[i])
     {
@@ -178,7 +182,7 @@ int ft_env(t_ms*s_ms)
 
 //------------------------------------------------------
 
-int n_flag_check(char*cmd)
+int n_flag_check(char *cmd)
 {
 	int i;
 
@@ -196,13 +200,17 @@ int n_flag_check(char*cmd)
 	return 1;
 }
 
-int ft_echo(char**cmd)
+int ft_echo(t_ms *s_ms, char**cmd)
 {
 	int i;
 	int n;
 
+	(void) s_ms;
+
 	i = 1;
 	n = 0;
+
+	
 	while(cmd[i] && n_flag_check(cmd[i]) == 1)
 	{
 		n = 1;
@@ -253,7 +261,7 @@ char* ft_getenv(char**env)
 	return NULL;
 }
 
-int ft_cd(char**cmd,t_ms*s_ms) //deal with cd - ?
+int ft_cd(t_ms *s_ms, char **cmd) //deal with cd - ?
 {
 	char *path;
 	char pwd[PATH_MAX];

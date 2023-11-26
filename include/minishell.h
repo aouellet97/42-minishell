@@ -25,9 +25,12 @@ enum sig_mode
 typedef struct s_minishell
 {
 	char **env;
+	char *line;
 }	t_ms;
 
 t_ms* get_ms(void);
+
+typedef int (*t_builtin_ptr)(t_ms *, char **);
 
 // =============== Signals ===============
 void	ft_set_signal_actions(int mode);
@@ -42,21 +45,21 @@ char	**ft_parse_cmd(char *cmd_str);
 void	ft_raise_err(char *err_str, int err_nb);
 
 // =============== Env ===============
-char** copy_env(char *const env[]);
-char** get_new_env(size_t size);
-size_t get_env_size(char**env);
-int get_var_index(char *var, char *const envp[]);
-char** remove_var(char*var_to_remove,char**env);
-char** add_var(char*var, char**env);
-int replace_var(char**env, int index, char*value);
+int		replace_var(char**env, int index, char*value);
+int		get_var_index(char *var, char *const envp[]);
+char**	remove_var(char*var_to_remove,char**env);
+char**	add_var(char*var, char**env);
+char**	copy_env(char *const env[]);
+char**	get_new_env(size_t size);
+size_t	get_env_size(char**env);
 
 
 // =============== Builtins ===============
 int ft_export(t_ms*s_ms, char**cmd);
 int ft_unset(t_ms *s_ms, char**cmd);
-int ft_pwd(void);
-int ft_env(t_ms*s_ms);
-int ft_echo(char**cmd);
-int ft_cd(char**cmd,t_ms*s_ms);
+int ft_echo(t_ms*s_ms, char**cmd);
+int ft_pwd(t_ms*s_ms, char**cmd);
+int ft_env(t_ms*s_ms, char**cmd);
+int ft_cd(t_ms*s_ms, char**cmd);
 
 #endif

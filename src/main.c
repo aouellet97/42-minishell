@@ -19,6 +19,7 @@ int	main(int argc, char **argv, char *const envp[])
 	{
 		//	Readline
 		line = readline("minishell > ");
+		get_ms()->line = line;
 		//	Check exit conditions
 		if (!line || ft_strcmp(line, "exit") == 0)
 		{
@@ -40,23 +41,9 @@ int	main(int argc, char **argv, char *const envp[])
 			// Create t_exec_node list from tokens
 
 			exec_list = ft_init_exec_list(token_list);
-
+			
 			// Execute Command(s)
-			//TODO : Move builtin verification in node execution
-			if(strcmp(line,"env") == 0)
-				ft_env(get_ms());
-			else if(strcmp(line,"pwd") == 0)
-				ft_pwd();
-			else if(strcmp(exec_list->tab[0],"echo") == 0)
-				ft_echo(exec_list->tab);
-			else if(strcmp(exec_list->tab[0],"cd") == 0)
-				ft_cd(exec_list->tab,get_ms());
-			else if(strcmp(exec_list->tab[0],"export") == 0)
-				ft_export(get_ms(),exec_list->tab);
-			else if(strcmp(exec_list->tab[0],"unset") == 0)
-				ft_unset(get_ms(),exec_list->tab);
-			else
-				ft_execute_list(exec_list);
+			ft_execute_list(exec_list);
 		}
 		free(line);
 	}
