@@ -30,6 +30,7 @@ t_exec_node *ft_creat_exec_node()
 	new_node->output = STDOUT_FILENO;
 	new_node->pfd[0] = -1;
 	new_node->pfd[1] = -1;
+	new_node->error_flag = false;
 	return new_node;
 }
 
@@ -125,7 +126,7 @@ char *expand_exit_status(char*line,int i)
 	char*second_part;
 	int number;
 	
-	number = 123; //replace with struct erno
+	number = errno; //replace with struct erno
 
 	first_part = ft_substr(line,0,i);
 	second_part = ft_strjoin(ft_itoa(number),line + i + 2);

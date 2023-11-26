@@ -102,6 +102,23 @@ t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
 			curr_node->next = ft_creat_exec_node();
 			curr_node = curr_node->next;
 		}
+		// if Heredoc
+		if (tk_ptr->tk_type == TK_HEREDOC)
+		{
+			//	create heredoc file and getnextline until EOF
+			tk_ptr = tk_ptr->next;
+			if (!tk_ptr)
+				continue ;
+			if (curr_node->input > 2)
+				close(curr_node->input);
+			curr_node->input = ft_create_heredoc(tk_ptr->raw_content);
+			// TODO: Add error if failed ?
+			if (curr_node->input == -1)
+				curr_node->error_flag = true;		
+			
+		}
+
+
 		// if redirct
 			// update curr_node->in/out
 		if(ft_is_redirection(tk_ptr))
@@ -109,8 +126,6 @@ t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
 			ft_handle_redirections(curr_node, tk_ptr);
 			tk_ptr = tk_ptr->next;
 		}
-		// if Heredoc
-		//	create heredoc file and getnextline until EOF
 			tk_ptr = tk_ptr->next;
 	}
 	ft_parse_input(strcmd, curr_node);
@@ -181,9 +196,12 @@ void	ft_execute_node(t_exec_node *cmd)
 
 	res = 0;
 	builtin_ptr = get_builtin_ptr(cmd);
-	if (builtin_ptr != NULL)
-		printf(COLOR_BLUE "DEBUG - this is a builtin\n" COLOR_RESET);
+	// if (builtin_ptr != NULL)
+		// printf(COLOR_BLUE "DEBUG - this is a builtin\n" COLOR_RESET);
 	fflush(NULL);
+
+	if (cmd->error_flag == true)
+		return ;
 
 	cmd->pid = fork();
 	if (cmd->pid == 0)
@@ -214,10 +232,7 @@ void	ft_execute_node(t_exec_node *cmd)
 		ft_raise_err("command not found", res);
 		exit(555);
 	}
-	if (cmd->input > 2)
-		close(cmd->input);
-	if (cmd->output > 2)
-		close(cmd->output);
+
 }
 
 /*
@@ -232,6 +247,10 @@ void ft_execute_list(t_exec_node *head)
 	{
 		ft_set_node_pipes(ptr);
 		ft_execute_node(ptr);
+		if (ptr->input > 2)
+			close(ptr->input);
+		if (ptr->output > 2)
+			close(ptr->output);
 		ptr = ptr->next;
 	}
 

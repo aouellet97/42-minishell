@@ -24,15 +24,16 @@ void heredoc_expand(char*line)
 
 int open_heredoc_file(void)
 {
-	static int eredoc_i = 0;
+	static int heredoc_i = 0;
 	char *file_name;
 	char *n;
 
-	n = ft_itoa(eredoc_i);
+	n = ft_itoa(heredoc_i);
 	file_name = ft_strjoin("/tmp/heredoc_file-",n);
+	get_ms()->hd_filename = file_name;
 	gc_free(n);
 
-	eredoc_i++;
+	heredoc_i++;
 
 	return open(file_name,  O_WRONLY | O_CREAT | O_TRUNC, 0777); 
 }
@@ -48,7 +49,7 @@ void sigint_handle(int sig)
 			get_ms()->hdline = NULL;
 		}
 		gc_free_all();
-		//close all fd
+		close(get_ms()->hd_fd);
 		exit(222);
 	}
 
@@ -77,11 +78,12 @@ void heredoc_write(char*eof, int fd, bool expansion)
 		free(get_ms()->hdline);
 		get_ms()->hdline = NULL;
 	}
+	close(fd);
 	gc_free_all();
 	exit(0);
 }
 
-void heredoc(char*eof) //segfault when one quote but parsing handles that?
+int ft_create_heredoc(char*eof) //segfault when one quote but parsing handles that?
 {
 	bool expansion;
 	int fd;
@@ -96,19 +98,28 @@ void heredoc(char*eof) //segfault when one quote but parsing handles that?
 	eof = remove_quotes(eof);
 	if(!eof)
 		eof = "\0";
-	fd = open_heredoc_file();
+	fd = open_heredoc_file(); // TODO: Handle fd=-1 ?
 	get_ms()->hdline = NULL;//maybe delete 
 	get_ms()->heredeoc_mode = true;
+	get_ms()->hd_fd = fd;
 	id = fork();
 	if(id == 0)
 		heredoc_write(eof, fd, expansion);
 	waitpid(id,&wstat,0); 
+	close(fd);
 	if(WIFEXITED(wstat))
 	{
 		if(WEXITSTATUS(wstat) == 222)
-			close(fd);
+		{
+
+			return (-1);
+		}
 	}
+
+
+	fd = open(get_ms()->hd_filename, O_RDONLY, 0777);
 	get_ms()->heredeoc_mode = false;
+	return (fd);
 } 
 
 

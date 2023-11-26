@@ -40,7 +40,6 @@ void	ft_set_signal_actions(int mode)
 		signal(SIGQUIT, SIG_IGN);
 		
 	}
-
 	if (mode == SIG_CHILD)
 	{
 		signal(SIGINT, SIG_IGN);

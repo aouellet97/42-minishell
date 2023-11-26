@@ -40,6 +40,7 @@ typedef struct s_exec_node {
 	int output;
 	int pid;
 	struct s_exec_node *next;
+	int error_flag;
 } t_exec_node;
 
 t_ms_token *ft_tokenize(char *line);

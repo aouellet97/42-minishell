@@ -27,9 +27,10 @@ typedef struct s_minishell
 {
 	char **env;
 	char *hdline;
+	char *hd_filename;
+	int		hd_fd;
 	bool heredeoc_mode;
-	int erno;
-	
+	int erno;	
 }	t_ms;
 
 t_ms* get_ms(void);
@@ -66,6 +67,6 @@ int ft_pwd(t_ms*s_ms, char**cmd);
 int ft_env(t_ms*s_ms, char**cmd);
 int ft_cd(t_ms*s_ms, char**cmd);
 
-void heredoc(char*eof);
+int ft_create_heredoc(char*eof);
 
 #endif
