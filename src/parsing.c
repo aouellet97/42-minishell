@@ -9,31 +9,6 @@ char	**ft_parse_cmd(char *cmd_str)
 	return (new_tab);
 }
 
-char	**ft_sep_tokens(char *cmd_str)
-{
-	char **new_tab;
-
-	ft_change_wspace(cmd_str);
-	new_tab= ft_split(cmd_str, SPLIT_SEP);
-	return (new_tab);
-}
-
-t_exec_node *ft_creat_exec_node()
-{
-	t_exec_node *new_node;
-
-	new_node = gc_calloc(1, sizeof(t_exec_node));
-	if (new_node == NULL)
-		ft_raise_err("Mem allocation error", 1);
-	new_node->next = NULL;
-	new_node->input = STDIN_FILENO;
-	new_node->output = STDOUT_FILENO;
-	new_node->pfd[0] = -1;
-	new_node->pfd[1] = -1;
-	new_node->error_flag = false;
-	return new_node;
-}
-
 /*
 	@brief Parse the raw input of a command into a t_exec structure
 
@@ -51,249 +26,113 @@ t_exec_node	*ft_parse_input(char *strcmd, t_exec_node *node)
 
 	return cmd;
 }
-
-int get_char_index(char*s, char c)
+void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 {
-	int i;
+	int tk_type;
+	int fd;
+	char *path;
 
-	i = 0;
-	while(s[i])
+	fd = -1;
+	path = tk_ptr->next->content;
+	tk_type = tk_ptr->tk_type;
+	if (tk_type == TK_IN_REDIR)
 	{
-		if(s[i] == c)
-			return i;
-		i++;
-	}
-	return -1;
-}
-
-char* get_var_string(char *var, char **env)
-{
-	int i;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 &&
-			get_char_index(env[i],'=') == (int)ft_strlen(var))
-			return env[i];
-		i++;
-	}
-	//look user variables
-	return NULL;
-}
-
-char* get_new_line(char*line, int start, int end, char*var_string)
-{
-	char *first_part = NULL;
-	char *second_part = NULL;
-	char *new_line = NULL;
-	char *var_value = NULL;
-
-	first_part = ft_substr(line,0,start);
-
-	if(var_string)
-		var_value = var_string + get_char_index(var_string,'=') + 1;
-	
-	second_part = ft_strjoin(var_value,line + end);
-	new_line = ft_strjoin(first_part,second_part);
-	
-	return new_line;
-}
-
-int skip_single_quotes(char *str, int i)
-{
-	char *next_quote;
-	int j;
-
-	j = i;
-	while (str[j])
-	{
-		if( str[j] == '\'')
+		if (node->input > 2)
+			close(node->input);
+		// Check if file is readable ?
+		if (access(path, R_OK) == -1)
 		{
-			next_quote = ft_strchr(&str[j + 1], str[j]);
-			if (next_quote)
-				return j + (next_quote - &str[j]);
+			write(2, "File not found : ", ft_strlen("File not found : "));
+			write(2, path, ft_strlen(path));
+			write(2, "\n", 1);
+			fd = open("/dev/null", O_RDONLY);
+			node->input = fd;
 		}
-		j++;
-	}
-	return i;
-}
-
-char *expand_exit_status(char*line,int i)
-{
-	char*new_line;
-	char*first_part;
-	char*second_part;
-	int number;
-	
-	number = errno; //replace with struct erno
-
-	first_part = ft_substr(line,0,i);
-	second_part = ft_strjoin(ft_itoa(number),line + i + 2);
-	//printf("here %s\n",second_part);
-	new_line = ft_strjoin(first_part,second_part);
-	return new_line;
-}
-
-char* expand_dollar_sign(char *line,int *i) //could remove the int pointer and i-- at end
-{
-	char *user_var;
-	char *var_string;
-	int start;
-
-	start = 0;
-	user_var = NULL;
-	var_string = NULL;
-
-	start = *i + 1;
-	while(line[start] && (ft_isalnum(line[start]) || line[start] == '_'))
-		start++;
-	if(start > *i + 1)
-	{
-		user_var = ft_substr(line, *i + 1, start - (*i + 1));
-		var_string = get_var_string(user_var,get_ms()->env);
-
-		line = get_new_line(line,*i, start, var_string);
-		gc_free(user_var);
-		(*i)--;
-	}
-	
-	return line;
-}
-
-char* expand_quotes_dollar_sign(char *line,int *i)
-{
-	char *new_line;
-	char** split;
-	new_line = NULL;
-	if(*i == 0)
-	{
-		new_line = ft_strdup(line + 1);
-	}
-	else
-	{
-		line[*i] = SPLIT_SEP;
-		split = ft_split(line,	SPLIT_SEP);
-
-		new_line = ft_strjoin(split[0],split[1]);
-	}
-	(*i)--;
-	return new_line;
-}
-
-// void	ft_change_dollar_sign(char *str)
-// {
-// 	int i;
-// 	char *next_quote;
-
-// 	i = 0;
-// 	while (str[i]){
-// 		if (str[i] == '$'){
-// 			str[i] = SPLIT_SEP;
-// 		}
-// 		if( str[i] == '"' || str[i] == '\'')
-// 		{
-// 			next_quote = ft_strchr(&str[i + 1], str[i]);
-// 			if (next_quote){
-// 				// *next_quote = SPLIT_SEP;
-// 				// str[i] = SPLIT_SEP;
-// 				i += (next_quote - &str[i]);
-// 			}
-// 		}
-// 		i++;
-// 	}
-// }
-
-char*	remove_quotes(char *line)
-{
-	int i;
-	char *next_quote;
-	char	**split;
-
-	i = 0;
-	next_quote = NULL;
-	split = NULL;
-	while (line[i])
-	{
-		if(line[i] == '"' || line[i] == '\'')
+		else
 		{
-			next_quote = ft_strchr(&line[i + 1], line[i]);
-			*next_quote = SPLIT_SEP;
-			line[i] = SPLIT_SEP;
-			i += (next_quote - &line[i]);
+			fd = open(path, O_RDONLY);
+			node->input = fd;
 		}
-		i++;
 	}
-	split = ft_split(line,SPLIT_SEP);
-	line = NULL;
-	i = 0;
-	while(split[i])
+
+	if (tk_type == TK_OUT_REDIR)
+	{	
+		if (node->output > 2)
+			close(node->output);
+		// Create file with truncation
+		fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		//Set node->output
+		node->output = fd;
+	}
+
+	if (tk_type == TK_OUT_REDIR_AP)
 	{
-		line = ft_strjoin(line, split[i]);
-		i++;
+		if (node->output > 2)
+			close(node->output);
+		// create or append to the file
+		fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		//Set node->output
+		node->output = fd;
 	}
-	
-	return line;
 }
-
-
-
-char* expand(char*line)
-{
-	int i;
-	int dq_count;
-
-	dq_count = 0; 
-	i = 0;
-	while(line[i])
-	{
-		if(line[i] == '\"')
-			dq_count++;
-		if(line[i] == '\'' && dq_count % 2 == 0)
-			i = skip_single_quotes(line, i);
-		if(line[i] == '$' && line[i + 1] == '?')
-			line = expand_exit_status(line,i);
-		if(line[i] == '$' && dq_count % 2 == 0 && (line[i + 1] == '\'' || line[i + 1] == '\"'))
-			line = expand_quotes_dollar_sign(line,&i);
-		if(line[i] == '$')
-			line = expand_dollar_sign(line,&i);
-		i++;
-	}
-	
-	
-
-	return line;
-}
-
-
-
-
-
-
-
 
 /*
-	@brief Return the number of occurences if a char in a string
+	@breif Create a t_exec_node linked list from the t_ms_token list
+	@param head Head of the token linked list
+	@return t_exec_node linked list
  */
-int ft_str_char_count(const char *str, char c)
+t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
 {
-	int count;
-	int i;
+	t_exec_node	*head;
+	t_ms_token	*tk_ptr;
+	t_exec_node	*curr_node;
+	char		*strcmd;
 
-	i = 0;
-	count = 1;
-	while(str[i])
+	tk_ptr = tk_head;
+	curr_node = ft_creat_exec_node();
+	head = curr_node;
+	strcmd = NULL;
+
+	while(tk_ptr)
 	{
-		if (str[i] == c)
-			count++;
-		i++;
+		if (tk_ptr->tk_type == TK_STR)
+		{
+			if (tk_ptr->content == NULL)
+				tk_ptr->content = " "; // Handles cat ""
+			strcmd = ft_strjoin_char(strcmd, tk_ptr->content, 29);
+		}
+		if (tk_ptr->tk_type == TK_PIPE)
+		{
+			ft_parse_input(strcmd, curr_node);
+			strcmd = NULL;
+			curr_node->next = ft_creat_exec_node();
+			curr_node = curr_node->next;
+		}
+		// if Heredoc
+		if (tk_ptr->tk_type == TK_HEREDOC)
+		{
+			//	create heredoc file and getnextline until EOF
+			tk_ptr = tk_ptr->next;
+			if (!tk_ptr)
+				continue ;
+			if (curr_node->input > 2)
+				close(curr_node->input);
+			curr_node->input = ft_create_heredoc(tk_ptr->raw_content);
+			// TODO: Add error if failed ?
+			if (curr_node->input == -1)
+				curr_node->error_flag = true;		
+			
+		}
+		// if redirct
+			// update curr_node->in/out
+		if(ft_is_redirection(tk_ptr))
+		{
+			ft_handle_redirections(curr_node, tk_ptr);
+			tk_ptr = tk_ptr->next;
+		}
+			tk_ptr = tk_ptr->next;
 	}
-	return (count);
+	ft_parse_input(strcmd, curr_node);
+	return head;
 }
-
-
-
-
-
-
 

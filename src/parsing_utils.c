@@ -21,11 +21,19 @@ void	ft_change_wspace(char *str)
 		{
 			next_quote = ft_strchr(&str[i + 1], str[i]);
 			if (next_quote){
-				// *next_quote = SPLIT_SEP;
-				// str[i] = SPLIT_SEP;
 				i += (next_quote - &str[i]);
 			}
 		}
 		i++;
 	}
+}
+
+/* 
+	@brief Check if token is any redirection type
+*/
+int	ft_is_redirection(t_ms_token *tk_ptr)
+{
+	return (tk_ptr->tk_type == TK_IN_REDIR ||
+			tk_ptr->tk_type == TK_OUT_REDIR ||
+			tk_ptr->tk_type == TK_OUT_REDIR_AP);
 }

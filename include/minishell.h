@@ -7,6 +7,7 @@
 # include <signal.h>
 # include "execution.h"
 # include "parsing.h"
+# include "tokens.h"
 # include "libft.h"
 # include "readline/readline.h"
 # include "readline/history.h"

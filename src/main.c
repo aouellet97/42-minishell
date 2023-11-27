@@ -1,11 +1,11 @@
 #include "minishell.h"
 
+t_ms* get_ms(void)
+{
+	static t_ms ms;
 
-
-//-------------------- delete
-
-
-
+	return &ms;
+}
 
 int	main(int argc, char **argv, char *const envp[])
 {

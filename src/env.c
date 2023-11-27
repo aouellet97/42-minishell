@@ -89,7 +89,6 @@ char** remove_var(char*var_to_remove,char**env)
 		i++;
 		j++;
 	}
-	printf("here %i\n",i);//delete
 
 	gc_free(var_to_remove);
 
@@ -132,3 +131,17 @@ int replace_var(char**env, int index, char*value)
 	return 0;
 }
 
+char* get_var_string(char *var, char **env)
+{
+	int i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 &&
+			get_char_index(env[i],'=') == (int)ft_strlen(var))
+			return env[i];
+		i++;
+	}
+	return NULL;
+}

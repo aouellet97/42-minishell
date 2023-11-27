@@ -3,13 +3,6 @@
 # include "parsing.h"
 # include "testing.h"
 
-t_ms* get_ms(void)
-{
-	static t_ms ms;
-
-	return &ms;
-}
-
 char	*ft_strjoin_sep(const char *s1, const char *s2, const char *separator)
 {
 	size_t	len_str1;
@@ -124,4 +117,22 @@ void	ft_set_node_pipes(t_exec_node *node)
 	}
 	node->output = node->pfd[1];
 	node->next->input = node->pfd[0];
+}
+
+
+
+t_exec_node *ft_creat_exec_node()
+{
+	t_exec_node *new_node;
+
+	new_node = gc_calloc(1, sizeof(t_exec_node));
+	if (new_node == NULL)
+		ft_raise_err("Mem allocation error", 1);
+	new_node->next = NULL;
+	new_node->input = STDIN_FILENO;
+	new_node->output = STDOUT_FILENO;
+	new_node->pfd[0] = -1;
+	new_node->pfd[1] = -1;
+	new_node->error_flag = false;
+	return new_node;
 }

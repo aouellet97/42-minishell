@@ -43,22 +43,22 @@ typedef struct s_exec_node {
 	int error_flag;
 } t_exec_node;
 
-t_ms_token *ft_tokenize(char *line);
-char		**ft_sep_tokens(char *cmd_str);
-char		*ft_getfwd(char *str);
-int			is_whitespace(char c);
-char		**ft_parse_cmd(char *strcmd);
-t_ms_token	*ft_tokenize_cmd(char *line);
+/* ====== exec ?? ====== */
 void		ft_execute_list(t_exec_node *head);
 void		ft_set_node_pipes(t_exec_node *head);
 t_exec_node	*ft_parse_input(char *strcmd,t_exec_node *node);
-//char*replace_vars_by_value(char *line);
-int skip_single_quotes(char *str, int i);
-char* expand(char*line);
-char*	remove_quotes(char *line);
-int get_char_index(char*s, char c);
-char* get_var_string(char *var, char **env);
 
-char* expand_dollar_sign(char *line,int *i);
-char *expand_exit_status(char*line,int i);
+/* ====== Parsing ====== */
+int			is_whitespace(char c);
+int			ft_is_redirection(t_ms_token *tk_ptr);
+int			get_char_index(char*s, char c);
+t_ms_token	*ft_tokenize(char *line);
+char*		get_var_string(char *var, char **env);
+
+/* ====== Expansions ====== */
+int			skip_single_quotes(char *str, int i);
+char*		remove_quotes(char *line);
+char*		expand(char*line);
+char*		expand_dollar_sign(char *line,int *i);
+char		*expand_exit_status(char*line,int i);
 #endif
