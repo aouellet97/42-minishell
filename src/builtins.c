@@ -112,6 +112,29 @@ int	ft_tab_len(void **tab)
 	return (count);
 }
 
+/*
+	@brief Checks if a string is numeric
+
+	@returns 0 if the string is numeric, 1 otherwise
+ */
+int ft_is_numeric(char *str_num)
+{
+	int i;
+	char c;
+
+	i = 0;
+	while (str_num[i])
+	{
+		c = str_num[i];
+		if ((c < '0' || c > '9') &&
+			ft_strchr("+-", c) == NULL)
+		{
+			return 1;
+		}
+		i++;
+	}
+	return 0;
+}
 
 int	ft_exit(t_ms*s_ms, char**cmd_tab)
 {
@@ -124,6 +147,10 @@ int	ft_exit(t_ms*s_ms, char**cmd_tab)
 	if (cmd_count > 2)
 		ft_raise_err("too many arguments", 1);
 	if (cmd_count == 2)
+	{
+		if (ft_is_numeric(cmd_tab[1]) != 0)
+			ft_raise_err("numeric argument required", 2);
 		exit_code = ft_atoi(cmd_tab[1]);
+	}
 	exit(exit_code);
 }
