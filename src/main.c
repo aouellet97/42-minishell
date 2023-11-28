@@ -16,10 +16,8 @@ int	main(int argc, char **argv, char *const envp[])
 
 	ft_set_signal_actions(SIG_MAIN);
 	get_ms()->env = copy_env(envp);
-	
 	while (1)
 	{
-		
 		//	Readline
 		line = readline("minishell > ");
 		//	Check exit conditions
@@ -27,7 +25,7 @@ int	main(int argc, char **argv, char *const envp[])
 		{
 			printf("exit\n");
 			gc_free_all();
-			exit(get_ms()->erno);
+			exit(get_ms()->ms_errno);
 		}
 
 		//	Append to history
@@ -43,11 +41,9 @@ int	main(int argc, char **argv, char *const envp[])
 			// Create t_exec_node list from tokens
 
 			exec_list = ft_init_exec_list(token_list);
-			
 			// Execute Command(s)
 			ft_execute_list(exec_list);
 		}
 		free(line);
 	}
-	
 }

@@ -3,12 +3,12 @@
 //------------------------------------------------------
 
 int ft_unset(t_ms *s_ms, char**cmd)
-{	
+{
 	char*var_string;
 	int i;
 
 	var_string = NULL;
-	i = 1; 
+	i = 1;
 	while(cmd[i])
 	{
 		var_string = get_var_string(cmd[i],s_ms->env);
@@ -17,7 +17,7 @@ int ft_unset(t_ms *s_ms, char**cmd)
 		i++;
 	}
 	return 0;
-}	
+}
 
 
 //------------------------------------------------------
@@ -62,16 +62,14 @@ int n_flag_check(char *cmd)
 	int i;
 
 	i = 1;
-	if(cmd[0] != '-' || cmd[1] != 'n')  
+	if(cmd[0] != '-' || cmd[1] != 'n')
 		return -1;
-	
 	while(cmd[i])
 	{
 		if(cmd[i] != 'n')
 			return -1;
 		i++;
 	}
-	
 	return 1;
 }
 
@@ -104,3 +102,28 @@ int ft_echo(t_ms *s_ms, char**cmd)
 
 //------------------------------------------------------
 
+int	ft_tab_len(void **tab)
+{
+	int count;
+
+	count = 0;
+	while(tab[count])
+		count++;
+	return (count);
+}
+
+
+int	ft_exit(t_ms*s_ms, char**cmd_tab)
+{
+	int cmd_count;
+	int exit_code;
+
+	(void) s_ms;
+	exit_code = 0;
+	cmd_count = ft_tab_len((void **)cmd_tab);
+	if (cmd_count > 2)
+		ft_raise_err("too many arguments", 1);
+	if (cmd_count == 2)
+		exit_code = ft_atoi(cmd_tab[1]);
+	exit(exit_code);
+}

@@ -26,12 +26,12 @@ enum sig_mode
 
 typedef struct s_minishell
 {
-	char **env;
-	char *hdline;
-	char *hd_filename;
+	char	**env;
+	char	*hdline;
+	char	*hd_filename;
 	int		hd_fd;
-	bool heredeoc_mode;
-	int erno;	
+	bool	heredeoc_mode;
+	int		ms_errno;
 }	t_ms;
 
 t_ms* get_ms(void);
@@ -64,6 +64,7 @@ size_t	get_env_size(char**env);
 int ft_export(t_ms*s_ms, char**cmd);
 int ft_unset(t_ms *s_ms, char**cmd);
 int ft_echo(t_ms*s_ms, char**cmd);
+int ft_exit(t_ms*s_ms, char**cmd);
 int ft_pwd(t_ms*s_ms, char**cmd);
 int ft_env(t_ms*s_ms, char**cmd);
 int ft_cd(t_ms*s_ms, char**cmd);

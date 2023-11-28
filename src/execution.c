@@ -1,15 +1,14 @@
 
 #include "minishell.h"
 
-/* 
+/*
 	@brief Check if command is a builtin, if so return the builtin function pointer
-	
+
 	@param cmd Command to be checked
 	@returns A pointer to the builtin function if cmd is builtin, else NULL
  */
 t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
 {
-	
 	if(strcmp(cmd->tab[0],"env") == 0)
 		return (&ft_env);
 	if(strcmp(cmd->tab[0],"pwd") == 0)
@@ -22,6 +21,8 @@ t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
 		return (&ft_export);
 	if(strcmp(cmd->tab[0],"unset") == 0)
 		return (&ft_unset);
+	if(strcmp(cmd->tab[0], "exit") == 0)
+		return (&ft_exit);
 	return (NULL);
 }
 
@@ -30,10 +31,8 @@ t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
 */
 void	ft_execute_node(t_exec_node *cmd)
 {
-	int res;
 	t_builtin_ptr builtin_ptr;
 
-	res = 0;
 	builtin_ptr = get_builtin_ptr(cmd);
 	// if (builtin_ptr != NULL)
 		// printf(COLOR_BLUE "DEBUG - this is a builtin\n" COLOR_RESET);
@@ -41,10 +40,10 @@ void	ft_execute_node(t_exec_node *cmd)
 
 	if (cmd->error_flag == true)
 		return ;
-
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
+		// readline("Waiting in child ...");
 		// ft_set_signal_actions(SIG_CHILD);
 		if (cmd->input > 2)
 		{
@@ -61,14 +60,13 @@ void	ft_execute_node(t_exec_node *cmd)
 		// Execut builtin
 		if (builtin_ptr)
 		{
-			exit (builtin_ptr(get_ms(), cmd->tab));
+			exit(builtin_ptr(get_ms(), cmd->tab));
 		}
 		else if (cmd->path)
 		{
-			res = execve(cmd->path, cmd->tab, get_ms()->env);
+			execve(cmd->path, cmd->tab, get_ms()->env);
 		}
-		ft_raise_err("command not found", res);
-		exit(555);
+		ft_raise_err("command not found", 127);
 	}
 
 }
@@ -99,8 +97,8 @@ void ft_execute_list(t_exec_node *head)
 		waitpid(ptr->pid, &wstat, 0);
 		if(WIFEXITED(wstat))
 		{
-			get_ms()->erno = WEXITSTATUS(wstat);
-			// printf("DEBUG - node executed, return status %d\n", get_ms()->erno);
+			get_ms()->ms_errno = WEXITSTATUS(wstat);
+			// printf("DEBUG - node executed, return status %d\n", get_ms()->ms_errno);
 		}
 		close(ptr->pfd[0]);
 		close(ptr->pfd[1]);

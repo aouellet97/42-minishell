@@ -11,10 +11,8 @@ char* get_new_line(char*line, int start, int end, char*var_string)
 
 	if(var_string)
 		var_value = var_string + get_char_index(var_string,'=') + 1;
-	
 	second_part = ft_strjoin(var_value,line + end);
 	new_line = ft_strjoin(first_part,second_part);
-	
 	return new_line;
 }
 
@@ -43,9 +41,8 @@ char *expand_exit_status(char*line,int i)
 	char*first_part;
 	char*second_part;
 	int number;
-	
-	number = get_ms()->erno; //replace with struct erno
 
+	number = get_ms()->ms_errno; //replace with struct erno
 	first_part = ft_substr(line,0,i);
 	second_part = ft_strjoin(ft_itoa(number),line + i + 2);
 	new_line = ft_strjoin(first_part,second_part);
@@ -74,7 +71,6 @@ char* expand_dollar_sign(char *line,int *i) //could remove the int pointer and i
 		gc_free(user_var);
 		(*i)--;
 	}
-	
 	return line;
 }
 
@@ -126,7 +122,6 @@ char*	remove_quotes(char *line)
 		line = ft_strjoin(line, split[i]);
 		i++;
 	}
-	
 	return line;
 }
 
@@ -135,7 +130,7 @@ char* expand(char*line)
 	int i;
 	int dq_count;
 
-	dq_count = 0; 
+	dq_count = 0;
 	i = 0;
 	while(line[i])
 	{
