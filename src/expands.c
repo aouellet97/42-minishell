@@ -44,7 +44,7 @@ char *expand_exit_status(char*line,int i)
 	char*second_part;
 	int number;
 	
-	number = errno; //replace with struct erno
+	number = get_ms()->erno; //replace with struct erno
 
 	first_part = ft_substr(line,0,i);
 	second_part = ft_strjoin(ft_itoa(number),line + i + 2);
@@ -121,7 +121,7 @@ char*	remove_quotes(char *line)
 	split = ft_split(line,SPLIT_SEP);
 	line = NULL;
 	i = 0;
-	while(split[i])
+	while(split && split[i])
 	{
 		line = ft_strjoin(line, split[i]);
 		i++;

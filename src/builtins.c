@@ -84,8 +84,6 @@ int ft_echo(t_ms *s_ms, char**cmd)
 
 	i = 1;
 	n = 0;
-
-	
 	while(cmd[i] && n_flag_check(cmd[i]) == 1)
 	{
 		n = 1;

@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char *const envp[])
 		{
 			printf("exit\n");
 			gc_free_all();
-			exit(0);
+			exit(get_ms()->erno);
 		}
 
 		//	Append to history
@@ -49,4 +49,5 @@ int	main(int argc, char **argv, char *const envp[])
 		}
 		free(line);
 	}
+	
 }

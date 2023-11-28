@@ -94,7 +94,9 @@ int ft_export(t_ms*s_ms, char**cmd)
 	int i;
 	int index;
 	char* var;
+	int result;
 
+	result = 0;
 	var = NULL;
 	i = 1;
 	index = 0;
@@ -104,7 +106,10 @@ int ft_export(t_ms*s_ms, char**cmd)
 	while(cmd[i])
 	{
 		if(verify_arg_input(cmd[i]) != 0)
-			printf("not valid identifier\n");
+		{
+			ft_putstr_fd("not valid identifier\n", 2);
+			result = 1;
+		}
 		else if(get_char_index(cmd[i],'=') != -1)
 		{
 			var = ft_substr(cmd[i],0,get_char_index(cmd[i],'='));
@@ -119,5 +124,5 @@ int ft_export(t_ms*s_ms, char**cmd)
 		}
 		i++;
 	}
-	return 0;
+	return result;
 } 

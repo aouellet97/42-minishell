@@ -61,8 +61,7 @@ void	ft_execute_node(t_exec_node *cmd)
 		// Execut builtin
 		if (builtin_ptr)
 		{
-			builtin_ptr(get_ms(), cmd->tab);
-			exit (0);
+			exit (builtin_ptr(get_ms(), cmd->tab));
 		}
 		else if (cmd->path)
 		{
@@ -80,6 +79,7 @@ void	ft_execute_node(t_exec_node *cmd)
 void ft_execute_list(t_exec_node *head)
 {
 	t_exec_node	*ptr;
+	int wstat;
 
 	ptr = head;
 	while (ptr)
@@ -96,7 +96,12 @@ void ft_execute_list(t_exec_node *head)
 	ptr = head;
 	while (ptr)
 	{
-		waitpid(ptr->pid, NULL, 0);
+		waitpid(ptr->pid, &wstat, 0);
+		if(WIFEXITED(wstat))
+		{
+			get_ms()->erno = WEXITSTATUS(wstat);
+			// printf("DEBUG - node executed, return status %d\n", get_ms()->erno);
+		}
 		close(ptr->pfd[0]);
 		close(ptr->pfd[1]);
 		ptr = ptr->next;

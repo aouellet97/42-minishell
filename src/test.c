@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+t_ms* get_ms(void)
+{
+	static t_ms ms;
+
+	return &ms;
+}
+
 int	main(int argc, char **argv, char *const envp[])
 {
 	char	*line;
@@ -7,6 +14,8 @@ int	main(int argc, char **argv, char *const envp[])
 	(void)	argv;
 	t_exec_node *exec_list;
 
+
+	return 1;
 	ft_set_signal_actions(SIG_MAIN);
 	get_ms()->env = copy_env(envp);
 	
@@ -32,27 +41,14 @@ int	main(int argc, char **argv, char *const envp[])
 
 			// Create tokens from raw line
 			t_ms_token *token_list = ft_tokenize(line);
-			// print_tokens(token_list, line);
+			print_tokens(token_list, line);
 
 			// Create t_exec_node list from tokens
 			exec_list = ft_init_exec_list(token_list);
 			// ft_print_exec_nodes(exec_list);
 
 			// Execute Command(s)
-			if(strcmp(line,"env") == 0)
-				ft_env(get_ms());
-			else if(strcmp(line,"pwd") == 0)
-				ft_pwd();
-			else if(strcmp(exec_list->tab[0],"echo") == 0)
-				ft_echo(exec_list->tab);
-			else if(strcmp(exec_list->tab[0],"cd") == 0)
-				ft_cd(exec_list->tab,get_ms());
-			else if(strcmp(exec_list->tab[0],"export") == 0)
-				ft_export(get_ms(),exec_list->tab);
-			else if(strcmp(exec_list->tab[0],"unset") == 0)
-				ft_unset(get_ms(),exec_list->tab);
-			else
-				ft_execute_list(exec_list);
+			ft_execute_list(exec_list);
 		}
 		free(line);
 	}

@@ -3,9 +3,18 @@
 char	**ft_parse_cmd(char *cmd_str)
 {
 	char **new_tab;
+	int i;
 
-	ft_change_wspace(cmd_str);
+
 	new_tab= ft_split(cmd_str, SPLIT_SEP);
+	i = 0;
+
+	while (new_tab[i])
+	{
+		if (new_tab[i][0] == '\e')
+			new_tab[i][0] = '\0';
+		i++;
+	}
 	return (new_tab);
 }
 
@@ -98,7 +107,7 @@ t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
 		if (tk_ptr->tk_type == TK_STR)
 		{
 			if (tk_ptr->content == NULL)
-				tk_ptr->content = " "; // Handles cat ""
+				tk_ptr->content = "\e"; // Handles cat ""
 			strcmd = ft_strjoin_char(strcmd, tk_ptr->content, 29);
 		}
 		if (tk_ptr->tk_type == TK_PIPE)

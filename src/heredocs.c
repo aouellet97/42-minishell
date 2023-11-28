@@ -111,7 +111,6 @@ int ft_create_heredoc(char*eof) //segfault when one quote but parsing handles th
 	{
 		if(WEXITSTATUS(wstat) == 222)
 		{
-
 			return (-1);
 		}
 	}
