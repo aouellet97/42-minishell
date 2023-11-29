@@ -16,42 +16,12 @@ void ft_print_tab(char **list)
 	printf("\n\n\t========= TABLE =========\n");
 	while(list[i])
 	{
-		printf("\t- %s\n", list[i]);
+		printf("%s; ", list[i]);
 		i++;
 	}
 	printf("\n\t=========================\n\n");
 }
 
-void ft_print_exec_struct(t_exec *cmd)
-{
-
-	printf("\
-	============ Command ============\n\
-	\tInput : %i\n\
-	\tOutput : %i\n\
-	\tpfd[0] : %i\n\
-	\tpfd[1] : %i\n\
-	\tPath : %s\n\
-	=================================\n\
-	", cmd->input, cmd->output, cmd->pfd[0], cmd->pfd[1], cmd->path);
-
-	ft_print_tab(cmd->tab);
-}
-
-
-void ft_print_exec_tab(t_exec **tab)
-{
-	int i = 0;
-
-	printf("\n\n\t========= TABLE =========\n");
-	while(tab[i])
-	{
-		ft_print_tab(tab[i]->tab);
-		printf("%s\n", tab[i]->path);
-		i++;
-	}
-	printf("\n\t=========================\n\n");
-}
 
 void ft_print_tokens(t_ms_token *head)
 {

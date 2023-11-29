@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 /*
@@ -9,19 +8,19 @@
  */
 t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
 {
-	if(strcmp(cmd->tab[0],"env") == 0)
+	if (strcmp(cmd->tab[0], "env") == 0)
 		return (&ft_env);
-	if(strcmp(cmd->tab[0],"pwd") == 0)
+	if (strcmp(cmd->tab[0], "pwd") == 0)
 		return (&ft_pwd);
-	if(strcmp(cmd->tab[0],"echo") == 0)
+	if (strcmp(cmd->tab[0], "echo") == 0)
 		return (&ft_echo);
-	if(strcmp(cmd->tab[0],"cd") == 0)
+	if (strcmp(cmd->tab[0], "cd") == 0)
 		return (&ft_cd);
-	if(strcmp(cmd->tab[0],"export") == 0)
+	if (strcmp(cmd->tab[0], "export") == 0)
 		return (&ft_export);
-	if(strcmp(cmd->tab[0],"unset") == 0)
+	if (strcmp(cmd->tab[0], "unset") == 0)
 		return (&ft_unset);
-	if(strcmp(cmd->tab[0], "exit") == 0)
+	if (strcmp(cmd->tab[0], "exit") == 0)
 		return (&ft_exit);
 	return (NULL);
 }

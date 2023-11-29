@@ -23,15 +23,6 @@ enum tokens
 	TK_NULL,
 };
 
-typedef struct s_exec {
-	char **tab;
-	char *path;
-	int pfd[2];
-	int input;
-	int output;
-	int pid;
-} t_exec;
-
 typedef struct s_exec_node {
 	char **tab;
 	char *path;
