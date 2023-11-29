@@ -5,6 +5,8 @@ int verify_arg_input(char*var)
 	int i;
 
 	i = 0;
+	if(var[0] == '=' && ft_strlen(var) == 1)
+		return -1;
 	if(ft_isdigit(var[i]))
 		return -1;
 	while(var[i] && var[i] != '=')
@@ -107,14 +109,14 @@ int ft_export(t_ms*s_ms, char**cmd)
 	{
 		if(verify_arg_input(cmd[i]) != 0)
 		{
-			ft_putstr_fd("not valid identifier\n", 2);
+			ft_putstr_fd(" not a valid identifier\n", 2);
 			result = 1;
 		}
 		else if(get_char_index(cmd[i],'=') != -1)
 		{
 			var = ft_substr(cmd[i],0,get_char_index(cmd[i],'='));
 			if(!var)
-				return -1; //replace with error function
+				return 1; //replace with error function
 			index = get_var_index(var,s_ms->env);
 			if(index != -1)
 				replace_var(s_ms->env,index,cmd[i]);

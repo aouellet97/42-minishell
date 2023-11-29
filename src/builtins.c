@@ -145,11 +145,11 @@ int	ft_exit(t_ms*s_ms, char**cmd_tab)
 	exit_code = 0;
 	cmd_count = ft_tab_len((void **)cmd_tab);
 	if (cmd_count > 2)
-		ft_raise_err("too many arguments", 1);
+		ft_raise_err(" too many arguments", 1);
 	if (cmd_count == 2)
 	{
 		if (ft_is_numeric(cmd_tab[1]) != 0)
-			ft_raise_err("numeric argument required", 2);
+			ft_raise_err(" numeric argument required", 255);
 		exit_code = ft_atoi(cmd_tab[1]);
 	}
 	exit(exit_code);

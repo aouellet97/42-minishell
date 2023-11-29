@@ -66,7 +66,7 @@ void	ft_execute_node(t_exec_node *cmd)
 		{
 			execve(cmd->path, cmd->tab, get_ms()->env);
 		}
-		ft_raise_err("command not found", 127);
+		ft_raise_err(" command not found", 127);
 	}
 
 }
@@ -76,10 +76,19 @@ void	ft_execute_node(t_exec_node *cmd)
 */
 void ft_execute_list(t_exec_node *head)
 {
+	t_builtin_ptr builtin_ptr;
 	t_exec_node	*ptr;
 	int wstat;
 
+
 	ptr = head;
+	builtin_ptr = get_builtin_ptr(ptr);
+	if(!ptr->next && builtin_ptr)
+	{
+		get_ms()->ms_errno = builtin_ptr(get_ms(), ptr->tab);
+		return ;
+	}
+
 	while (ptr)
 	{
 		ft_set_node_pipes(ptr);
