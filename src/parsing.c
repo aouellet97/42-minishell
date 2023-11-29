@@ -51,11 +51,10 @@ void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 		// Check if file is readable ?
 		if (access(path, R_OK) == -1)
 		{
-			write(2, "File not found : ", ft_strlen("File not found : "));
-			write(2, path, ft_strlen(path));
-			write(2, "\n", 1);
-			fd = open("/dev/null", O_RDONLY);
-			node->input = fd;
+			node->error_flag = true;
+			ft_putstr_fd(" No such file or directory\n", STDERR_FILENO);
+			// fd = open("/dev/null", O_RDONLY);
+			// node->input = fd;
 		}
 		else
 		{
@@ -65,7 +64,7 @@ void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 	}
 
 	if (tk_type == TK_OUT_REDIR)
-	{	
+	{
 		if (node->output > 2)
 			close(node->output);
 		// Create file with truncation
@@ -129,14 +128,15 @@ t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
 			curr_node->input = ft_create_heredoc(tk_ptr->raw_content);
 			// TODO: Add error if failed ?
 			if (curr_node->input == -1)
-				curr_node->error_flag = true;		
-			
+				curr_node->error_flag = true;
+
 		}
 		// if redirct
 			// update curr_node->in/out
-		if(ft_is_redirection(tk_ptr))
+		if(ft_is_redirection(tk_ptr ))
 		{
-			ft_handle_redirections(curr_node, tk_ptr);
+			if (curr_node->error_flag == false)
+				ft_handle_redirections(curr_node, tk_ptr);
 			tk_ptr = tk_ptr->next;
 		}
 			tk_ptr = tk_ptr->next;

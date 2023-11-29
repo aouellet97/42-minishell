@@ -115,8 +115,11 @@ void	ft_set_node_pipes(t_exec_node *node)
 	{
 		ft_raise_err("Pipe error", 4);
 	}
-	node->output = node->pfd[1];
-	node->next->input = node->pfd[0];
+	if(node->output < STDERR_FILENO)
+		node->output = node->pfd[1];
+	if(node->next->input < STDERR_FILENO)
+		node->next->input = node->pfd[0];
+	node->next->prev_pipe_out = node->pfd[0];
 }
 
 
@@ -133,6 +136,25 @@ t_exec_node *ft_creat_exec_node()
 	new_node->output = STDOUT_FILENO;
 	new_node->pfd[0] = -1;
 	new_node->pfd[1] = -1;
+	new_node->prev_pipe_out = -1;
 	new_node->error_flag = false;
 	return new_node;
+}
+
+/*
+	@brief Closes an fd if it is not STD
+ */
+void ft_close(int fd)
+{
+	if (fd > STDERR_FILENO)
+		close(fd);
+}
+
+/*
+	@brief Duplicats an fd if it is not STD
+ */
+void ft_dup2(int fd, int dest)
+{
+	if (fd > STDERR_FILENO)
+		dup2(fd, dest);
 }

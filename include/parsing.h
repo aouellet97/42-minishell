@@ -27,6 +27,7 @@ typedef struct s_exec_node {
 	char **tab;
 	char *path;
 	int pfd[2];
+	int prev_pipe_out;
 	int input;
 	int output;
 	int pid;

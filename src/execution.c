@@ -28,34 +28,32 @@ t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
 /*
 	@brief Executes a single t_exec_node after setting in and outs
 */
-void	ft_execute_node(t_exec_node *cmd)
+void ft_execute_node(t_exec_node *cmd)
 {
 	t_builtin_ptr builtin_ptr;
 
 	builtin_ptr = get_builtin_ptr(cmd);
 	// if (builtin_ptr != NULL)
-		// printf(COLOR_BLUE "DEBUG - this is a builtin\n" COLOR_RESET);
+	// printf(COLOR_BLUE "DEBUG - this is a builtin\n" COLOR_RESET);
 	fflush(NULL);
 
-	if (cmd->error_flag == true)
-		return ;
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
 		// readline("Waiting in child ...");
 		// ft_set_signal_actions(SIG_CHILD);
-		if (cmd->input > 2)
+		ft_dup2(cmd->input, STDIN_FILENO);
+		ft_close(cmd->input);
+		ft_dup2(cmd->output, STDOUT_FILENO);
+		ft_close(cmd->output);
+		ft_close(cmd->pfd[0]);
+		ft_close(cmd->pfd[1]);
+		ft_close(cmd->prev_pipe_out);
+		if (cmd->error_flag == true)
 		{
-			dup2(cmd->input, STDIN_FILENO);
-			close(cmd->input);
+			gc_free_all();
+			exit(1);
 		}
-		if (cmd->output > 2)
-		{
-			dup2(cmd->output, STDOUT_FILENO);
-			close(cmd->output);
-		}
-		close(cmd->pfd[0]);
-		close(cmd->pfd[1]);
 		// Execut builtin
 		if (builtin_ptr)
 		{
@@ -67,7 +65,6 @@ void	ft_execute_node(t_exec_node *cmd)
 		}
 		ft_raise_err(" command not found", 127);
 	}
-
 }
 
 /*
@@ -76,26 +73,23 @@ void	ft_execute_node(t_exec_node *cmd)
 void ft_execute_list(t_exec_node *head)
 {
 	t_builtin_ptr builtin_ptr;
-	t_exec_node	*ptr;
+	t_exec_node *ptr;
 	int wstat;
-
 
 	ptr = head;
 	builtin_ptr = get_builtin_ptr(ptr);
-	if(!ptr->next && builtin_ptr)
+	if (!ptr->next && builtin_ptr && !ptr->error_flag)
 	{
 		get_ms()->ms_errno = builtin_ptr(get_ms(), ptr->tab);
-		return ;
+		return;
 	}
-
 	while (ptr)
 	{
 		ft_set_node_pipes(ptr);
 		ft_execute_node(ptr);
-		if (ptr->input > 2)
-			close(ptr->input);
-		if (ptr->output > 2)
-			close(ptr->output);
+		ft_close(ptr->input);
+		ft_close(ptr->output);
+		ft_close(ptr->prev_pipe_out);
 		ptr = ptr->next;
 	}
 
@@ -103,13 +97,13 @@ void ft_execute_list(t_exec_node *head)
 	while (ptr)
 	{
 		waitpid(ptr->pid, &wstat, 0);
-		if(WIFEXITED(wstat))
+		if (WIFEXITED(wstat))
 		{
 			get_ms()->ms_errno = WEXITSTATUS(wstat);
 			// printf("DEBUG - node executed, return status %d\n", get_ms()->ms_errno);
 		}
-		close(ptr->pfd[0]);
-		close(ptr->pfd[1]);
+		ft_close(ptr->pfd[0]);
+		ft_close(ptr->pfd[1]);
 		ptr = ptr->next;
 	}
 }
