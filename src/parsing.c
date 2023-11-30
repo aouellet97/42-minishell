@@ -46,41 +46,39 @@ void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 	tk_type = tk_ptr->tk_type;
 	if (tk_type == TK_IN_REDIR)
 	{
-		if (node->input > 2)
-			close(node->input);
 		// Check if file is readable ?
 		if (access(path, R_OK) == -1)
 		{
 			node->error_flag = true;
 			ft_putstr_fd(" No such file or directory\n", STDERR_FILENO);
-			// fd = open("/dev/null", O_RDONLY);
-			// node->input = fd;
 		}
 		else
 		{
+			if (node->input > 2)
+				close(node->input);
 			fd = open(path, O_RDONLY);
 			node->input = fd;
 		}
 	}
 
-	if (tk_type == TK_OUT_REDIR)
+	if (tk_type == TK_OUT_REDIR || tk_type == TK_OUT_REDIR_AP)
 	{
-		if (node->output > 2)
-			close(node->output);
-		// Create file with truncation
-		fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		//Set node->output
-		node->output = fd;
-	}
-
-	if (tk_type == TK_OUT_REDIR_AP)
-	{
-		if (node->output > 2)
-			close(node->output);
-		// create or append to the file
-		fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0777);
-		//Set node->output
-		node->output = fd;
+		if (access(path, F_OK) == 0 && access(path, W_OK) == -1)
+		{
+			node->error_flag = true;
+			ft_putstr_fd(" Permission denied\n", STDERR_FILENO);
+		}
+		else {
+			if (node->output > 2)
+				close(node->output);
+			// Create file with truncation
+			if (tk_type == TK_OUT_REDIR)
+				fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			else
+				fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0777);
+			//Set node->output
+			node->output = fd;
+		}
 	}
 }
 

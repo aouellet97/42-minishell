@@ -144,17 +144,30 @@ t_exec_node *ft_creat_exec_node()
 /*
 	@brief Closes an fd if it is not STD
  */
-void ft_close(int fd)
+int ft_close(int fd)
 {
+	int res;
+
 	if (fd > STDERR_FILENO)
-		close(fd);
+		res = close(fd);
+	if (res == -1)
+	{
+		// Handle Error
+	}
+	return (res);
 }
 
 /*
 	@brief Duplicats an fd if it is not STD
  */
-void ft_dup2(int fd, int dest)
+int ft_dup2(int fd, int dest)
 {
+	int res;
 	if (fd > STDERR_FILENO)
-		dup2(fd, dest);
+		res = dup2(fd, dest);
+	if (res == -1)
+	{
+		// Handle error
+	}
+	return (res);
 }

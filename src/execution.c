@@ -67,6 +67,30 @@ void ft_execute_node(t_exec_node *cmd)
 	}
 }
 
+void ft_exec_single_node(t_exec_node *cmd, t_builtin_ptr builtin_ptr)
+{
+	int std_in;
+	int std_out;
+
+	std_in = dup(STDIN_FILENO);
+	std_out = dup(STDOUT_FILENO);
+	if (std_in == -1 || std_out == -1)
+	{
+		// Handle error
+	}
+	ft_dup2(cmd->input, STDIN_FILENO);
+	ft_dup2(cmd->output, STDOUT_FILENO);
+	ft_dup2(cmd->input, STDIN_FILENO);
+	ft_dup2(cmd->output, STDOUT_FILENO);
+	ft_close(cmd->input);
+	ft_close(cmd->output);
+	get_ms()->ms_errno = builtin_ptr(get_ms(), cmd->tab);
+	dup2(std_in, STDIN_FILENO);
+	dup2(std_out, STDOUT_FILENO);
+	ft_close(std_in);
+	ft_close(std_out);
+}
+
 /*
 	@brief Execute t_exec_node list
 */
@@ -80,9 +104,10 @@ void ft_execute_list(t_exec_node *head)
 	builtin_ptr = get_builtin_ptr(ptr);
 	if (!ptr->next && builtin_ptr && !ptr->error_flag)
 	{
-		get_ms()->ms_errno = builtin_ptr(get_ms(), ptr->tab);
+		ft_exec_single_node(ptr, builtin_ptr);
 		return;
 	}
+
 	while (ptr)
 	{
 		ft_set_node_pipes(ptr);
