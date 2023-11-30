@@ -35,13 +35,14 @@ void	ft_set_signal_actions(int mode)
 
 	if (mode == SIG_MAIN)
 	{
-		 ft_setup_term();
+		ft_setup_term();
 		signal(SIGINT, ft_handle_sigint);
 		signal(SIGQUIT, SIG_IGN);
-		
+
 	}
 	if (mode == SIG_CHILD)
 	{
-		signal(SIGINT, SIG_IGN);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 	}
 }

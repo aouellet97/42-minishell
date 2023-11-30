@@ -48,7 +48,7 @@ void ft_execute_node(t_exec_node *cmd)
 	if (cmd->pid == 0)
 	{
 		// readline("Waiting in child ...");
-		// ft_set_signal_actions(SIG_CHILD);
+		ft_set_signal_actions(SIG_CHILD);
 		ft_dup2(cmd->input, STDIN_FILENO);
 		ft_close(cmd->input);
 		ft_dup2(cmd->output, STDOUT_FILENO);
