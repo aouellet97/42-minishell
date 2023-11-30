@@ -80,7 +80,6 @@ char** remove_var(char*var_to_remove,char**env)
 	new_env = get_new_env(len);
 	if(!new_env)
 		return NULL;
-
 	while(i < len)
 	{
 		if(env[j] == var_to_remove)
