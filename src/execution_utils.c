@@ -141,6 +141,8 @@ t_exec_node *ft_creat_exec_node()
 	new_node->pfd[1] = -1;
 	new_node->prev_pipe_out = -1;
 	new_node->error_flag = false;
+	new_node->path = NULL;
+	new_node->tab = NULL;
 	return new_node;
 }
 

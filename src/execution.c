@@ -8,6 +8,8 @@
  */
 t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
 {
+	if (!cmd || !cmd->tab)
+		return (NULL);
 	if (strcmp(cmd->tab[0], "env") == 0)
 		return (&ft_env);
 	if (strcmp(cmd->tab[0], "pwd") == 0)
@@ -32,6 +34,8 @@ void ft_execute_node(t_exec_node *cmd)
 {
 	t_builtin_ptr builtin_ptr;
 
+	if(!cmd || !(cmd->tab))
+		return;
 	builtin_ptr = get_builtin_ptr(cmd);
 	// if (builtin_ptr != NULL)
 	// printf(COLOR_BLUE "DEBUG - this is a builtin\n" COLOR_RESET);

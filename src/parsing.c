@@ -9,7 +9,7 @@ char	**ft_parse_cmd(char *cmd_str)
 	new_tab= ft_split(cmd_str, SPLIT_SEP);
 	i = 0;
 
-	while (new_tab[i])
+	while (new_tab && new_tab[i])
 	{
 		if (new_tab[i][0] == '\e')
 			new_tab[i][0] = '\0';
@@ -30,8 +30,11 @@ t_exec_node	*ft_parse_input(char *strcmd, t_exec_node *node)
 
 	cmd = node;
 
-	cmd->tab = ft_parse_cmd(strcmd);
-	cmd->path = ft_get_cmd_path(cmd->tab[0], get_ms()->env);
+	if (strcmd)
+	{
+		cmd->tab = ft_parse_cmd(strcmd);
+		cmd->path = ft_get_cmd_path(cmd->tab[0], get_ms()->env);
+	}
 
 	return cmd;
 }
@@ -127,7 +130,6 @@ t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
 			// TODO: Add error if failed ?
 			if (curr_node->input == -1)
 				curr_node->error_flag = true;
-
 		}
 		// if redirct
 			// update curr_node->in/out

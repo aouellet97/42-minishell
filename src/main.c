@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char *const envp[])
 		//	Append to history
 		if (*line)
 		{
-
+			get_ms()->ms_errno = 0;
 			// Add modified line to history
 			add_history(line);
 
