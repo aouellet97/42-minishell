@@ -35,7 +35,10 @@ void ft_execute_node(t_exec_node *cmd)
 	t_builtin_ptr builtin_ptr;
 
 	if(!cmd || !(cmd->tab))
+	{
+		get_ms()->ms_errno = 0;
 		return;
+	}
 	builtin_ptr = get_builtin_ptr(cmd);
 	// if (builtin_ptr != NULL)
 	// printf(COLOR_BLUE "DEBUG - this is a builtin\n" COLOR_RESET);

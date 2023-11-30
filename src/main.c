@@ -31,7 +31,6 @@ int	main(int argc, char **argv, char *const envp[])
 		//	Append to history
 		if (*line)
 		{
-			get_ms()->ms_errno = 0;
 			// Add modified line to history
 			add_history(line);
 
@@ -39,8 +38,8 @@ int	main(int argc, char **argv, char *const envp[])
 			t_ms_token *token_list = ft_tokenize(line);
 
 			// Create t_exec_node list from tokens
-
 			exec_list = ft_init_exec_list(token_list);
+			
 			// Execute Command(s)
 			ft_execute_list(exec_list);
 		}
