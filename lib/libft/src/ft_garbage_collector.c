@@ -31,7 +31,7 @@ void * gc_calloc(size_t nmemb, size_t size)
     new_mb->address = ft_calloc(nmemb,size);
     if(!new_mb->address)
         return NULL;
-     
+
     return new_mb->address;
 }
 
@@ -74,12 +74,14 @@ void gc_detach(void*address)
         if(gc_ptr->address == address)
         {
             ptr_copy->next_mb = gc_ptr->next_mb;
-
+            free(gc_ptr);
             return ;
         }
         ptr_copy = gc_ptr;
         gc_ptr = gc_ptr->next_mb;
     }
+
+
 }
 
 //free entire garbage collector

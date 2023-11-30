@@ -16,6 +16,8 @@ int	main(int argc, char **argv, char *const envp[])
 
 	ft_set_signal_actions(SIG_MAIN);
 	get_ms()->env = copy_env(envp);
+	get_ms()->ms_errno = 0;
+	exec_list = NULL;
 	while (1)
 	{
 		//	Readline
@@ -39,7 +41,7 @@ int	main(int argc, char **argv, char *const envp[])
 
 			// Create t_exec_node list from tokens
 			exec_list = ft_init_exec_list(token_list);
-			
+
 			// Execute Command(s)
 			ft_execute_list(exec_list);
 		}

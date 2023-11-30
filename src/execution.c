@@ -105,6 +105,7 @@ void ft_execute_list(t_exec_node *head)
 	t_exec_node *ptr;
 	int wstat;
 
+	wstat = 0;
 	ptr = head;
 	builtin_ptr = get_builtin_ptr(ptr);
 	if (!ptr->next && builtin_ptr && !ptr->error_flag)
