@@ -154,12 +154,13 @@ int ft_close(int fd)
 {
 	int res;
 
+	res = 0;
 	if (fd > STDERR_FILENO)
 		res = close(fd);
-	if (res == -1)
-	{
-		// Handle Error
-	}
+	// if (res == -1)
+	// {
+	// 	// Handle Error
+	// }
 	return (res);
 }
 
@@ -169,11 +170,13 @@ int ft_close(int fd)
 int ft_dup2(int fd, int dest)
 {
 	int res;
+
+	res = 0;
 	if (fd > STDERR_FILENO)
 		res = dup2(fd, dest);
-	if (res == -1)
-	{
-		// Handle error
-	}
+	// if (res == -1)
+	// {
+	// 	// Handle error
+	// }
 	return (res);
 }

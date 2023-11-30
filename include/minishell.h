@@ -32,6 +32,7 @@ typedef struct s_minishell
 	int		hd_fd;
 	bool	heredeoc_mode;
 	int		ms_errno;
+	bool	stop_hd;
 }	t_ms;
 
 t_ms* get_ms(void);

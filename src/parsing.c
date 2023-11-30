@@ -102,7 +102,7 @@ t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
 	head = curr_node;
 	strcmd = NULL;
 
-	while(tk_ptr)
+	while(tk_ptr && get_ms()->stop_hd == false)
 	{
 		if (tk_ptr->tk_type == TK_STR)
 		{
