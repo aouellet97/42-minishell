@@ -64,7 +64,9 @@ char	*ft_get_cmd_path(char *cmd, char *const envp[])
 	i = 0;
 	path_tab = ft_get_envpaths(envp);
 	res = -1;
-	while (path_tab[i])
+	if (cmd && cmd[0] == '/' && access(cmd, R_OK) == 0)
+		return (cmd);
+	else while (path_tab[i])
 	{
 		tmp = ft_strjoin_path(path_tab[i], cmd);
 		res = access(tmp, R_OK);
@@ -73,6 +75,7 @@ char	*ft_get_cmd_path(char *cmd, char *const envp[])
 		gc_free(tmp);
 		i++;
 	}
+
 	ft_free_tab(path_tab);
 	if (res == 0)
 		return (tmp);
