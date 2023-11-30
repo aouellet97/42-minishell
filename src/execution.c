@@ -87,8 +87,6 @@ void ft_exec_single_node(t_exec_node *cmd, t_builtin_ptr builtin_ptr)
 	}
 	ft_dup2(cmd->input, STDIN_FILENO);
 	ft_dup2(cmd->output, STDOUT_FILENO);
-	ft_dup2(cmd->input, STDIN_FILENO);
-	ft_dup2(cmd->output, STDOUT_FILENO);
 	ft_close(cmd->input);
 	ft_close(cmd->output);
 	get_ms()->ms_errno = builtin_ptr(get_ms(), cmd->tab);

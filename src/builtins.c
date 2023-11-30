@@ -89,13 +89,13 @@ int ft_echo(t_ms *s_ms, char**cmd)
 	}
 	while(cmd[i])
 	{
-		printf("%s",cmd[i]); // TODO: Change with ft_putstr_fd
+		ft_putstr_fd(cmd[i], STDOUT_FILENO); // TODO: Change with ft_putstr_fd
 		if(cmd[i + 1])
-			printf(" ");
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
 	}
 	if(n == 0)
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	return 0;
 
 }
