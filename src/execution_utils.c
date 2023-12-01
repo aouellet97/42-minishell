@@ -119,11 +119,11 @@ void	ft_set_node_pipes(t_exec_node *node)
 	{
 		ft_raise_err("Pipe error", 4);
 	}
-	if(node->output < STDERR_FILENO)
+	if(node->output == STDOUT_FILENO)
 		node->output = node->pfd[1];
-	if(node->next->input < STDERR_FILENO)
+	if(node->next->input == STDIN_FILENO)
 		node->next->input = node->pfd[0];
-	node->next->prev_pipe_out = node->pfd[0];
+	node->next->prev_pipe_out = node->pfd[1];
 }
 
 

@@ -34,7 +34,7 @@ void ft_execute_node(t_exec_node *cmd)
 {
 	t_builtin_ptr builtin_ptr;
 
-	if(!cmd || !(cmd->tab))
+	if (!cmd || !(cmd->tab))
 	{
 		get_ms()->ms_errno = 0;
 		return;
@@ -49,11 +49,11 @@ void ft_execute_node(t_exec_node *cmd)
 	{
 		// readline("Waiting in child ...");
 		ft_set_signal_actions(SIG_CHILD);
+		ft_close(cmd->pfd[0]);
 		ft_dup2(cmd->input, STDIN_FILENO);
 		ft_close(cmd->input);
 		ft_dup2(cmd->output, STDOUT_FILENO);
 		ft_close(cmd->output);
-		ft_close(cmd->pfd[0]);
 		ft_close(cmd->pfd[1]);
 		ft_close(cmd->prev_pipe_out);
 		if (cmd->error_flag == true)
@@ -120,7 +120,7 @@ void ft_execute_list(t_exec_node *head)
 		ft_execute_node(ptr);
 		ft_close(ptr->input);
 		ft_close(ptr->output);
-		ft_close(ptr->prev_pipe_out);
+		ft_close(ptr->pfd[1]);
 		ptr = ptr->next;
 	}
 
@@ -131,10 +131,8 @@ void ft_execute_list(t_exec_node *head)
 		if (WIFEXITED(wstat))
 		{
 			get_ms()->ms_errno = WEXITSTATUS(wstat);
-			// printf("DEBUG - node executed, return status %d\n", get_ms()->ms_errno);
 		}
 		ft_close(ptr->pfd[0]);
-		ft_close(ptr->pfd[1]);
 		ptr = ptr->next;
 	}
 }
