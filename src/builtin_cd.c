@@ -30,14 +30,12 @@ char* ft_getenv(char**env)
 	return NULL;
 }
 
-int ft_cd(t_ms *s_ms, char **cmd) //deal with cd - ?
+int ft_cd(t_ms *s_ms, char **cmd)
 {
 	char *path;
 	char pwd[PATH_MAX];
 	char oldpwd[PATH_MAX];
 
-
-	// TODO : cd into first argument, no errors
 	path = NULL;
 	if(!cmd[1] || (cmd[1][0] == '~' && !cmd[1][1]))
 	{
