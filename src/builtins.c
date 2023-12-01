@@ -149,7 +149,7 @@ int	ft_exit(t_ms*s_ms, char**cmd_tab)
 	if (cmd_count == 2)
 	{
 		if (ft_is_numeric(cmd_tab[1]) != 0)
-			ft_raise_err(" numeric argument required", 2);
+			ft_raise_err(" numeric argument required", 255);
 		exit_code = ft_atoi(cmd_tab[1]);
 	}
 	exit(exit_code);

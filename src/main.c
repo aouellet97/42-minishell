@@ -20,6 +20,7 @@ int	main(int argc, char **argv, char *const envp[])
 	exec_list = NULL;
 	while (1)
 	{
+		get_ms()->stop_hd = false;
 		//	Readline
 		line = readline("minishell > ");
 		//	Check exit conditions
