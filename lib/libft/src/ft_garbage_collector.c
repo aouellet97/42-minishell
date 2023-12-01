@@ -1,6 +1,8 @@
 
 #include "libft.h"
 
+
+
 //memory block
 typedef struct s_mblock
 {
@@ -23,14 +25,26 @@ void * gc_calloc(size_t nmemb, size_t size)
 
     new_mb = ft_calloc(1,sizeof(t_mblock));
     if(!new_mb)
-        return NULL;
+    {   
+        ft_putstr_fd("Memory allocation error!\n",2);
+        gc_free_all();
+        if(get_ms()->line)
+            free(get_ms()->line);
+        exit(1);
+    }
 
     new_mb->next_mb = garbage_collector()->next_mb;
     garbage_collector()->next_mb = new_mb;
-
+   
     new_mb->address = ft_calloc(nmemb,size);
     if(!new_mb->address)
-        return NULL;
+    {   
+        ft_putstr_fd("Memory allocation error!\n",2);
+        gc_free_all();
+        if(get_ms()->line)
+            free(get_ms()->line);
+        exit(1);
+    }
 
     return new_mb->address;
 }

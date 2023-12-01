@@ -10,7 +10,7 @@ CC=gcc
 CFLAGS=-Wall -Werror -Wextra
 
 NAME= libft.a
-DEPS = $(LDIR)/libft.h
+DEPS = $(LDIR)/libft.h 
 
 # TODO: DELETE WILD CARD !!!!!
 SRCS = $(wildcard $(SDIR)/ft_*.c)

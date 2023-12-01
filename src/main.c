@@ -1,15 +1,8 @@
 #include "minishell.h"
 
-t_ms* get_ms(void)
-{
-	static t_ms ms;
-
-	return &ms;
-}
 
 int	main(int argc, char **argv, char *const envp[])
 {
-	char	*line;
 	(void)	argc;
 	(void)	argv;
 	t_exec_node *exec_list;
@@ -22,9 +15,9 @@ int	main(int argc, char **argv, char *const envp[])
 	{
 		get_ms()->stop_hd = false;
 		//	Readline
-		line = readline("minishell > ");
+		get_ms()->line = readline("minishell > ");
 		//	Check exit conditions
-		if (!line || ft_strcmp(line, "exit") == 0)
+		if (!get_ms()->line || ft_strcmp(get_ms()->line, "exit") == 0)
 		{
 			printf("exit\n");
 			gc_free_all();
@@ -32,13 +25,13 @@ int	main(int argc, char **argv, char *const envp[])
 		}
 
 		//	Append to history
-		if (*line)
+		if (*get_ms()->line)
 		{
 			// Add modified line to history
-			add_history(line);
+			add_history(get_ms()->line);
 
 			// Create tokens from raw line
-			t_ms_token *token_list = ft_tokenize(line);
+			t_ms_token *token_list = ft_tokenize(get_ms()->line);
 
 			// Create t_exec_node list from tokens
 			exec_list = ft_init_exec_list(token_list);
@@ -46,6 +39,6 @@ int	main(int argc, char **argv, char *const envp[])
 			// Execute Command(s)
 			ft_execute_list(exec_list);
 		}
-		free(line);
+		free(get_ms()->line);
 	}
 }

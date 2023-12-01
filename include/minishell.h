@@ -12,9 +12,10 @@
 # include "readline/readline.h"
 # include "readline/history.h"
 # include "sys/errno.h"
-# include <stdbool.h>
+
 
 # include "testing.h"
+# include "ms.h"
 
 # define SPLIT_SEP 29
 
@@ -24,18 +25,9 @@ enum sig_mode
 	SIG_CHILD
 };
 
-typedef struct s_minishell
-{
-	char	**env;
-	char	*hdline;
-	char	*hd_filename;
-	int		hd_fd;
-	bool	heredeoc_mode;
-	int		ms_errno;
-	bool	stop_hd;
-}	t_ms;
 
-t_ms* get_ms(void);
+
+
 
 typedef int (*t_builtin_ptr)(t_ms *, char **);
 

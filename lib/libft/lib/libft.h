@@ -6,7 +6,7 @@
 /*   By: aouellet <aouellet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:26:56 by kmehour           #+#    #+#             */
-/*   Updated: 2023/11/19 20:37:36 by aouellet         ###   ########.fr       */
+/*   Updated: 2023/11/30 21:05:36 by aouellet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <stddef.h>
+# include "../../../include/ms.h"
+
 
 int			ft_isalpha(int c);
 
