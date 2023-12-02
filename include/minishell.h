@@ -25,10 +25,6 @@ enum sig_mode
 	SIG_CHILD
 };
 
-
-
-
-
 typedef int (*t_builtin_ptr)(t_ms *, char **);
 
 // =============== Signals ===============
@@ -41,7 +37,7 @@ char	**ft_parse_cmd(char *cmd_str);
 
 
 // =============== Errors ===============
-void	ft_raise_err(char *err_str, int err_nb);
+void	ft_raise_err(char *prefix, char *err_str, int err_code);
 
 // =============== Env ===============
 int		replace_var(char**env, int index, char*value);

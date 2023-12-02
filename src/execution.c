@@ -30,7 +30,7 @@ t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
 /*
 	@brief Executes a single t_exec_node after setting in and outs
 */
-void ft_execute_node(t_exec_node *cmd)
+void	ft_execute_node(t_exec_node *cmd)
 {
 	t_builtin_ptr builtin_ptr;
 
@@ -56,7 +56,7 @@ void ft_execute_node(t_exec_node *cmd)
 		ft_close(cmd->output);
 		ft_close(cmd->pfd[1]);
 		ft_close(cmd->prev_pipe_out);
-		if (cmd->error_flag == true)
+		if (cmd->error_flag)
 		{
 			gc_free_all();
 			exit(1);
@@ -70,7 +70,8 @@ void ft_execute_node(t_exec_node *cmd)
 		{
 			execve(cmd->path, cmd->tab, get_ms()->env);
 		}
-		ft_raise_err(" command not found", 127);
+		ft_raise_err(cmd->tab[0], "command not found", 127);
+		exit(get_ms()->ms_errno);
 	}
 }
 

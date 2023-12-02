@@ -14,7 +14,9 @@ typedef struct s_minishell
 	int		ms_errno;
 	bool	stop_hd;
 	char	*line;
-
+	bool	reset_loop_flag;
+	bool	found_error;
+	char	*last_valid_tk;
 }	t_ms;
 
 t_ms* get_ms(void);

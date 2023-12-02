@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void reset_loop()
+void reset_loop(void)
 {
 	char**new_env;
 	int len;
@@ -21,6 +21,7 @@ void reset_loop()
 	}
 	gc_free_all();
 	get_ms()->env = copy_env(new_env);
+	
 	i = 0;
 	while(new_env[i])
 	{
@@ -28,8 +29,20 @@ void reset_loop()
 		i++;
 	}
 	free(new_env);
-	free(get_ms()->line);
+	if (get_ms()->line)
+		free(get_ms()->line);
 }
+
+void init_ms(void)
+{
+	// get_ms()->ms_errno = 0;
+	get_ms()->reset_loop_flag = false;
+	get_ms()->found_error = false;
+	get_ms()->stop_hd = false;
+	get_ms()->last_valid_tk = NULL;
+}
+
+
 
 int	main(int argc, char **argv, char *const envp[])
 {
@@ -39,11 +52,12 @@ int	main(int argc, char **argv, char *const envp[])
 
 	ft_set_signal_actions(SIG_MAIN);
 	get_ms()->env = copy_env(envp);
-	get_ms()->ms_errno = 0;
+	t_ms *tmp = get_ms();
+	(void) tmp;
 	exec_list = NULL;
 	while (1)
 	{
-		get_ms()->stop_hd = false;
+		init_ms();
 		//	Readline
 		get_ms()->line = readline("minishell > ");
 		//	Check exit conditions
@@ -62,11 +76,14 @@ int	main(int argc, char **argv, char *const envp[])
 
 			// Create tokens from raw line
 			t_ms_token *token_list = ft_tokenize(get_ms()->line);
-			
+			if (get_ms()->reset_loop_flag == true)
+			{
+				reset_loop();
+				continue;
+			}
 			// Create t_exec_node list from tokens
 			exec_list = ft_init_exec_list(token_list);
 			
-
 			// Execute Command(s)
 			ft_execute_list(exec_list);
 		}

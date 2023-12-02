@@ -13,7 +13,11 @@ void ft_check_open_quotes(char *line)
 		{
 			ptr = ft_strchr(&line[i + 1], line[i]);
 			if (!ptr)
-				ft_raise_err("unclosed quotes", 99);
+			{
+				ft_raise_err(NULL, "unclosed quotes", 77);
+				get_ms()->reset_loop_flag = true;
+
+			}
 			i += ptr - &line[i];
 		}
 		i++;

@@ -117,7 +117,9 @@ void	ft_set_node_pipes(t_exec_node *node)
 		return;
 	if (pipe(node->pfd) == -1)
 	{
-		ft_raise_err("Pipe error", 4);
+		ft_raise_err("Critical", "Pipe error", 69);
+		gc_free_all();
+		exit(1);
 	}
 	if(node->output == STDOUT_FILENO)
 		node->output = node->pfd[1];
@@ -133,8 +135,6 @@ t_exec_node *ft_creat_exec_node()
 	t_exec_node *new_node;
 
 	new_node = gc_calloc(1, sizeof(t_exec_node));
-	if (new_node == NULL)
-		ft_raise_err("Mem allocation error", 1);
 	new_node->next = NULL;
 	new_node->input = STDIN_FILENO;
 	new_node->output = STDOUT_FILENO;

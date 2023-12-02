@@ -65,9 +65,9 @@ t_ms_token *get_meta_token(t_ms_token*head, char*line,int *i)
 		(*i)++;
 	content = ft_substr(line,start, *i - start);
 	if(!line[*i])
-		ft_raise_err("meta at end",1);//change message
+		ft_raise_err(NULL, "syntax error near unexpected token", 258);//change message
 	if((ft_strlen(content) > 1 && c == '|') || (ft_strlen(content) > 2 && c != '|'))
-		ft_raise_err("error meta",1); //change message
+		ft_raise_err(NULL, "syntax error near unexpected token",258); //change message
 	return get_token(head,content);
 }
 
@@ -90,6 +90,42 @@ t_ms_token *get_str_token(t_ms_token*head, char*line,int *i)
 	return get_token(head,content);
 }
 
+
+
+void ft_check_unexpected(t_ms_token *head)
+{
+	t_ms_token *ptr;
+	bool *ms_flag;
+
+	ms_flag = &(get_ms()->reset_loop_flag);
+	ptr = head;
+	if (head->tk_type == TK_PIPE)
+	{
+		*ms_flag = true;	
+	}
+
+	while(ptr && !(*ms_flag))
+	{
+		get_ms()->last_valid_tk = ptr->content;
+		if (ptr->tk_type == TK_PIPE &&
+		 ptr->next && ptr->next->tk_type == TK_PIPE)
+		{
+			*ms_flag = true;
+		}
+		if(ft_is_redirection(ptr) &&
+			ptr->next && ptr->next->tk_type != TK_STR)
+		{
+			if (ptr->next->tk_type == TK_NULL)
+				//handleambiguous
+			*ms_flag = true;
+			break;
+		}
+		ptr = ptr->next;
+	}
+	if (*ms_flag)
+		ft_raise_err(NULL, "syntax error near unexpected token", 258);
+}
+
 t_ms_token *ft_tokenize(char *line)
 {
 	t_ms_token *token_list;
@@ -108,6 +144,8 @@ t_ms_token *ft_tokenize(char *line)
 		else if(!is_whitespace(line[i]))
 			token_list = get_str_token(token_list, line, &i);
 	}
-	
+	ft_check_unexpected(token_list);
+	free(get_ms()->line);
+	get_ms()->line = NULL;
 	return token_list;
 }

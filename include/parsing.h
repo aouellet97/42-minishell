@@ -8,7 +8,6 @@ typedef struct s_ms_token
 	int					tk_type;
 	char				*content;
 	char				*raw_content;
-	// char				value;
 	struct s_ms_token	*next;
 }	t_ms_token;
 
@@ -46,6 +45,7 @@ int			ft_is_redirection(t_ms_token *tk_ptr);
 int			get_char_index(char*s, char c);
 t_ms_token	*ft_tokenize(char *line);
 char*		get_var_string(char *var, char **env);
+void		ft_check_empty_node(t_ms_token *head);
 
 /* ====== Expansions ====== */
 int			skip_single_quotes(char *str, int i);

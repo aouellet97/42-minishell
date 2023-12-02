@@ -53,7 +53,7 @@ void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 		if (access(path, R_OK) == -1)
 		{
 			node->error_flag = true;
-			ft_putstr_fd(" No such file or directory\n", STDERR_FILENO);
+			ft_raise_err(path, "No such file or directory", 1);
 		}
 		else
 		{
@@ -69,7 +69,8 @@ void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 		if (access(path, F_OK) == 0 && access(path, W_OK) == -1)
 		{
 			node->error_flag = true;
-			ft_putstr_fd(" Permission denied\n", STDERR_FILENO);
+			ft_putstr_fd(" \n", STDERR_FILENO);
+			ft_raise_err(path, "Permission denied", 1);
 		}
 		else {
 			if (node->output > 2)
