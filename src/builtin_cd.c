@@ -42,21 +42,24 @@ int ft_cd(t_ms *s_ms, char **cmd)
 		path = ft_getenv(s_ms->env);
 		if(!path)
 		{
-			printf(" cd: HOME not set\n");
+			ft_putstr_fd("minishell: cd: ", 2);
+			ft_putstr_fd("HOME not set\n", 2);
 			return 1;
 		}
 	}
 	else
 		path = cmd[1];
 	if(!getcwd(oldpwd,PATH_MAX))
-		return -1;
+		return -1; //what to do here?
 	if(chdir(path) != 0)
 	{
-		ft_putstr_fd(" No such file or directory", 2);
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		return 1;
 	}
 	if(!getcwd(pwd,PATH_MAX))
-		return -1;
+		return -1; //what to do here?
 	update_cwd(s_ms,pwd,oldpwd);
 	return 0;
 }
