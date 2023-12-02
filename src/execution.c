@@ -27,6 +27,31 @@ t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
 	return (NULL);
 }
 
+void ft_exec_single_node(t_exec_node *cmd, t_builtin_ptr builtin_ptr)
+{
+	int std_in;
+	int std_out;
+	t_ms *mini_struct;
+
+	mini_struct = get_ms();
+
+	std_in = dup(STDIN_FILENO);
+	std_out = dup(STDOUT_FILENO);
+	if (std_in == -1 || std_out == -1)
+	{
+		// Handle error
+	}
+	ft_dup2(cmd->input, STDIN_FILENO);
+	ft_dup2(cmd->output, STDOUT_FILENO);
+	ft_close(cmd->input);
+	ft_close(cmd->output);
+	mini_struct->ms_errno = builtin_ptr(mini_struct, cmd->tab);
+	dup2(std_in, STDIN_FILENO);
+	dup2(std_out, STDOUT_FILENO);
+	ft_close(std_in);
+	ft_close(std_out);
+}
+
 /*
 	@brief Executes a single t_exec_node after setting in and outs
 */
@@ -40,95 +65,28 @@ void	ft_execute_node(t_exec_node *cmd)
 		return;
 	}
 	builtin_ptr = get_builtin_ptr(cmd);
-	// if (builtin_ptr != NULL)
-	// printf(COLOR_BLUE "DEBUG - this is a builtin\n" COLOR_RESET);
-	fflush(NULL);
-
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		// readline("Waiting in child ...");
 		ft_set_signal_actions(SIG_CHILD);
-		ft_close(cmd->pfd[0]);
-		ft_dup2(cmd->input, STDIN_FILENO);
-		ft_close(cmd->input);
-		ft_dup2(cmd->output, STDOUT_FILENO);
-		ft_close(cmd->output);
-		ft_close(cmd->pfd[1]);
-		ft_close(cmd->prev_pipe_out);
+		ft_dup_in_out(cmd);
 		if (cmd->error_flag)
-		{
-			gc_free_all();
-			exit(1);
-		}
-		// Execut builtin
+			ft_free_n_exit(1);
 		if (builtin_ptr)
-		{
-			int res = builtin_ptr(get_ms(), cmd->tab);
-			gc_free_all();
-			exit(res);
-		}
+			ft_free_n_exit(
+				builtin_ptr(get_ms(), cmd->tab));
 		else if (cmd->path)
-		{
 			execve(cmd->path, cmd->tab, get_ms()->env);
-		}
 		ft_raise_err(cmd->tab[0], "command not found", 127);
 		gc_free_all();
 		exit(get_ms()->ms_errno);
 	}
 }
-
-void ft_exec_single_node(t_exec_node *cmd, t_builtin_ptr builtin_ptr)
+ 
+void ft_wait_execs(t_exec_node *ptr)
 {
-	int std_in;
-	int std_out;
-
-	std_in = dup(STDIN_FILENO);
-	std_out = dup(STDOUT_FILENO);
-	if (std_in == -1 || std_out == -1)
-	{
-		// Handle error
-	}
-	ft_dup2(cmd->input, STDIN_FILENO);
-	ft_dup2(cmd->output, STDOUT_FILENO);
-	ft_close(cmd->input);
-	ft_close(cmd->output);
-	get_ms()->ms_errno = builtin_ptr(get_ms(), cmd->tab);
-	dup2(std_in, STDIN_FILENO);
-	dup2(std_out, STDOUT_FILENO);
-	ft_close(std_in);
-	ft_close(std_out);
-}
-
-/*
-	@brief Execute t_exec_node list
-*/
-void ft_execute_list(t_exec_node *head)
-{
-	t_builtin_ptr builtin_ptr;
-	t_exec_node *ptr;
 	int wstat;
 
-	wstat = 0;
-	ptr = head;
-	builtin_ptr = get_builtin_ptr(ptr);
-	if (!ptr->next && builtin_ptr && !ptr->error_flag)
-	{
-		ft_exec_single_node(ptr, builtin_ptr);
-		return;
-	}
-
-	while (ptr)
-	{
-		ft_set_node_pipes(ptr);
-		ft_execute_node(ptr);
-		ft_close(ptr->input);
-		ft_close(ptr->output);
-		ft_close(ptr->pfd[1]);
-		ptr = ptr->next;
-	}
-
-	ptr = head;
 	while (ptr)
 	{
 		waitpid(ptr->pid, &wstat, 0);
@@ -139,4 +97,31 @@ void ft_execute_list(t_exec_node *head)
 		ft_close(ptr->pfd[0]);
 		ptr = ptr->next;
 	}
+}
+
+/*
+	@brief Execute t_exec_node list
+*/
+void ft_execute_list(t_exec_node *head)
+{
+	t_builtin_ptr builtin_ptr;
+	t_exec_node *ptr;
+
+	ptr = head;
+	builtin_ptr = get_builtin_ptr(ptr);
+	if (!ptr->next && builtin_ptr && !ptr->error_flag)
+	{
+		ft_exec_single_node(ptr, builtin_ptr);
+		return;
+	}
+	while (ptr)
+	{
+		ft_set_node_pipes(ptr);
+		ft_execute_node(ptr);
+		ft_close(ptr->input);
+		ft_close(ptr->output);
+		ft_close(ptr->pfd[1]);
+		ptr = ptr->next;
+	}
+	ft_wait_execs(head);
 }

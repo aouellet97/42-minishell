@@ -3,50 +3,6 @@
 # include "parsing.h"
 # include "testing.h"
 
-char	*ft_strjoin_sep(const char *s1, const char *s2, const char *separator)
-{
-	size_t	len_str1;
-	size_t	len_str2;
-	size_t	len_sep;
-	// char	*separator;
-	char	*new_string;
-
-	if (separator == NULL)
-		separator = "";
-	len_str1 = ft_strlen(s1);
-	len_str2 = ft_strlen(s2);
-	len_sep  = ft_strlen(separator);
-	new_string = gc_calloc((len_str1 + len_sep + len_str2 + 1), 1);
-	if (!new_string)
-		return (NULL);
-	new_string[len_str1 + len_sep + len_str2] = '\0';
-	ft_memcpy(new_string, (void *)s1, len_str1);
-	ft_memcpy((new_string + len_str1), separator, 1);
-	ft_memcpy((new_string + len_str1 + 1), (void *)s2, len_str2);
-	return (new_string);
-}
-
-char	*ft_strjoin_char(const char *s1, const char *s2, char c)
-{
-	char sep[2];
-
-	sep[0] = c;
-	sep[1] = '\0';
-	return ft_strjoin_sep(s1, s2, sep);
-}
-
-/*
-	@brief Concatenate two strings, joined with a chosen separator
-
-	@param parent left part of the joined path
-	@param child right part of the joined path
-	@return Full path string, Null if memory allocation crashed
-*/
-char *ft_strjoin_path(const char *parent, const char *child)
-{
-	return ft_strjoin_sep(parent, child, "/");
-}
-
 /*
 	@brief Search and check access to a command in PATH
 
@@ -108,28 +64,9 @@ char	**ft_get_envpaths(char *const envp[])
 	return (tab);
 }
 
-/*
-	@brief Create a pipe and sets the in/out of current and next node
+/* 
+	@brief Create and initialize a t_exec_node
  */
-void	ft_set_node_pipes(t_exec_node *node)
-{
-	if (!node || !node->next)
-		return;
-	if (pipe(node->pfd) == -1)
-	{
-		ft_raise_err("Critical", "Pipe error", 69);
-		gc_free_all();
-		exit(1);
-	}
-	if(node->output == STDOUT_FILENO)
-		node->output = node->pfd[1];
-	if(node->next->input == STDIN_FILENO)
-		node->next->input = node->pfd[0];
-	node->next->prev_pipe_out = node->pfd[1];
-}
-
-
-
 t_exec_node *ft_creat_exec_node()
 {
 	t_exec_node *new_node;
@@ -147,36 +84,11 @@ t_exec_node *ft_creat_exec_node()
 	return new_node;
 }
 
-/*
-	@brief Closes an fd if it is not STD
+/* 
+	@brief For the NORM !!
  */
-int ft_close(int fd)
+void ft_free_n_exit(int err_code)
 {
-	int res;
-
-	res = 0;
-	if (fd > STDERR_FILENO)
-		res = close(fd);
-	// if (res == -1)
-	// {
-	// 	// Handle Error
-	// }
-	return (res);
-}
-
-/*
-	@brief Duplicats an fd if it is not STD
- */
-int ft_dup2(int fd, int dest)
-{
-	int res;
-
-	res = 0;
-	if (fd > STDERR_FILENO)
-		res = dup2(fd, dest);
-	// if (res == -1)
-	// {
-	// 	// Handle error
-	// }
-	return (res);
+	gc_free_all();
+	exit(err_code);
 }

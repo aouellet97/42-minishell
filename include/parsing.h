@@ -53,4 +53,10 @@ char*		remove_quotes(char *line);
 char*		expand(char*line);
 char*		expand_dollar_sign(char *line,int *i);
 char		*expand_exit_status(char*line,int i);
+
+/* ====== String utilities ====== */
+char *ft_strjoin_path(const char *parent, const char *child);
+char	*ft_strjoin_char(const char *s1, const char *s2, char c);
+char	*ft_strjoin_sep(const char *s1, const char *s2, const char *separator);
+
 #endif

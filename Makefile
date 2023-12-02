@@ -42,7 +42,9 @@ SRCS	:=	builtins.c			\
 			main.c				\
 			parsing.c			\
 			parsing_utils.c		\
+			pipe_utils.c		\
 			signal.c			\
+			str_utils.c			\
 			tokens.c			\
 			tokens_utils.c		\
 			testing.c			\
