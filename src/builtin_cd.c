@@ -5,7 +5,6 @@ void update_cwd(t_ms*s_ms,char*path,char*old_path)
 	char *var;
 	int index;
 
-	
 	var = ft_strjoin("PWD=",path); 
 	index = get_var_index("PWD",s_ms->env);
 	if(index != -1)
@@ -30,6 +29,28 @@ char* ft_getenv(char**env)
 	return NULL;
 }
 
+int cd_path(t_ms *s_ms,char*path,char*pwd,char*oldpwd)
+{
+	if(!getcwd(oldpwd,PATH_MAX))
+	{
+		ft_raise_err(NULL,"getcwd error",1);
+		return 1;
+	}
+	if(chdir(path) != 0)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return 1;
+	}
+	if(!getcwd(pwd,PATH_MAX))
+	{
+		ft_raise_err(NULL, "getcwd error",1);
+		return 1;
+	}
+	update_cwd(s_ms,pwd,oldpwd);
+	return 0;
+}
 int ft_cd(t_ms *s_ms, char **cmd)
 {
 	char *path;
@@ -49,17 +70,5 @@ int ft_cd(t_ms *s_ms, char **cmd)
 	}
 	else
 		path = cmd[1];
-	if(!getcwd(oldpwd,PATH_MAX))
-		return -1; //what to do here?
-	if(chdir(path) != 0)
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return 1;
-	}
-	if(!getcwd(pwd,PATH_MAX))
-		return -1; //what to do here?
-	update_cwd(s_ms,pwd,oldpwd);
-	return 0;
+	return cd_path(s_ms,path,pwd,oldpwd);
 }
