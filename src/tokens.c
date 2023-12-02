@@ -1,28 +1,5 @@
 # include "minishell.h"
 
-/*
-	@brief Assigns the token type according based on the content
-*/
-int ft_assigne_tk_type(char *content)
-{
-	// TODO: Handle strings
-	if(!content[0])  
-		return 	TK_NULL;
-	// TODO: Handle heredoc
-	if (content[0] == '<' && content[1] == '<' && !content[2])
-		return TK_HEREDOC;
-	if (content[0] == '>' && content[1] == '>' && !content[2])
-		return TK_OUT_REDIR_AP;
-	// TODO: Handle redirections
-	if (content[0] == '<' && !content[1])
-		return TK_IN_REDIR;
-	if (content[0] == '>' && !content[1])
-		return TK_OUT_REDIR;
-	// TODO: Handle pipes
-	if (content[0] == '|' && !content[1])
-		return TK_PIPE;
-	return TK_STR;
-}
 
 t_ms_token *get_token(t_ms_token *head, char *content)
 {
@@ -100,10 +77,7 @@ void ft_check_unexpected(t_ms_token *head)
 	ms_flag = &(get_ms()->reset_loop_flag);
 	ptr = head;
 	if (head->tk_type == TK_PIPE)
-	{
 		*ms_flag = true;	
-	}
-
 	while(ptr && !(*ms_flag))
 	{
 		get_ms()->last_valid_tk = ptr->content;
@@ -115,8 +89,6 @@ void ft_check_unexpected(t_ms_token *head)
 		if(ft_is_redirection(ptr) &&
 			ptr->next && ptr->next->tk_type != TK_STR)
 		{
-			if (ptr->next->tk_type == TK_NULL)
-				//handleambiguous
 			*ms_flag = true;
 			break;
 		}

@@ -1,23 +1,6 @@
 #include "minishell.h"
 
-int verify_arg_input(char*var) 
-{
-	int i;
 
-	i = 0;
-	if(var[0] == '=')
-		return -1;
-
-	if(ft_isdigit(var[i]))
-		return -1;
-	while(var[i] && var[i] != '=')
-	{
-		if(!ft_isalnum(var[i]) && var[i] != '_')
-			return -1;
-		i++;
-	}
-	return 0;
-}
 
 void ascii_sort(char**env, size_t len)
 {
