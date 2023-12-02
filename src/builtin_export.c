@@ -13,7 +13,7 @@ void	ascii_sort(char **env, size_t len)
 	{
 		while (i < len - 1)
 		{
-			if (strcmp(env[i], env[i + 1]) > 0)
+			if (ft_strcmp(env[i], env[i + 1]) > 0)
 			{
 				temp = env[i];
 				env[i] = env[i + 1];

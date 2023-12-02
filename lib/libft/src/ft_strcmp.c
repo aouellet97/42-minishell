@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aouellet <aouellet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 21:36:44 by kmehour           #+#    #+#             */
-/*   Updated: 2023/11/19 20:07:44 by aouellet         ###   ########.fr       */
+/*   Updated: 2023/12/02 18:49:18 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+
+/* 
+	@brief Compare between two strings
+ */
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t			i;
@@ -29,3 +33,5 @@ int	ft_strcmp(const char *s1, const char *s2)
 	}
 	return (ps1[i] - ps2[i]);
 }
+
+

@@ -63,5 +63,6 @@ char *ft_strjoin_path(const char *parent, const char *child);
 char	*ft_strjoin_char(const char *s1, const char *s2, char c);
 char	*ft_strjoin_sep(const char *s1, const char *s2, const char *separator);
 char	**ft_parse_cmd(char *cmd_str);
+int		ft_istrcmp(const char *,const char*);
 
 #endif
