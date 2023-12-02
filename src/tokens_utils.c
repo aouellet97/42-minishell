@@ -61,3 +61,27 @@ int get_char_index(char*s, char c)
 	}
 	return -1;
 }
+
+/*
+	@brief Assigns the token type according based on the content
+*/
+int ft_assigne_tk_type(char *content)
+{
+	// TODO: Handle strings
+	if(!content[0])  
+		return 	TK_NULL;
+	// TODO: Handle heredoc
+	if (content[0] == '<' && content[1] == '<' && !content[2])
+		return TK_HEREDOC;
+	if (content[0] == '>' && content[1] == '>' && !content[2])
+		return TK_OUT_REDIR_AP;
+	// TODO: Handle redirections
+	if (content[0] == '<' && !content[1])
+		return TK_IN_REDIR;
+	if (content[0] == '>' && !content[1])
+		return TK_OUT_REDIR;
+	// TODO: Handle pipes
+	if (content[0] == '|' && !content[1])
+		return TK_PIPE;
+	return TK_STR;
+}

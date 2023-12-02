@@ -53,7 +53,7 @@ void ft_handle_out_redir(char *path, t_exec_node *node, int tk_type);
 
 /* ====== Expansions ====== */
 int			skip_single_quotes(char *str, int i);
-char*		remove_quotes(char *line);
+char*		remove_quotes(char *line, int i);
 char*		expand(char*line);
 char*		expand_dollar_sign(char *line,int *i);
 char		*expand_exit_status(char*line,int i);

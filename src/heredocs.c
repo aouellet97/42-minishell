@@ -93,7 +93,7 @@ int heredoc_wait_open(int fd, int id, int wstat)
 }
 
 
-int ft_create_heredoc(char*eof) 
+int ft_create_heredoc(char*eof)
 {
 	bool expansion;
 	int fd;
@@ -106,7 +106,7 @@ int ft_create_heredoc(char*eof)
 	expansion = false;
 	if(get_char_index(eof,'\'') == -1 && get_char_index(eof,'\"') == -1 )
 		expansion = true;
-	eof = remove_quotes(eof);
+	eof = remove_quotes(eof,0);
 	if(!eof)
 		eof = "\0";
 	fd = open_heredoc_file(); 
@@ -117,6 +117,6 @@ int ft_create_heredoc(char*eof)
 	if(id == 0)
 		heredoc_write(eof, fd, expansion);
 	return heredoc_wait_open(fd,id,wstat);
-}
-
+} 
+ 
 

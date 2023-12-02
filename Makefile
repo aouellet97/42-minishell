@@ -31,13 +31,16 @@ RM		=	rm
 
 # Sources
 SRCS	:=	builtins.c			\
+			builtins2.c			\
 			builtin_export.c	\
 			builtin_cd.c		\
 			env.c				\
+			env2.c				\
 			errors.c			\
 			execution.c			\
 			execution_utils.c	\
 			expands.c			\
+			expand2.c			\
 			heredocs.c			\
 			main.c				\
 			parsing.c			\
@@ -49,6 +52,7 @@ SRCS	:=	builtins.c			\
 			tokens.c			\
 			tokens_utils.c		\
 			testing.c			\
+			
 
 
 
