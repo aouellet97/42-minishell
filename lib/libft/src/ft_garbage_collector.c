@@ -20,7 +20,9 @@ t_mblock *garbage_collector(void)
 void * gc_calloc(size_t nmemb, size_t size)
 {
     t_mblock *new_mb;
+    int i;
 
+    i = 0;
     new_mb = ft_calloc(1,sizeof(t_mblock));
     if(!new_mb)
     {   
@@ -28,6 +30,16 @@ void * gc_calloc(size_t nmemb, size_t size)
         gc_free_all();
         if(get_ms()->line)
             free(get_ms()->line);
+        if(get_ms()->rl_env)
+        {
+            while(get_ms()->rl_env[i])
+            {
+                free(get_ms()->rl_env[i]);
+                i++;
+            }
+            free(get_ms()->rl_env);
+        }
+
         exit(1);
     }
 
@@ -41,6 +53,15 @@ void * gc_calloc(size_t nmemb, size_t size)
         gc_free_all();
         if(get_ms()->line)
             free(get_ms()->line);
+        if(get_ms()->rl_env)
+        {
+            while(get_ms()->rl_env[i])
+            {
+                free(get_ms()->rl_env[i]);
+                i++;
+            }
+            free(get_ms()->rl_env);
+        }
         exit(1);
     }
 

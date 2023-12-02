@@ -2,47 +2,36 @@
 
 void reset_loop(void)
 {
-	char**new_env;
-	int len;
 	int i;
 
+	get_ms()->rl_env = get_ms()->env;
 	i = 0;
-
-	len = get_env_size(get_ms()->env);
-	new_env = malloc(sizeof(char*) * (len +1));
-	new_env[len] = NULL;
-
-	while(get_ms()->env[i])
+	while(get_ms()->rl_env[i])
 	{
-		new_env[i] = malloc(sizeof(char) * ft_strlen(get_ms()->env[i]) + 1);
-		//free if error
-		ft_strlcpy(new_env[i],get_ms()->env[i],ft_strlen(get_ms()->env[i])+1);
+		gc_detach(get_ms()->rl_env[i]);
 		i++;
 	}
+	gc_detach(get_ms()->rl_env);
 	gc_free_all();
-	get_ms()->env = copy_env(new_env);
-	
+	get_ms()->env = copy_env(get_ms()->rl_env);
 	i = 0;
-	while(new_env[i])
+	while(get_ms()->rl_env[i])
 	{
-		free(new_env[i]);
+		free(get_ms()->rl_env[i]);
 		i++;
 	}
-	free(new_env);
-	if (get_ms()->line)
-		free(get_ms()->line);
+	free(get_ms()->rl_env);
 }
 
 void init_ms(void)
 {
 	// get_ms()->ms_errno = 0;
+	get_ms()->rl_env = NULL;
 	get_ms()->reset_loop_flag = false;
 	get_ms()->found_error = false;
 	get_ms()->stop_hd = false;
 	get_ms()->last_valid_tk = NULL;
 }
-
-
 
 int	main(int argc, char **argv, char *const envp[])
 {
@@ -65,6 +54,7 @@ int	main(int argc, char **argv, char *const envp[])
 		{
 			printf("exit\n");
 			gc_free_all();
+			free(get_ms()->line);
 			exit(get_ms()->ms_errno);
 		}
 

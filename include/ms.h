@@ -17,6 +17,7 @@ typedef struct s_minishell
 	bool	reset_loop_flag;
 	bool	found_error;
 	char	*last_valid_tk;
+	char 	**rl_env;
 }	t_ms;
 
 t_ms* get_ms(void);
