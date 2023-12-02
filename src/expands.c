@@ -42,14 +42,14 @@ char *expand_exit_status(char*line,int i)
 	char*second_part;
 	int number;
 
-	number = get_ms()->ms_errno; //replace with struct erno
+	number = get_ms()->ms_errno;
 	first_part = ft_substr(line,0,i);
 	second_part = ft_strjoin(ft_itoa(number),line + i + 2);
 	new_line = ft_strjoin(first_part,second_part);
 	return new_line;
 }
 
-char* expand_dollar_sign(char *line,int *i) //could remove the int pointer and i-- at end
+char* expand_dollar_sign(char *line,int *i)
 {
 	char *user_var;
 	char *var_string;
@@ -58,7 +58,6 @@ char* expand_dollar_sign(char *line,int *i) //could remove the int pointer and i
 	start = 0;
 	user_var = NULL;
 	var_string = NULL;
-
 	start = *i + 1;
 	while(line[start] && (ft_isalnum(line[start]) || line[start] == '_'))
 		start++;
@@ -94,13 +93,11 @@ char* expand_quotes_dollar_sign(char *line,int *i)
 	return new_line;
 }
 
-char*	remove_quotes(char *line)
+char*	remove_quotes(char *line, int i)
 {
-	int i;
 	char *next_quote;
 	char	**split;
 
-	i = 0;
 	next_quote = NULL;
 	split = NULL;
 	while (line[i])

@@ -49,7 +49,7 @@ void		ft_check_empty_node(t_ms_token *head);
 
 /* ====== Expansions ====== */
 int			skip_single_quotes(char *str, int i);
-char*		remove_quotes(char *line);
+char*		remove_quotes(char *line, int i);
 char*		expand(char*line);
 char*		expand_dollar_sign(char *line,int *i);
 char		*expand_exit_status(char*line,int i);

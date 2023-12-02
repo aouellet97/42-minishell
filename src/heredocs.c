@@ -106,7 +106,7 @@ int ft_create_heredoc(char*eof)
 	expansion = false;
 	if(get_char_index(eof,'\'') == -1 && get_char_index(eof,'\"') == -1 )
 		expansion = true;
-	eof = remove_quotes(eof);
+	eof = remove_quotes(eof,0);
 	if(!eof)
 		eof = "\0";
 	fd = open_heredoc_file(); 

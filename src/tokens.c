@@ -36,7 +36,7 @@ t_ms_token *get_token(t_ms_token *head, char *content)
 	new_token->raw_content = ft_strdup(content);
 	exp_content = expand(content);
 	new_token->tk_type = ft_assigne_tk_type(exp_content);
-	new_token->content = remove_quotes(exp_content); //modify for it to work with $"$USER" and $? and fix garbage collector
+	new_token->content = remove_quotes(exp_content,0); //modify for it to work with $"$USER" and $? and fix garbage collector
 
 	new_token->next = NULL;
 	if (head == NULL)
