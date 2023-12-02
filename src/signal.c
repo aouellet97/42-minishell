@@ -46,3 +46,20 @@ void	ft_set_signal_actions(int mode)
 		signal(SIGQUIT, SIG_DFL);
 	}
 }
+
+
+void sigint_handle(int sig)
+{
+	if(sig ==  SIGINT)
+	{
+		write(1,">\n",2);
+		if(get_ms()->hdline)
+		{
+			free(get_ms()->hdline);
+			get_ms()->hdline = NULL;
+		}
+		gc_free_all();
+		close(get_ms()->hd_fd);
+		exit(222);
+	}
+}

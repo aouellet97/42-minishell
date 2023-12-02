@@ -30,7 +30,7 @@ typedef int (*t_builtin_ptr)(t_ms *, char **);
 // =============== Signals ===============
 void	ft_set_signal_actions(int mode);
 void	ft_change_wspace(char *str);
-
+void 	sigint_handle(int sig);
 
 // =============== Parsing ===============
 char	**ft_parse_cmd(char *cmd_str);
