@@ -1,22 +1,27 @@
 
 #include "libft.h"
 
-//memory block
-typedef struct s_mblock
+void gc_malloc_protection(void)
 {
-    void *address;
-    struct s_mblock *next_mb;
-}   t_mblock;
+    int i;
 
-//access head of garbage collector everywhere in the program
-t_mblock *garbage_collector(void)
-{
-    static t_mblock head = { NULL, NULL };
-    return &head;
+    i = 0;
+    ft_putstr_fd("Memory allocation error!\n",2);
+    gc_free_all();
+    if(get_ms()->line)
+       free(get_ms()->line);
+    if(get_ms()->rl_env)
+    {
+        while(get_ms()->rl_env[i])
+        {
+            free(get_ms()->rl_env[i]);
+            i++;
+        }
+        free(get_ms()->rl_env);
+    }
+    exit(1);
 }
 
-
-//malloc stuff and append to the garbage collector
 void * gc_calloc(size_t nmemb, size_t size)
 {
     t_mblock *new_mb;
@@ -25,51 +30,18 @@ void * gc_calloc(size_t nmemb, size_t size)
     i = 0;
     new_mb = ft_calloc(1,sizeof(t_mblock));
     if(!new_mb)
-    {   
-        ft_putstr_fd("Memory allocation error!\n",2);
-        gc_free_all();
-        if(get_ms()->line)
-            free(get_ms()->line);
-        if(get_ms()->rl_env)
-        {
-            while(get_ms()->rl_env[i])
-            {
-                free(get_ms()->rl_env[i]);
-                i++;
-            }
-            free(get_ms()->rl_env);
-        }
-
-        exit(1);
-    }
+        gc_malloc_protection();
 
     new_mb->next_mb = garbage_collector()->next_mb;
     garbage_collector()->next_mb = new_mb;
    
     new_mb->address = ft_calloc(nmemb,size);
     if(!new_mb->address)
-    {   
-        ft_putstr_fd("Memory allocation error!\n",2);
-        gc_free_all();
-        if(get_ms()->line)
-            free(get_ms()->line);
-        if(get_ms()->rl_env)
-        {
-            while(get_ms()->rl_env[i])
-            {
-                free(get_ms()->rl_env[i]);
-                i++;
-            }
-            free(get_ms()->rl_env);
-        }
-        exit(1);
-    }
+        gc_malloc_protection();
 
     return new_mb->address;
 }
 
-
-// free specific memory block and its content and connect back the list
 void gc_free(void*address)
 {
     t_mblock*gc_ptr;
@@ -117,7 +89,6 @@ void gc_detach(void*address)
 
 }
 
-//free entire garbage collector
 void gc_free_all(void)
 {
     t_mblock*gc_ptr;

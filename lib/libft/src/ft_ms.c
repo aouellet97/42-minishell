@@ -7,3 +7,9 @@ t_ms* get_ms(void)
 
 	return &ms;
 }
+
+t_mblock *garbage_collector(void)
+{
+    static t_mblock head = { NULL, NULL };
+    return &head;
+}

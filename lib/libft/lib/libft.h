@@ -6,7 +6,7 @@
 /*   By: aouellet <aouellet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:26:56 by kmehour           #+#    #+#             */
-/*   Updated: 2023/11/30 21:05:36 by aouellet         ###   ########.fr       */
+/*   Updated: 2023/12/02 16:04:34 by aouellet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 # include <stddef.h>
 # include "../../../include/ms.h"
 
+typedef struct s_mblock
+{
+    void *address;
+    struct s_mblock *next_mb;
+}   t_mblock;
 
 int			ft_isalpha(int c);
 
@@ -100,6 +105,8 @@ void	gc_free(void*address);
 void	gc_free_all(void);
 
 void gc_detach(void*address);
+
+t_mblock *garbage_collector(void);
 
 
 #endif
