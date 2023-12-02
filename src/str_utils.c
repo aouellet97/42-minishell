@@ -43,3 +43,20 @@ char *ft_strjoin_path(const char *parent, const char *child)
 {
 	return ft_strjoin_sep(parent, child, "/");
 }
+
+char	**ft_parse_cmd(char *cmd_str)
+{
+	char **new_tab;
+	int i;
+
+	new_tab= ft_split(cmd_str, SPLIT_SEP);
+	i = 0;
+
+	while (new_tab && new_tab[i])
+	{
+		if (new_tab[i][0] == '\e')
+			new_tab[i][0] = '\0';
+		i++;
+	}
+	return (new_tab);
+}

@@ -46,6 +46,10 @@ int			get_char_index(char*s, char c);
 t_ms_token	*ft_tokenize(char *line);
 char*		get_var_string(char *var, char **env);
 void		ft_check_empty_node(t_ms_token *head);
+void ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr);
+void ft_handle_in_redir(char *path, t_exec_node *node, int tk_type);
+void ft_handle_out_redir(char *path, t_exec_node *node, int tk_type);
+
 
 /* ====== Expansions ====== */
 int			skip_single_quotes(char *str, int i);
@@ -58,5 +62,6 @@ char		*expand_exit_status(char*line,int i);
 char *ft_strjoin_path(const char *parent, const char *child);
 char	*ft_strjoin_char(const char *s1, const char *s2, char c);
 char	*ft_strjoin_sep(const char *s1, const char *s2, const char *separator);
+char	**ft_parse_cmd(char *cmd_str);
 
 #endif

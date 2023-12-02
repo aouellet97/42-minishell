@@ -43,6 +43,7 @@ SRCS	:=	builtins.c			\
 			parsing.c			\
 			parsing_utils.c		\
 			pipe_utils.c		\
+			redirections.c		\
 			signal.c			\
 			str_utils.c			\
 			tokens.c			\

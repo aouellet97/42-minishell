@@ -51,6 +51,7 @@ void ft_print_exec_node(t_exec_node *head)
 		\tPath : %s\n\
 		=================================\n\
 		", head->input, head->output, head->pfd[0], head->pfd[1], head->path);
+		ft_print_tab(head->tab);
 }
 
 void ft_print_exec_nodes(t_exec_node *head)
