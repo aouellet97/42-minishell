@@ -64,7 +64,9 @@ void	ft_execute_node(t_exec_node *cmd)
 		// Execut builtin
 		if (builtin_ptr)
 		{
-			exit(builtin_ptr(get_ms(), cmd->tab));
+			int res = builtin_ptr(get_ms(), cmd->tab);
+			gc_free_all();
+			exit(res);
 		}
 		else if (cmd->path)
 		{
