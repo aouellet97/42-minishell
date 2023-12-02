@@ -73,6 +73,7 @@ void	ft_execute_node(t_exec_node *cmd)
 			execve(cmd->path, cmd->tab, get_ms()->env);
 		}
 		ft_raise_err(cmd->tab[0], "command not found", 127);
+		gc_free_all();
 		exit(get_ms()->ms_errno);
 	}
 }
