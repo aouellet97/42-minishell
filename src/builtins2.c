@@ -1,30 +1,29 @@
 #include "minishell.h"
 
-int verify_arg_input(char*var)
+int	verify_arg_input(char *var)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(var[0] == '=')
-		return -1;
-
-	if(ft_isdigit(var[i]))
-		return -1;
-	while(var[i] && var[i] != '=')
+	if (var[0] == '=')
+		return (-1);
+	if (ft_isdigit(var[i]))
+		return (-1);
+	while (var[i] && var[i] != '=')
 	{
-		if(!ft_isalnum(var[i]) && var[i] != '_')
-			return -1;
+		if (!ft_isalnum(var[i]) && var[i] != '_')
+			return (-1);
 		i++;
 	}
-	return 0;
+	return (0);
 }
 
 int	ft_tab_len(void **tab)
 {
-	int count;
+	int	count;
 
 	count = 0;
-	while(tab[count])
+	while (tab[count])
 		count++;
 	return (count);
 }
@@ -34,29 +33,28 @@ int	ft_tab_len(void **tab)
 
 	@returns 0 if the string is numeric, 1 otherwise
  */
-int ft_is_numeric(char *str_num)
+int	ft_is_numeric(char *str_num)
 {
-	int i;
-	char c;
+	int		i;
+	char	c;
 
 	i = 0;
 	while (str_num[i])
 	{
 		c = str_num[i];
-		if ((c < '0' || c > '9') &&
-			ft_strchr("+-", c) == NULL)
+		if ((c < '0' || c > '9') && ft_strchr("+-", c) == NULL)
 		{
-			return 1;
+			return (1);
 		}
 		i++;
 	}
-	return 0;
+	return (0);
 }
 
-int	ft_exit(t_ms*s_ms, char**cmd_tab)
+int	ft_exit(t_ms *s_ms, char **cmd_tab)
 {
-	int cmd_count;
-	int exit_code;
+	int	cmd_count;
+	int	exit_code;
 
 	(void) s_ms;
 	exit_code = 0;
