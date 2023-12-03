@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 #include <termios.h>
 
@@ -7,7 +6,6 @@ void	ft_handle_sigint(int sig)
 	if (sig == SIGINT && get_ms()->heredeoc_mode == false)
 	{
 		write(1, "\n", 1);
-
 		ft_putchar_fd('\0', STDOUT_FILENO);
 		rl_replace_line("", 1);
 		rl_on_new_line();
@@ -32,13 +30,11 @@ void	ft_setup_term(void)
 */
 void	ft_set_signal_actions(int mode)
 {
-
 	if (mode == SIG_MAIN)
 	{
 		ft_setup_term();
 		signal(SIGINT, ft_handle_sigint);
 		signal(SIGQUIT, SIG_IGN);
-
 	}
 	if (mode == SIG_CHILD)
 	{
@@ -47,13 +43,12 @@ void	ft_set_signal_actions(int mode)
 	}
 }
 
-
-void sigint_handle(int sig)
+void	sigint_handle(int sig)
 {
-	if(sig ==  SIGINT)
+	if (sig == SIGINT)
 	{
-		write(1,">\n",2);
-		if(get_ms()->hdline)
+		write(1, ">\n", 2);
+		if (get_ms()->hdline)
 		{
 			free(get_ms()->hdline);
 			get_ms()->hdline = NULL;

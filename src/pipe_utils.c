@@ -3,34 +3,34 @@
 /*
 	@brief Closes an fd if it is not STD
  */
-int ft_close(int fd)
+int	ft_close(int fd)
 {
-	int res;
+	int	res;
 
 	res = 0;
 	if (fd > STDERR_FILENO)
 		res = close(fd);
-	// if (res == -1)
-	// {
-	// 	// Handle Error
-	// }
+	if (res == -1)
+	{
+		ft_raise_err("Critical", "Close error", 69);
+	}
 	return (res);
 }
 
 /*
 	@brief Duplicats an fd if it is not STD
  */
-int ft_dup2(int fd, int dest)
+int	ft_dup2(int fd, int dest)
 {
-	int res;
+	int	res;
 
 	res = 0;
 	if (fd > STDERR_FILENO)
 		res = dup2(fd, dest);
-	// if (res == -1)
-	// {
-	// 	// Handle error
-	// }
+	if (res == -1)
+	{
+		ft_raise_err("Critical", "Dup2 error", 69);
+	}
 	return (res);
 }
 
@@ -40,24 +40,24 @@ int ft_dup2(int fd, int dest)
 void	ft_set_node_pipes(t_exec_node *node)
 {
 	if (!node || !node->next)
-		return;
+		return ;
 	if (pipe(node->pfd) == -1)
 	{
 		ft_raise_err("Critical", "Pipe error", 69);
 		gc_free_all();
 		exit(1);
 	}
-	if(node->output == STDOUT_FILENO)
+	if (node->output == STDOUT_FILENO)
 		node->output = node->pfd[1];
-	if(node->next->input == STDIN_FILENO)
+	if (node->next->input == STDIN_FILENO)
 		node->next->input = node->pfd[0];
 	node->next->prev_pipe_out = node->pfd[1];
 }
 
-/* 
+/*
 	@brief duplicates node in/out and close remaining fd's
  */
-void ft_dup_in_out(t_exec_node *cmd)
+void	ft_dup_in_out(t_exec_node *cmd)
 {
 	ft_close(cmd->pfd[0]);
 	ft_dup2(cmd->input, STDIN_FILENO);
