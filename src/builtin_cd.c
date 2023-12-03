@@ -5,11 +5,11 @@ void	update_cwd(t_ms*s_ms, char *path, char *old_path)
 	char	*var;
 	int		index;
 
-	var = ft_strjoin("PWD=", path); 
+	var = ft_strjoin("PWD=", path);
 	index = get_var_index("PWD", s_ms->env);
 	if (index != -1)
 		replace_var(s_ms->env, index, var);
-	var = ft_strjoin("OLDPWD=", old_path); 
+	var = ft_strjoin("OLDPWD=", old_path);
 	index = get_var_index("OLDPWD", s_ms->env);
 	if (index != -1)
 		replace_var(s_ms->env, index, var);

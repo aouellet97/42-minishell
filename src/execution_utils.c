@@ -21,7 +21,7 @@ char	*ft_get_cmd_path(char *cmd, char *const envp[])
 	res = -1;
 	if (cmd && ft_strchr("./", cmd[0]) && access(cmd, R_OK) == 0)
 		return (cmd);
-	else 
+	else
 	{
 		while (path_tab[++i])
 		{
@@ -63,7 +63,7 @@ char	**ft_get_envpaths(char *const envp[])
 	return (tab);
 }
 
-/* 
+/*
 	@brief Create and initialize a t_exec_node
  */
 t_exec_node	*ft_creat_exec_node(void)
@@ -83,7 +83,7 @@ t_exec_node	*ft_creat_exec_node(void)
 	return (new_node);
 }
 
-/* 
+/*
 	@brief For the NORM !!
  */
 void	ft_free_n_exit(int err_code)
