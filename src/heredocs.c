@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 void	heredoc_expand(char*line)
 {
 	char	*gc_line;
@@ -19,7 +18,6 @@ void	heredoc_expand(char*line)
 	}
 	get_ms()->hdline = gc_line;
 	gc_detach(get_ms()->hdline);
-
 }
 
 int	open_heredoc_file(void)
@@ -32,12 +30,9 @@ int	open_heredoc_file(void)
 	file_name = ft_strjoin("/tmp/.heredoc_file-", n);
 	get_ms()->hd_filename = file_name;
 	gc_free(n);
-
 	heredoc_i++;
-
 	return (open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777));
 }
-
 
 void	heredoc_write(char*eof, int fd, bool expansion)
 {
@@ -118,5 +113,3 @@ int	ft_create_heredoc(char*eof)
 		heredoc_write(eof, fd, expansion);
 	return (heredoc_wait_open(fd, id, wstat));
 }
-
-

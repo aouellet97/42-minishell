@@ -8,47 +8,46 @@
  */
 t_exec_node	*ft_parse_input(char *strcmd, t_exec_node *node)
 {
-	t_exec_node	*cmd = NULL;
+	t_exec_node	*cmd;
 
 	cmd = node;
-
 	if (strcmd)
 	{
 		cmd->tab = ft_parse_cmd(strcmd);
 		cmd->path = ft_get_cmd_path(cmd->tab[0], get_ms()->env);
 	}
-
-	return cmd;
+	return (cmd);
 }
 
-t_ms_token *ft_parse_heredoc(t_ms_token *tk_ptr, t_exec_node *curr_node)
+t_ms_token	*ft_parse_heredoc(t_ms_token *tk_ptr, t_exec_node *curr_node)
 {
 	if (tk_ptr->tk_type == TK_HEREDOC)
 	{
 		tk_ptr = tk_ptr->next;
 		if (!tk_ptr)
-			return tk_ptr;
+			return (tk_ptr);
 		if (curr_node->input > 2)
 			close(curr_node->input);
 		curr_node->input = ft_create_heredoc(tk_ptr->raw_content);
 		if (curr_node->input == -1)
 			curr_node->error_flag = true;
 	}
-	return tk_ptr;
+	return (tk_ptr);
 }
 
-t_ms_token *ft_parse_redirection(t_ms_token *tk_ptr, t_exec_node *curr_node)
+t_ms_token	*ft_parse_redirection(t_ms_token *tk_ptr, t_exec_node *curr_node)
 {
-	if(ft_is_redirection(tk_ptr ))
+	if (ft_is_redirection(tk_ptr))
 	{
 		if (curr_node->error_flag == false)
 			ft_handle_redirections(curr_node, tk_ptr);
 		tk_ptr = tk_ptr->next;
 	}
-	return tk_ptr;
+	return (tk_ptr);
 }
 
-t_exec_node *ft_parse_pipe(t_ms_token *tk_ptr, t_exec_node *curr_node, char **str_ptr)
+t_exec_node	*ft_parse_pipe(t_ms_token *tk_ptr, t_exec_node *curr_node,
+	char **str_ptr)
 {
 	if (tk_ptr->tk_type == TK_PIPE)
 	{
@@ -57,14 +56,15 @@ t_exec_node *ft_parse_pipe(t_ms_token *tk_ptr, t_exec_node *curr_node, char **st
 		curr_node->next = ft_creat_exec_node();
 		curr_node = curr_node->next;
 	}
-	return curr_node;
+	return (curr_node);
 }
+
 /*
 	@breif Create a t_exec_node linked list from the t_ms_token list
 	@param head Head of the token linked list
 	@return t_exec_node linked list
  */
-t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
+t_exec_node	*ft_init_exec_list(t_ms_token *tk_head)
 {
 	t_exec_node	*head;
 	t_ms_token	*tk_ptr;
@@ -75,12 +75,12 @@ t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
 	curr_node = ft_creat_exec_node();
 	head = curr_node;
 	strcmd = NULL;
-	while(tk_ptr && get_ms()->stop_hd == false)
+	while (tk_ptr && get_ms()->stop_hd == false)
 	{
 		if (tk_ptr->tk_type == TK_STR)
 		{
 			if (tk_ptr->content == NULL)
-				tk_ptr->content = "\e"; // Handles cat ""
+				tk_ptr->content = "\e";
 			strcmd = ft_strjoin_char(strcmd, tk_ptr->content, 29);
 		}
 		curr_node = ft_parse_pipe(tk_ptr, curr_node, &strcmd);
@@ -89,6 +89,5 @@ t_exec_node *ft_init_exec_list(t_ms_token *tk_head)
 		tk_ptr = tk_ptr->next;
 	}
 	ft_parse_input(strcmd, curr_node);
-	return head;
+	return (head);
 }
-

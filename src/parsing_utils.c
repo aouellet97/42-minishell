@@ -9,31 +9,30 @@ int	is_whitespace(char c)
 
 void	ft_change_wspace(char *str)
 {
-	int i;
-	char *next_quote;
+	int		i;
+	char	*next_quote;
 
 	i = 0;
-	while (str[i]){
-		if (is_whitespace(str[i])){
+	while (str[i])
+	{
+		if (is_whitespace(str[i]))
 			str[i] = SPLIT_SEP;
-		}
-		if( str[i] == '"' || str[i] == '\'')
+		if (str[i] == '"' || str[i] == '\'')
 		{
 			next_quote = ft_strchr(&str[i + 1], str[i]);
-			if (next_quote){
+			if (next_quote)
 				i += (next_quote - &str[i]);
-			}
 		}
 		i++;
 	}
 }
 
-/* 
+/*
 	@brief Check if token is any redirection type
 */
 int	ft_is_redirection(t_ms_token *tk_ptr)
 {
-	return (tk_ptr->tk_type == TK_IN_REDIR ||
-			tk_ptr->tk_type == TK_OUT_REDIR ||
-			tk_ptr->tk_type == TK_OUT_REDIR_AP);
+	return (tk_ptr->tk_type == TK_IN_REDIR
+		|| tk_ptr->tk_type == TK_OUT_REDIR
+		|| tk_ptr->tk_type == TK_OUT_REDIR_AP);
 }
