@@ -6,7 +6,7 @@
 	@param cmd Command to be checked
 	@returns A pointer to the builtin function if cmd is builtin, else NULL
  */
-t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
+t_builtin_ptr	get_builtin_ptr(t_exec_node *cmd)
 {
 	if (!cmd || !cmd->tab)
 		return (NULL);
@@ -27,20 +27,17 @@ t_builtin_ptr get_builtin_ptr(t_exec_node *cmd)
 	return (NULL);
 }
 
-void ft_exec_single_node(t_exec_node *cmd, t_builtin_ptr builtin_ptr)
+void	ft_exec_single_node(t_exec_node *cmd, t_builtin_ptr builtin_ptr)
 {
-	int std_in;
-	int std_out;
-	t_ms *mini_struct;
+	int		std_in;
+	int		std_out;
+	t_ms	*mini_struct;
 
 	mini_struct = get_ms();
-
 	std_in = dup(STDIN_FILENO);
 	std_out = dup(STDOUT_FILENO);
 	if (std_in == -1 || std_out == -1)
-	{
-		// Handle error
-	}
+		ft_raise_err("Unexpected", "No standard in/out", 69);
 	ft_dup2(cmd->input, STDIN_FILENO);
 	ft_dup2(cmd->output, STDOUT_FILENO);
 	ft_close(cmd->input);
@@ -57,12 +54,12 @@ void ft_exec_single_node(t_exec_node *cmd, t_builtin_ptr builtin_ptr)
 */
 void	ft_execute_node(t_exec_node *cmd)
 {
-	t_builtin_ptr builtin_ptr;
+	t_builtin_ptr	builtin_ptr;
 
 	if (!cmd || !(cmd->tab))
 	{
 		get_ms()->ms_errno = 0;
-		return;
+		return ;
 	}
 	builtin_ptr = get_builtin_ptr(cmd);
 	cmd->pid = fork();
@@ -82,10 +79,10 @@ void	ft_execute_node(t_exec_node *cmd)
 		exit(get_ms()->ms_errno);
 	}
 }
- 
-void ft_wait_execs(t_exec_node *ptr)
+
+void	ft_wait_execs(t_exec_node *ptr)
 {
-	int wstat;
+	int	wstat;
 
 	while (ptr)
 	{
@@ -102,17 +99,17 @@ void ft_wait_execs(t_exec_node *ptr)
 /*
 	@brief Execute t_exec_node list
 */
-void ft_execute_list(t_exec_node *head)
+void	ft_execute_list(t_exec_node *head)
 {
-	t_builtin_ptr builtin_ptr;
-	t_exec_node *ptr;
+	t_builtin_ptr	builtin_ptr;
+	t_exec_node		*ptr;
 
 	ptr = head;
 	builtin_ptr = get_builtin_ptr(ptr);
 	if (!ptr->next && builtin_ptr && !ptr->error_flag)
 	{
 		ft_exec_single_node(ptr, builtin_ptr);
-		return;
+		return ;
 	}
 	while (ptr)
 	{

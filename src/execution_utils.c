@@ -1,7 +1,6 @@
-
-# include "execution.h"
-# include "parsing.h"
-# include "testing.h"
+#include "execution.h"
+#include "parsing.h"
+#include "testing.h"
 
 /*
 	@brief Search and check access to a command in PATH
@@ -17,21 +16,21 @@ char	*ft_get_cmd_path(char *cmd, char *const envp[])
 	int		res;
 	int		i;
 
-	i = 0;
+	i = -1;
 	path_tab = ft_get_envpaths(envp);
 	res = -1;
-	if (cmd && cmd[0] == '/' && access(cmd, R_OK) == 0)
+	if (cmd && ft_strchr("./", cmd[0]) && access(cmd, R_OK) == 0)
 		return (cmd);
-	if (cmd && cmd[0] == '.' && access(cmd, R_OK) == 0)
-		return (cmd);
-	else while (path_tab[i])
+	else 
 	{
-		tmp = ft_strjoin_path(path_tab[i], cmd);
-		res = access(tmp, R_OK);
-		if (res == 0)
-			break ;
-		gc_free(tmp);
-		i++;
+		while (path_tab[++i])
+		{
+			tmp = ft_strjoin_path(path_tab[i], cmd);
+			res = access(tmp, R_OK);
+			if (res == 0)
+				break ;
+			gc_free(tmp);
+		}
 	}
 	ft_free_tab(path_tab);
 	if (res == 0)
@@ -67,9 +66,9 @@ char	**ft_get_envpaths(char *const envp[])
 /* 
 	@brief Create and initialize a t_exec_node
  */
-t_exec_node *ft_creat_exec_node()
+t_exec_node	*ft_creat_exec_node(void)
 {
-	t_exec_node *new_node;
+	t_exec_node	*new_node;
 
 	new_node = gc_calloc(1, sizeof(t_exec_node));
 	new_node->next = NULL;
@@ -81,13 +80,13 @@ t_exec_node *ft_creat_exec_node()
 	new_node->error_flag = false;
 	new_node->path = NULL;
 	new_node->tab = NULL;
-	return new_node;
+	return (new_node);
 }
 
 /* 
 	@brief For the NORM !!
  */
-void ft_free_n_exit(int err_code)
+void	ft_free_n_exit(int err_code)
 {
 	gc_free_all();
 	exit(err_code);
