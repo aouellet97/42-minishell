@@ -87,7 +87,6 @@ int	heredoc_wait_open(int fd, int id, int wstat)
 	return (fd);
 }
 
-
 int	ft_create_heredoc(char*eof)
 {
 	bool	expansion;

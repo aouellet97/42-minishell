@@ -49,7 +49,7 @@ int	get_var_index(char *var, char *const envp[])
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0 
+		if (ft_strncmp(envp[i], var, ft_strlen(var)) == 0
 			&& get_char_index(envp[i], '=') == (int)ft_strlen(var))
 			return (i);
 		i++;

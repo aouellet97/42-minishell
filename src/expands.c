@@ -30,7 +30,6 @@ char	*expand_dollar_sign(char *line, int *i)
 	{
 		user_var = ft_substr(line, *i + 1, start - (*i + 1));
 		var_string = get_var_string(user_var, get_ms()->env);
-
 		line = get_new_line(line,*i, start, var_string);
 		gc_free(user_var);
 		(*i)--;

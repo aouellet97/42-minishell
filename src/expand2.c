@@ -12,7 +12,6 @@ char	*get_new_line(char*line, int start, int end, char*var_string)
 	new_line = NULL;
 	var_value = NULL;
 	first_part = ft_substr(line, 0, start);
-
 	if (var_string)
 		var_value = var_string + get_char_index(var_string, '=') + 1;
 	second_part = ft_strjoin(var_value, line + end);

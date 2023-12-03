@@ -49,7 +49,7 @@ int	replace_var(char **env, int index, char *value)
 {
 	env[index] = ft_strdup(value);
 	if (!env[index])
-		return (-1); 
+		return (-1);
 	return (0);
 }
 
@@ -60,7 +60,7 @@ char	*get_var_string(char *var, char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0
 			&& get_char_index(env[i], '=') == (int)ft_strlen(var))
 			return (env[i]);
 		i++;

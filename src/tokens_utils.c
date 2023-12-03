@@ -1,22 +1,20 @@
 #include "minishell.h"
 
-void ft_check_open_quotes(char *line)
+void	ft_check_open_quotes(char *line)
 {
-	int i;
-	char *ptr;
-
+	int		i;
+	char	*ptr;
 
 	i = 0;
-	while(line[i])
+	while (line[i])
 	{
-		if( line[i] == '"' || line[i] == '\'')
+		if (line[i] == '"' || line[i] == '\'')
 		{
 			ptr = ft_strchr(&line[i + 1], line[i]);
 			if (!ptr)
 			{
 				ft_raise_err(NULL, "unclosed quotes", 77);
 				get_ms()->reset_loop_flag = true;
-
 			}
 			i += ptr - &line[i];
 		}
@@ -24,64 +22,60 @@ void ft_check_open_quotes(char *line)
 	}
 }
 
-int skip_quotes(char *str, int i, char quote)
+int	skip_quotes(char *str, int i, char quote)
 {
-	char *next_quote;
-	int j;
+	char	*next_quote;
+	int		j;
 
 	j = i;
 	while (str[j])
 	{
-		if( str[j] == quote)
+		if (str[j] == quote)
 		{
 			next_quote = ft_strchr(&str[j + 1], str[j]);
 			if (next_quote)
-				return j + (next_quote - &str[j]);
+				return (j + (next_quote - &str[j]));
 		}
 		j++;
 	}
-	return i;
+	return (i);
 }
 
-int is_meta(char c)
+int	is_meta(char c)
 {
-	return(c == '|' || c == '<' || c == '>');
+	return (c == '|' || c == '<' || c == '>');
 }
 
-int get_char_index(char*s, char c)
+int	get_char_index(char*s, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
-		if(s[i] == c)
-			return i;
+		if (s[i] == c)
+			return (i);
 		i++;
 	}
-	return -1;
+	return (-1);
 }
 
 /*
 	@brief Assigns the token type according based on the content
 */
-int ft_assigne_tk_type(char *content)
+int	ft_assigne_tk_type(char *content)
 {
-	// TODO: Handle strings
-	if(!content[0])  
-		return 	TK_NULL;
-	// TODO: Handle heredoc
+	if (!content[0])
+		return (TK_NULL);
 	if (content[0] == '<' && content[1] == '<' && !content[2])
-		return TK_HEREDOC;
+		return (TK_HEREDOC);
 	if (content[0] == '>' && content[1] == '>' && !content[2])
-		return TK_OUT_REDIR_AP;
-	// TODO: Handle redirections
+		return (TK_OUT_REDIR_AP);
 	if (content[0] == '<' && !content[1])
-		return TK_IN_REDIR;
+		return (TK_IN_REDIR);
 	if (content[0] == '>' && !content[1])
-		return TK_OUT_REDIR;
-	// TODO: Handle pipes
+		return (TK_OUT_REDIR);
 	if (content[0] == '|' && !content[1])
-		return TK_PIPE;
-	return TK_STR;
+		return (TK_PIPE);
+	return (TK_STR);
 }
