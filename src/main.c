@@ -67,6 +67,7 @@ int	main(int argc, char **argv, char *const envp[])
 		if (!get_ms()->line || ft_strcmp(get_ms()->line, "exit") == 0)
 		{
 			printf("exit\n");
+			rl_clear_history();
 			gc_free_all();
 			free(get_ms()->line);
 			exit(get_ms()->ms_errno);

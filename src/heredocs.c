@@ -59,8 +59,7 @@ void	heredoc_write(char*eof, int fd, bool expansion)
 		get_ms()->hdline = NULL;
 	}
 	close(fd);
-	gc_free_all();
-	exit(0);
+	ft_free_n_exit(0);
 }
 
 int	heredoc_wait_open(int fd, int id, int wstat)

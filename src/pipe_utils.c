@@ -40,8 +40,7 @@ void	ft_set_node_pipes(t_exec_node *node)
 	if (pipe(node->pfd) == -1)
 	{
 		ft_raise_err("Critical", "Pipe error", 69);
-		gc_free_all();
-		exit(1);
+		ft_free_n_exit(1);
 	}
 	if (node->output == STDOUT_FILENO)
 		node->output = node->pfd[1];

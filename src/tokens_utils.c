@@ -15,6 +15,7 @@ void	ft_check_open_quotes(char *line)
 			{
 				ft_raise_err(NULL, "unclosed quotes", 77);
 				get_ms()->reset_loop_flag = true;
+				return ;
 			}
 			i += ptr - &line[i];
 		}
