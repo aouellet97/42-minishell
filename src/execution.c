@@ -86,6 +86,7 @@ void	ft_wait_execs(t_exec_node *ptr)
 {
 	int	wstat;
 
+	wstat = 0;
 	while (ptr)
 	{
 		waitpid(ptr->pid, &wstat, 0);

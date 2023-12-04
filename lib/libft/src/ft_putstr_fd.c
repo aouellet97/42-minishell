@@ -6,7 +6,7 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 19:02:05 by kmehour           #+#    #+#             */
-/*   Updated: 2023/05/08 11:17:27 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/12/04 14:05:39 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ Writes string into destination fd
 */
 void	ft_putstr_fd(char *s, int fd)
 {
-	while (*s)
-		ft_putchar_fd(*s++, fd);
+	if (!s)
+		return;
+	write(fd, s, ft_strlen(s));
 }
