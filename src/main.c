@@ -58,10 +58,10 @@ int	main(int argc, char **argv, char *const envp[])
 {
 	(void) argc;
 	(void) argv;
-	ft_set_signal_actions(SIG_MAIN);
 	get_ms()->env = copy_env(envp);
 	while (1)
 	{
+		ft_set_signal_actions(SIG_MAIN);
 		init_ms();
 		get_ms()->line = readline("minishell > ");
 		if (!get_ms()->line || ft_strcmp(get_ms()->line, "exit") == 0)

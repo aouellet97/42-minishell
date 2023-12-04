@@ -63,6 +63,7 @@ void	ft_execute_node(t_exec_node *cmd)
 		return ;
 	}
 	builtin_ptr = get_builtin_ptr(cmd);
+	signal(SIGINT, SIG_IGN);
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{

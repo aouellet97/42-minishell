@@ -69,6 +69,8 @@ void	ft_check_unexpected(t_ms_token *head)
 
 	ms_flag = &(get_ms()->reset_loop_flag);
 	ptr = head;
+	if (!head)
+		return ;
 	if (head->tk_type == TK_PIPE)
 		*ms_flag = true;
 	while (ptr && !(*ms_flag))
@@ -76,9 +78,7 @@ void	ft_check_unexpected(t_ms_token *head)
 		get_ms()->last_valid_tk = ptr->content;
 		if (ptr->tk_type == TK_PIPE
 			&& ptr->next && ptr->next->tk_type == TK_PIPE)
-		{
 			*ms_flag = true;
-		}
 		if (ft_is_redirection(ptr)
 			&& ptr->next && ptr->next->tk_type != TK_STR)
 		{
@@ -95,7 +95,7 @@ t_ms_token	*ft_tokenize(char *line)
 {
 	t_ms_token	*token_list;
 	int			i;
-
+	
 	token_list = NULL;
 	i = 0;
 	ft_check_open_quotes(line);
