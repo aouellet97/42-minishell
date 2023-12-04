@@ -12,8 +12,7 @@
 
 #include "libft.h"
 
-
-/* 
+/*
 	@brief Compare between two strings
  */
 int	ft_strcmp(const char *s1, const char *s2)
@@ -33,5 +32,3 @@ int	ft_strcmp(const char *s1, const char *s2)
 	}
 	return (ps1[i] - ps2[i]);
 }
-
-

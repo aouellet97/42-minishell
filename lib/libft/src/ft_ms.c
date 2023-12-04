@@ -1,15 +1,15 @@
 #include "libft.h"
 
-
-t_ms* get_ms(void)
+t_ms	*get_ms(void)
 {
-	static t_ms ms;
+	static t_ms	ms;
 
-	return &ms;
+	return (&ms);
 }
 
-t_mblock *garbage_collector(void)
+t_mblock	*garbage_collector(void)
 {
-    static t_mblock head = { NULL, NULL };
-    return &head;
+	static t_mblock	head = {NULL, NULL};
+
+	return (&head);
 }

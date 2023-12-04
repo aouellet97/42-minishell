@@ -22,9 +22,9 @@
 
 typedef struct s_mblock
 {
-    void *address;
-    struct s_mblock *next_mb;
-}   t_mblock;
+	void			*address;
+	struct s_mblock	*next_mb;
+}	t_mblock;
 
 int			ft_isalpha(int c);
 
@@ -98,15 +98,14 @@ void		ft_free_tab(char **tab);
 
 char		*get_next_line(int fd);
 
-void	*gc_calloc(size_t nmemb, size_t size);
+void		*gc_calloc(size_t nmemb, size_t size);
 
-void	gc_free(void*address);
+void		gc_free(void*address);
 
-void	gc_free_all(void);
+void		gc_free_all(void);
 
-void gc_detach(void*address);
+void		gc_detach(void*address);
 
-t_mblock *garbage_collector(void);
-
+t_mblock	*garbage_collector(void);
 
 #endif

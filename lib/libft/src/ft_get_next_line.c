@@ -110,7 +110,6 @@ char	*get_next_line(int fd)
 	cache = load_data(fd, cache);
 	if (!cache)
 		return (NULL);
-	
 	next_line = get_line(cache);
 	cache = trim_cache(cache);
 	return (next_line);
