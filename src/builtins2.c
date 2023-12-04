@@ -60,6 +60,10 @@ int	ft_exit(t_ms *s_ms, char **cmd_tab,t_exec_node *cmd_node)
 	(void) cmd_node;
 
 	//printf("here %d\n",cmd_node->input);
+	// printf("fd:0 %d\n",cmd_node->next->pfd[0]);
+	// printf("fd:1 %d\n",cmd_node->next->input);
+	ft_close(cmd_node->std_in);
+	ft_close(cmd_node->std_out);
 	if(get_ms()->node_i == 1)
 		printf("exit\n");
 	exit_code = 0;
@@ -75,6 +79,7 @@ int	ft_exit(t_ms *s_ms, char **cmd_tab,t_exec_node *cmd_node)
 		{
 			ft_raise_err("exit", "numeric argument required", 255);
 			gc_free_all();
+
 			exit(255);
 		}
 		exit_code = ft_atoi(cmd_tab[1]);

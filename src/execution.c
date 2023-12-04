@@ -43,6 +43,8 @@ void	ft_exec_single_node(t_exec_node *cmd, t_builtin_ptr builtin_ptr)
 	ft_dup2(cmd->output, STDOUT_FILENO);
 	ft_close(cmd->input);
 	ft_close(cmd->output);
+	cmd->std_in = std_in;
+	cmd->std_out = std_out;
 	mini_struct->ms_errno = builtin_ptr(mini_struct, cmd->tab,cmd);
 	dup2(std_in, STDIN_FILENO);
 	dup2(std_out, STDOUT_FILENO);
