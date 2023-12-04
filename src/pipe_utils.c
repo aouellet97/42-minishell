@@ -10,10 +10,6 @@ int	ft_close(int fd)
 	res = 0;
 	if (fd > STDERR_FILENO)
 		res = close(fd);
-	if (res == -1)
-	{
-		ft_raise_err("Critical", "Close error", 69);
-	}
 	return (res);
 }
 

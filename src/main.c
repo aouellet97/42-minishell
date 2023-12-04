@@ -56,11 +56,8 @@ int	ft_exec_line(void)
 
 int	main(int argc, char **argv, char *const envp[])
 {
-	t_ms	*mini_struct;
-
 	(void) argc;
 	(void) argv;
-	mini_struct = get_ms();
 	ft_set_signal_actions(SIG_MAIN);
 	get_ms()->env = copy_env(envp);
 	while (1)

@@ -46,10 +46,8 @@ void	ft_handle_out_redir(char *path, t_exec_node *node, int tk_type)
 void	ft_handle_redirections(t_exec_node *node, t_ms_token *tk_ptr)
 {
 	int		tk_type;
-	int		fd;
 	char	*path;
 
-	fd = -1;
 	path = tk_ptr->next->content;
 	tk_type = tk_ptr->tk_type;
 	if (tk_type == TK_IN_REDIR)

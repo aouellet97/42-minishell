@@ -3,7 +3,7 @@
 /*
 	@brief Check if command is a builtin, if so return
 	the builtin function pointer
-	
+
 	@param cmd Command to be checked
 	@returns A pointer to the builtin function if cmd is builtin, else NULL
  */

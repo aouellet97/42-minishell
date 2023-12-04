@@ -24,9 +24,9 @@ void	gc_malloc_protection(void)
 void	*gc_calloc(size_t nmemb, size_t size)
 {
 	t_mblock	*new_mb;
-	int			i;
+	// int			i;
 
-	i = 0;
+	// i = 0;
 	new_mb = ft_calloc(1, sizeof(t_mblock));
 	if (!new_mb)
 		gc_malloc_protection();
