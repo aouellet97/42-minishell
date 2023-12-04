@@ -1,4 +1,3 @@
-
 #ifndef TESTING_H
 # define TESTING_H
 
@@ -13,20 +12,14 @@
 # define COLOR_YELLOW "\033[0;33m"
 # define COLOR_RESET "\033[0m"
 
-
-// void	ft_test_parsing(char *line);
 void	ft_print_tab(char **list);
-// int		ft_exec_strcmd(char *cmd, char *const envp[]);
-
 
 // TOKENS
-void ft_print_tokens(t_ms_token *head);
-void print_tokens(t_ms_token*token_list,char*line);
+void	ft_print_tokens(t_ms_token *head);
+void	print_tokens(t_ms_token*token_list, char*line);
 
 // exec list
-void ft_print_exec_nodes(t_exec_node *head);
-void ft_print_exec_node(t_exec_node *head);
-
-
+void	ft_print_exec_nodes(t_exec_node *head);
+void	ft_print_exec_node(t_exec_node *head);
 
 #endif
