@@ -64,10 +64,12 @@ int	get_char_index(char*s, char c)
 /*
 	@brief Assigns the token type according based on the content
 */
-int	ft_assigne_tk_type(char *content)
+int	ft_assigne_tk_type(char *content, bool *ds_exp)
 {
 	if (!content[0])
 		return (TK_NULL);
+	if (*ds_exp == true)
+		return (TK_STR);
 	if (content[0] == '<' && content[1] == '<' && !content[2])
 		return (TK_HEREDOC);
 	if (content[0] == '>' && content[1] == '>' && !content[2])

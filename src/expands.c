@@ -73,7 +73,7 @@ char	*remove_quotes(char *line, int i)
 	return (line);
 }
 
-char	*expand(char*line)
+char	*expand(char *line, bool *ds_exp)
 {
 	int	i;
 	int	dq_count;
@@ -92,7 +92,10 @@ char	*expand(char*line)
 			&& (line[i + 1] == '\'' || line[i + 1] == '\"'))
 			line = expand_quotes_dollar_sign(line, &i);
 		if (line[i] == '$')
+		{
+			*ds_exp = true;
 			line = expand_dollar_sign(line, &i);
+		}
 		i++;
 	}
 	return (line);

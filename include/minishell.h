@@ -31,7 +31,7 @@ void	sigint_handle(int sig);
 
 // =============== Parsing ===============
 char	**ft_parse_cmd(char *cmd_str);
-int		ft_assigne_tk_type(char *content);
+int		ft_assigne_tk_type(char *content, bool *ds_exp);
 
 // =============== Errors ===============
 void	ft_raise_err(char *prefix, char *err_str, int err_code);
