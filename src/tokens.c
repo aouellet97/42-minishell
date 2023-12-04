@@ -95,10 +95,12 @@ t_ms_token	*ft_tokenize(char *line)
 {
 	t_ms_token	*token_list;
 	int			i;
-	
+
 	token_list = NULL;
 	i = 0;
 	ft_check_open_quotes(line);
+	if (get_ms()->reset_loop_flag == true)
+		return (NULL);
 	while (line[i])
 	{
 		if (is_whitespace(line[i]))

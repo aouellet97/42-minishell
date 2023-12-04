@@ -46,6 +46,7 @@ char	**get_new_env(size_t size);
 size_t	get_env_size(char**env);
 
 // =============== Builtins ===============
+char	*expand_exit_status(char*line, int i);
 int		ft_export(t_ms*s_ms, char**cmd);
 int		ft_unset(t_ms *s_ms, char**cmd);
 int		ft_echo(t_ms*s_ms, char**cmd);

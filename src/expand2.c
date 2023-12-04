@@ -37,3 +37,17 @@ int	skip_single_quotes(char *str, int i)
 	}
 	return (i);
 }
+
+char	*expand_exit_status(char*line, int i)
+{
+	char	*new_line;
+	char	*first_part;
+	char	*second_part;
+	int		number;
+
+	number = get_ms()->ms_errno;
+	first_part = ft_substr(line, 0, i);
+	second_part = ft_strjoin(ft_itoa(number), line + i + 2);
+	new_line = ft_strjoin(first_part, second_part);
+	return (new_line);
+}
