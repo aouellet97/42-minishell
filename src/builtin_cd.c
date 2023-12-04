@@ -50,12 +50,12 @@ int	cd_path(t_ms *s_ms, char *path, char *pwd, char *oldpwd)
 	return (0);
 }
 
-int	ft_cd(t_ms *s_ms, char **cmd)
+int	ft_cd(t_ms *s_ms, char **cmd,t_exec_node *cmd_node)
 {
 	char	*path;
 	char	pwd[PATH_MAX];
 	char	oldpwd[PATH_MAX];
-
+	(void)cmd_node;
 	path = NULL;
 	if (!cmd[1] || (cmd[1][0] == '~' && !cmd[1][1]))
 	{

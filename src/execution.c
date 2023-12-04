@@ -43,7 +43,7 @@ void	ft_exec_single_node(t_exec_node *cmd, t_builtin_ptr builtin_ptr)
 	ft_dup2(cmd->output, STDOUT_FILENO);
 	ft_close(cmd->input);
 	ft_close(cmd->output);
-	mini_struct->ms_errno = builtin_ptr(mini_struct, cmd->tab);
+	mini_struct->ms_errno = builtin_ptr(mini_struct, cmd->tab,cmd);
 	dup2(std_in, STDIN_FILENO);
 	dup2(std_out, STDOUT_FILENO);
 	ft_close(std_in);
@@ -73,7 +73,7 @@ void	ft_execute_node(t_exec_node *cmd)
 			ft_free_n_exit(1);
 		if (builtin_ptr)
 			ft_free_n_exit(
-				builtin_ptr(get_ms(), cmd->tab));
+				builtin_ptr(get_ms(), cmd->tab, cmd));
 		else if (cmd->path)
 			execve(cmd->path, cmd->tab, get_ms()->env);
 		ft_raise_err(cmd->tab[0], "command not found", 127);

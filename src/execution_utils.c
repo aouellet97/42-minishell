@@ -80,6 +80,8 @@ t_exec_node	*ft_creat_exec_node(void)
 	new_node->error_flag = false;
 	new_node->path = NULL;
 	new_node->tab = NULL;
+	
+	get_ms()->node_i++;
 	return (new_node);
 }
 

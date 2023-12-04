@@ -17,6 +17,7 @@ typedef struct s_minishell
 	bool	found_error;
 	char	*last_valid_tk;
 	char	**rl_env;
+	int		node_i;
 }	t_ms;
 
 t_ms	*get_ms(void);

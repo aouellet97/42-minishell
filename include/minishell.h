@@ -22,7 +22,7 @@ enum	e_sig_mode
 	SIG_CHILD
 };
 
-typedef int	(*t_builtin_ptr)(t_ms *, char **);
+typedef int	(*t_builtin_ptr)(t_ms *, char **,t_exec_node *);
 
 // =============== Signals ===============
 void	ft_set_signal_actions(int mode);
@@ -47,13 +47,13 @@ size_t	get_env_size(char**env);
 
 // =============== Builtins ===============
 char	*expand_exit_status(char*line, int i);
-int		ft_export(t_ms*s_ms, char**cmd);
-int		ft_unset(t_ms *s_ms, char**cmd);
-int		ft_echo(t_ms*s_ms, char**cmd);
-int		ft_exit(t_ms*s_ms, char**cmd);
-int		ft_pwd(t_ms*s_ms, char**cmd);
-int		ft_env(t_ms*s_ms, char**cmd);
-int		ft_cd(t_ms*s_ms, char**cmd);
+int		ft_export(t_ms*s_ms, char**cmd,t_exec_node *cmd_node);
+int		ft_unset(t_ms *s_ms, char**cmd,t_exec_node *cmd_node);
+int		ft_echo(t_ms*s_ms, char**cmd,t_exec_node *cmd_node);
+int		ft_exit(t_ms*s_ms, char**cmd,t_exec_node *cmd_node);
+int		ft_pwd(t_ms*s_ms, char**cmd,t_exec_node *cmd_node);
+int		ft_env(t_ms*s_ms, char**cmd,t_exec_node *cmd_node);
+int		ft_cd(t_ms*s_ms, char**cmd,t_exec_node *cmd_node);
 int		verify_arg_input(char*var);
 
 int		ft_create_heredoc(char*eof);
