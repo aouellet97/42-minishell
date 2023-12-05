@@ -19,9 +19,11 @@ t_exec_node	*ft_init_exec_list(t_ms_token *head);
 
 // Pipe and FD management
 void		ft_set_node_pipes(t_exec_node *node);
+int			ft_pipe(int pipefd[2]);
+int			ft_open(char *path, int flags, int mode);
 int			ft_close(int fd);
 int			ft_dup2(int fd, int dest);
 void		ft_dup_in_out(t_exec_node *cmd);
 void		ft_free_n_exit(int err_code);
-
+void		ft_close_all_fds(t_lst *fd_head);
 #endif

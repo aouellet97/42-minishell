@@ -119,6 +119,7 @@ void	ft_execute_list(t_exec_node *head)
 		ft_close(ptr->input);
 		ft_close(ptr->output);
 		ft_close(ptr->pfd[1]);
+		ft_close(ptr->prev_pipe_out);
 		ptr = ptr->next;
 	}
 	ft_wait_execs(head);

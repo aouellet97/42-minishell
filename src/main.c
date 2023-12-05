@@ -30,6 +30,7 @@ void	init_ms(void)
 	get_ms()->found_error = false;
 	get_ms()->stop_hd = false;
 	get_ms()->last_valid_tk = NULL;
+	get_ms()->fd_list = NULL;
 	get_ms()->node_i = 0;
 }
 

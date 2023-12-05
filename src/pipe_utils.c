@@ -1,19 +1,6 @@
 #include "minishell.h"
 
 /*
-	@brief Closes an fd if it is not STD
- */
-int	ft_close(int fd)
-{
-	int	res;
-
-	res = 0;
-	if (fd > STDERR_FILENO)
-		res = close(fd);
-	return (res);
-}
-
-/*
 	@brief Duplicats an fd if it is not STD
  */
 int	ft_dup2(int fd, int dest)
@@ -46,7 +33,7 @@ void	ft_set_node_pipes(t_exec_node *node)
 		node->output = node->pfd[1];
 	if (node->next->input == STDIN_FILENO)
 		node->next->input = node->pfd[0];
-	node->next->prev_pipe_out = node->pfd[1];
+	node->next->prev_pipe_out = node->pfd[0];
 }
 
 /*
@@ -61,4 +48,5 @@ void	ft_dup_in_out(t_exec_node *cmd)
 	ft_close(cmd->output);
 	ft_close(cmd->pfd[1]);
 	ft_close(cmd->prev_pipe_out);
+	ft_close_all_fds(get_ms()->fd_list);
 }

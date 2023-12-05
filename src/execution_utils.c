@@ -90,6 +90,7 @@ t_exec_node	*ft_creat_exec_node(void)
 void	ft_free_n_exit(int err_code)
 {
 	rl_clear_history();
+	ft_close_all_fds(get_ms()->fd_list);
 	gc_free_all();
 	exit(err_code);
 }

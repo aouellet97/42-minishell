@@ -25,7 +25,7 @@ LIBS	=	$(LIBFT) $(LIBRLINE)
 
 # Compiler and flags
 CC		=	gcc
-CFLAGS	=	-g -Wall -Werror -Wextra 
+CFLAGS	=	-g -Wall -Werror -Wextra
 # CFLAGS +=	-Wunreachable-code -Ofast -fsanitize=address
 RM		=	rm
 
@@ -41,6 +41,7 @@ SRCS	:=	builtins.c			\
 			execution_utils.c	\
 			expands.c			\
 			expand2.c			\
+			fdescriptors.c		\
 			heredocs.c			\
 			main.c				\
 			parsing.c			\
@@ -52,7 +53,7 @@ SRCS	:=	builtins.c			\
 			tokens.c			\
 			tokens_utils.c		\
 			testing.c			\
-			
+
 
 
 
@@ -128,6 +129,6 @@ re : fclean all
 leak : re
 	echo "$(BLUE)	Checking leaks ...	$(NC)"
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes --suppressions=supp.txt ./$(NAME) $(ARGS)
-	
+
 .PHONY:
 	all clean fclean re leak bonus

@@ -3,6 +3,12 @@
 
 # include "stdbool.h"
 
+typedef struct s_lst
+{
+	int				value;
+	struct s_lst	*next;
+}	t_lst;
+
 typedef struct s_minishell
 {
 	char	**env;
@@ -18,6 +24,7 @@ typedef struct s_minishell
 	char	*last_valid_tk;
 	char	**rl_env;
 	int		node_i;
+	t_lst	*fd_list;
 }	t_ms;
 
 t_ms	*get_ms(void);
