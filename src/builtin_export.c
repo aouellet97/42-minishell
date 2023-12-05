@@ -95,12 +95,13 @@ int	export_loop(char **cmd, int i, char *var, int index)
 	return (result);
 }
 
-int	ft_export(t_ms*s_ms, char **cmd,t_exec_node *cmd_node)
+int	ft_export(t_ms*s_ms, char **cmd, t_exec_node *cmd_node)
 {
 	int		i;
 	int		index;
 	char	*var;
 	int		result;
+
 	(void)cmd_node;
 	result = 0;
 	var = NULL;

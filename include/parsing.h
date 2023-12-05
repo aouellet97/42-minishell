@@ -34,8 +34,8 @@ typedef struct s_exec_node
 	int					pid;
 	struct s_exec_node	*next;
 	int					error_flag;
-	int 				std_in;
-	int 				std_out;
+	int					std_in;
+	int					std_out;
 }	t_exec_node;
 
 /* ====== exec ?? ====== */

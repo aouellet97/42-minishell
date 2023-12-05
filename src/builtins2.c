@@ -51,26 +51,27 @@ int	ft_is_numeric(char *str_num)
 	return (0);
 }
 
-int	ft_exit(t_ms *s_ms, char **cmd_tab,t_exec_node *cmd_node)
+void	close_and_print(t_exec_node *cmd_node)
+{
+	ft_close(cmd_node->std_in);
+	ft_close(cmd_node->std_out);
+	if (get_ms()->node_i == 1)
+		printf("exit\n");
+}
+
+int	ft_exit(t_ms *s_ms, char **cmd_tab, t_exec_node *cmd_node)
 {
 	int	cmd_count;
 	int	exit_code;
 
 	(void) s_ms;
-	(void) cmd_node;
-
-	//printf("here %d\n",cmd_node->input);
-	// printf("fd:0 %d\n",cmd_node->next->pfd[0]);
-	// printf("fd:1 %d\n",cmd_node->next->input);
-	ft_close(cmd_node->std_in);
-	ft_close(cmd_node->std_out);
-	if(get_ms()->node_i == 1)
-		printf("exit\n");
 	exit_code = 0;
 	cmd_count = ft_tab_len((void **)cmd_tab);
+	close_and_print(cmd_node);
 	if (cmd_count > 2)
 	{
 		ft_raise_err("exit", "too many arguments", 1);
+		gc_free_all();
 		exit(1);
 	}
 	if (cmd_count == 2)
@@ -79,12 +80,10 @@ int	ft_exit(t_ms *s_ms, char **cmd_tab,t_exec_node *cmd_node)
 		{
 			ft_raise_err("exit", "numeric argument required", 255);
 			gc_free_all();
-
 			exit(255);
 		}
 		exit_code = ft_atoi(cmd_tab[1]);
 	}
-
 	gc_free_all();
 	exit(exit_code);
 }

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_unset(t_ms *s_ms, char **cmd,t_exec_node *cmd_node)
+int	ft_unset(t_ms *s_ms, char **cmd, t_exec_node *cmd_node)
 {
 	char	*var_string;
 	int		i;
@@ -18,10 +18,11 @@ int	ft_unset(t_ms *s_ms, char **cmd,t_exec_node *cmd_node)
 	return (0);
 }
 
-int	ft_pwd(t_ms *s_ms, char **cmd,t_exec_node *cmd_node)
+int	ft_pwd(t_ms *s_ms, char **cmd, t_exec_node *cmd_node)
 {
 	char	wd[PATH_MAX];
-	(void)cmd_node;
+
+	(void) cmd_node;
 	(void) s_ms;
 	(void) cmd;
 	if (getcwd(wd, PATH_MAX))
@@ -32,7 +33,7 @@ int	ft_pwd(t_ms *s_ms, char **cmd,t_exec_node *cmd_node)
 	return (1);
 }
 
-int	ft_env(t_ms *s_ms, char **cmd,t_exec_node *cmd_node)
+int	ft_env(t_ms *s_ms, char **cmd, t_exec_node *cmd_node)
 {
 	int	i;
 
@@ -63,7 +64,7 @@ int	n_flag_check(char *cmd)
 	return (1);
 }
 
-int	ft_echo(t_ms *s_ms, char **cmd,t_exec_node *cmd_node)
+int	ft_echo(t_ms *s_ms, char **cmd, t_exec_node *cmd_node)
 {
 	int	i;
 	int	n;
