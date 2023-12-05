@@ -31,7 +31,7 @@ int	ft_pwd(t_ms *s_ms, char **cmd, t_exec_node *cmd_node)
 		return (0);
 	}
 	else
-		printf("%s\n", get_var_string("PWD",get_ms()->env) + 4);
+		printf("%s\n", get_var_string("PWD", get_ms()->env) + 4);
 	return (0);
 }
 

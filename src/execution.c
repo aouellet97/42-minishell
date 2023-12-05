@@ -59,11 +59,6 @@ void	ft_execute_node(t_exec_node *cmd)
 {
 	t_builtin_ptr	builtin_ptr;
 
-	if (!cmd || !(cmd->tab))
-	{
-		get_ms()->ms_errno = 0;
-		return ;
-	}
 	builtin_ptr = get_builtin_ptr(cmd);
 	signal(SIGINT, SIG_IGN);
 	cmd->pid = fork();
@@ -71,6 +66,8 @@ void	ft_execute_node(t_exec_node *cmd)
 	{
 		ft_set_signal_actions(SIG_CHILD);
 		ft_dup_in_out(cmd);
+		if (!cmd || !(cmd->tab))
+			ft_free_n_exit(0);
 		if (cmd->error_flag)
 			ft_free_n_exit(1);
 		if (builtin_ptr)
@@ -110,7 +107,7 @@ void	ft_execute_list(t_exec_node *head)
 
 	ptr = head;
 	builtin_ptr = get_builtin_ptr(ptr);
-	if (!ptr->next && builtin_ptr && !ptr->error_flag)
+	if (ptr && !ptr->next && builtin_ptr && !ptr->error_flag)
 	{
 		ft_exec_single_node(ptr, builtin_ptr);
 		return ;
