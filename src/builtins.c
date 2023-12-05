@@ -30,7 +30,9 @@ int	ft_pwd(t_ms *s_ms, char **cmd, t_exec_node *cmd_node)
 		printf("%s\n", wd);
 		return (0);
 	}
-	return (1);
+	else
+		printf("%s\n", get_var_string("PWD",get_ms()->env) + 4);
+	return (0);
 }
 
 int	ft_env(t_ms *s_ms, char **cmd, t_exec_node *cmd_node)
