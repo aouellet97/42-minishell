@@ -71,8 +71,9 @@ int	ft_exit(t_ms *s_ms, char **cmd_tab, t_exec_node *cmd_node)
 	if (cmd_count > 2)
 	{
 		ft_raise_err("exit", "too many arguments", 1);
-		gc_free_all();
-		exit(1);
+		return (1);
+		// gc_free_all();
+		// exit(1);
 	}
 	if (cmd_count == 2)
 	{
