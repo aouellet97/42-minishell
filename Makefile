@@ -72,10 +72,6 @@ T_OBJS		:= $(subst main,test,$(OBJS))
 
 all : $(NAME)
 
-exe :
-	./$(NAME)
-
-
 # Compile program
 $(NAME) : $(LIBS) $(OBJS)
 	@echo "$(GREEN)	Compiling $@ ... $(NC)"

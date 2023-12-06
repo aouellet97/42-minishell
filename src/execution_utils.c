@@ -6,13 +6,11 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:40:54 by kmehour           #+#    #+#             */
-/*   Updated: 2023/12/06 17:47:24 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/12/06 18:09:07 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
-#include "parsing.h"
-#include "testing.h"
+#include "minishell.h"
 
 int	ft_is_dir(char *str)
 {
