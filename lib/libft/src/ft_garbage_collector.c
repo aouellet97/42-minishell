@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_garbage_collector.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aouellet <aouellet@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/04 19:07:28 by aouellet          #+#    #+#             */
+/*   Updated: 2023/12/04 19:07:38 by aouellet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 void	gc_malloc_protection(void)
@@ -24,9 +36,7 @@ void	gc_malloc_protection(void)
 void	*gc_calloc(size_t nmemb, size_t size)
 {
 	t_mblock	*new_mb;
-	// int			i;
 
-	// i = 0;
 	new_mb = ft_calloc(1, sizeof(t_mblock));
 	if (!new_mb)
 		gc_malloc_protection();

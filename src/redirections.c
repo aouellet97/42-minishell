@@ -27,7 +27,7 @@ void	ft_handle_in_redir(char *path, t_exec_node *node, int tk_type)
 	{
 		if (node->input > 2)
 			close(node->input);
-		fd = open(path, O_RDONLY);
+		fd = ft_open(path, O_RDONLY, 0777);
 		node->input = fd;
 	}
 }
@@ -48,9 +48,9 @@ void	ft_handle_out_redir(char *path, t_exec_node *node, int tk_type)
 		if (node->output > 2)
 			close(node->output);
 		if (tk_type == TK_OUT_REDIR)
-			fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			fd = ft_open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		else
-			fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0777);
+			fd = ft_open(path, O_WRONLY | O_CREAT | O_APPEND, 0777);
 		node->output = fd;
 	}
 }

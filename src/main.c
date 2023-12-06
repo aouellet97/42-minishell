@@ -42,6 +42,8 @@ void	init_ms(void)
 	get_ms()->found_error = false;
 	get_ms()->stop_hd = false;
 	get_ms()->last_valid_tk = NULL;
+	get_ms()->fd_list = NULL;
+	get_ms()->node_i = 0;
 }
 
 int	ft_exec_line(void)
@@ -76,9 +78,10 @@ int	main(int argc, char **argv, char *const envp[])
 		ft_set_signal_actions(SIG_MAIN);
 		init_ms();
 		get_ms()->line = readline("minishell > ");
-		if (!get_ms()->line || ft_strcmp(get_ms()->line, "exit") == 0)
+		if (!get_ms()->line)
 		{
 			printf("exit\n");
+			rl_clear_history();
 			gc_free_all();
 			free(get_ms()->line);
 			exit(get_ms()->ms_errno);

@@ -17,11 +17,13 @@ t_ms_token	*get_token(t_ms_token *head, char *content)
 	t_ms_token	*new_token;
 	t_ms_token	*ptr;
 	char		*exp_content;
+	bool		ds_exp;
 
+	ds_exp = false;
 	new_token = gc_calloc(1, sizeof(t_ms_token));
 	new_token->raw_content = ft_strdup(content);
-	exp_content = expand(content);
-	new_token->tk_type = ft_assigne_tk_type(exp_content);
+	exp_content = expand(content, &ds_exp);
+	new_token->tk_type = ft_assigne_tk_type(exp_content, &ds_exp);
 	new_token->content = remove_quotes(exp_content, 0);
 	new_token->next = NULL;
 	if (head == NULL)
@@ -107,10 +109,12 @@ t_ms_token	*ft_tokenize(char *line)
 {
 	t_ms_token	*token_list;
 	int			i;
-	
+
 	token_list = NULL;
 	i = 0;
 	ft_check_open_quotes(line);
+	if (get_ms()->reset_loop_flag == true)
+		return (NULL);
 	while (line[i])
 	{
 		if (is_whitespace(line[i]))

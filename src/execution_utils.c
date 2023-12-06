@@ -6,13 +6,18 @@
 /*   By: kmehour <kmehour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:40:54 by kmehour           #+#    #+#             */
-/*   Updated: 2023/12/06 17:43:37 by kmehour          ###   ########.fr       */
+/*   Updated: 2023/12/06 17:47:24 by kmehour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "parsing.h"
 #include "testing.h"
+
+int	ft_is_dir(char *str)
+{
+	return (ft_strchr("./", str[0]) || ft_strchr(str, '/'));
+}
 
 /*
 	@brief Search and check access to a command in PATH
@@ -31,7 +36,7 @@ char	*ft_get_cmd_path(char *cmd, char *const envp[])
 	i = -1;
 	path_tab = ft_get_envpaths(envp);
 	res = -1;
-	if (cmd && ft_strchr("./", cmd[0]) && access(cmd, R_OK) == 0)
+	if (cmd && ft_is_dir(cmd) && access(cmd, X_OK) == 0)
 		return (cmd);
 	else
 	{
@@ -92,6 +97,7 @@ t_exec_node	*ft_creat_exec_node(void)
 	new_node->error_flag = false;
 	new_node->path = NULL;
 	new_node->tab = NULL;
+	get_ms()->node_i++;
 	return (new_node);
 }
 
@@ -100,6 +106,8 @@ t_exec_node	*ft_creat_exec_node(void)
  */
 void	ft_free_n_exit(int err_code)
 {
+	rl_clear_history();
+	ft_close_all_fds(get_ms()->fd_list);
 	gc_free_all();
 	exit(err_code);
 }

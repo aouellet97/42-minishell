@@ -12,20 +12,6 @@
 
 #include "minishell.h"
 
-char	*expand_exit_status(char*line, int i)
-{
-	char	*new_line;
-	char	*first_part;
-	char	*second_part;
-	int		number;
-
-	number = get_ms()->ms_errno;
-	first_part = ft_substr(line, 0, i);
-	second_part = ft_strjoin(ft_itoa(number), line + i + 2);
-	new_line = ft_strjoin(first_part, second_part);
-	return (new_line);
-}
-
 char	*expand_dollar_sign(char *line, int *i)
 {
 	char	*user_var;
@@ -65,7 +51,8 @@ char	*expand_quotes_dollar_sign(char *line, int *i)
 		split = ft_split(line, SPLIT_SEP);
 		new_line = ft_strjoin(split[0], split[1]);
 	}
-	(*i)--;
+	if ((*i) > 0)
+		(*i)--;
 	return (new_line);
 }
 
@@ -98,7 +85,7 @@ char	*remove_quotes(char *line, int i)
 	return (line);
 }
 
-char	*expand(char*line)
+char	*expand(char *line, bool *ds_exp)
 {
 	int	i;
 	int	dq_count;
@@ -117,7 +104,10 @@ char	*expand(char*line)
 			&& (line[i + 1] == '\'' || line[i + 1] == '\"'))
 			line = expand_quotes_dollar_sign(line, &i);
 		if (line[i] == '$')
+		{
+			*ds_exp = true;
 			line = expand_dollar_sign(line, &i);
+		}
 		i++;
 	}
 	return (line);

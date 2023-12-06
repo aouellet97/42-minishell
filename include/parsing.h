@@ -20,6 +20,7 @@ typedef struct s_ms_token
 	int					tk_type;
 	char				*content;
 	char				*raw_content;
+	bool				dol_expansion;
 	struct s_ms_token	*next;
 }	t_ms_token;
 
@@ -45,6 +46,8 @@ typedef struct s_exec_node
 	int					pid;
 	struct s_exec_node	*next;
 	int					error_flag;
+	int					std_in;
+	int					std_out;
 }	t_exec_node;
 
 /* ====== exec ?? ====== */
@@ -66,7 +69,7 @@ void		ft_handle_out_redir(char *path, t_exec_node *node, int tk_type);
 /* ====== Expansions ====== */
 int			skip_single_quotes(char *str, int i);
 char		*remove_quotes(char *line, int i);
-char		*expand(char*line);
+char		*expand(char *line, bool *ds_exp);
 char		*expand_dollar_sign(char *line, int *i);
 char		*expand_exit_status(char*line, int i);
 

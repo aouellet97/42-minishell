@@ -55,7 +55,9 @@ void	ft_exec_single_node(t_exec_node *cmd, t_builtin_ptr builtin_ptr)
 	ft_dup2(cmd->output, STDOUT_FILENO);
 	ft_close(cmd->input);
 	ft_close(cmd->output);
-	mini_struct->ms_errno = builtin_ptr(mini_struct, cmd->tab);
+	cmd->std_in = std_in;
+	cmd->std_out = std_out;
+	mini_struct->ms_errno = builtin_ptr(mini_struct, cmd->tab, cmd);
 	dup2(std_in, STDIN_FILENO);
 	dup2(std_out, STDOUT_FILENO);
 	ft_close(std_in);
@@ -69,11 +71,6 @@ void	ft_execute_node(t_exec_node *cmd)
 {
 	t_builtin_ptr	builtin_ptr;
 
-	if (!cmd || !(cmd->tab))
-	{
-		get_ms()->ms_errno = 0;
-		return ;
-	}
 	builtin_ptr = get_builtin_ptr(cmd);
 	signal(SIGINT, SIG_IGN);
 	cmd->pid = fork();
@@ -81,16 +78,17 @@ void	ft_execute_node(t_exec_node *cmd)
 	{
 		ft_set_signal_actions(SIG_CHILD);
 		ft_dup_in_out(cmd);
+		if (!cmd || !(cmd->tab))
+			ft_free_n_exit(0);
 		if (cmd->error_flag)
 			ft_free_n_exit(1);
 		if (builtin_ptr)
 			ft_free_n_exit(
-				builtin_ptr(get_ms(), cmd->tab));
+				builtin_ptr(get_ms(), cmd->tab, cmd));
 		else if (cmd->path)
 			execve(cmd->path, cmd->tab, get_ms()->env);
 		ft_raise_err(cmd->tab[0], "command not found", 127);
-		gc_free_all();
-		exit(get_ms()->ms_errno);
+		ft_free_n_exit(get_ms()->ms_errno);
 	}
 }
 
@@ -121,7 +119,7 @@ void	ft_execute_list(t_exec_node *head)
 
 	ptr = head;
 	builtin_ptr = get_builtin_ptr(ptr);
-	if (!ptr->next && builtin_ptr && !ptr->error_flag)
+	if (ptr && !ptr->next && builtin_ptr && !ptr->error_flag)
 	{
 		ft_exec_single_node(ptr, builtin_ptr);
 		return ;
@@ -133,6 +131,7 @@ void	ft_execute_list(t_exec_node *head)
 		ft_close(ptr->input);
 		ft_close(ptr->output);
 		ft_close(ptr->pfd[1]);
+		ft_close(ptr->prev_pipe_out);
 		ptr = ptr->next;
 	}
 	ft_wait_execs(head);

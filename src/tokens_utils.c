@@ -27,6 +27,7 @@ void	ft_check_open_quotes(char *line)
 			{
 				ft_raise_err(NULL, "unclosed quotes", 77);
 				get_ms()->reset_loop_flag = true;
+				return ;
 			}
 			i += ptr - &line[i];
 		}
@@ -75,10 +76,12 @@ int	get_char_index(char*s, char c)
 /*
 	@brief Assigns the token type according based on the content
 */
-int	ft_assigne_tk_type(char *content)
+int	ft_assigne_tk_type(char *content, bool *ds_exp)
 {
 	if (!content[0])
 		return (TK_NULL);
+	if (*ds_exp == true)
+		return (TK_STR);
 	if (content[0] == '<' && content[1] == '<' && !content[2])
 		return (TK_HEREDOC);
 	if (content[0] == '>' && content[1] == '>' && !content[2])

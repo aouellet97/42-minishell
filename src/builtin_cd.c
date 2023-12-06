@@ -41,11 +41,7 @@ char	*ft_getenv(char **env)
 
 int	cd_path(t_ms *s_ms, char *path, char *pwd, char *oldpwd)
 {
-	if (!getcwd(oldpwd, PATH_MAX))
-	{
-		ft_raise_err(NULL, "getcwd error", 1);
-		return (1);
-	}
+	getcwd(oldpwd, PATH_MAX);
 	if (chdir(path) != 0)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
@@ -53,21 +49,18 @@ int	cd_path(t_ms *s_ms, char *path, char *pwd, char *oldpwd)
 		ft_putstr_fd(": No such file or directory\n", 2);
 		return (1);
 	}
-	if (!getcwd(pwd, PATH_MAX))
-	{
-		ft_raise_err(NULL, "getcwd error", 1);
-		return (1);
-	}
+	getcwd(pwd, PATH_MAX);
 	update_cwd(s_ms, pwd, oldpwd);
 	return (0);
 }
 
-int	ft_cd(t_ms *s_ms, char **cmd)
+int	ft_cd(t_ms *s_ms, char **cmd, t_exec_node *cmd_node)
 {
 	char	*path;
 	char	pwd[PATH_MAX];
 	char	oldpwd[PATH_MAX];
 
+	(void)cmd_node;
 	path = NULL;
 	if (!cmd[1] || (cmd[1][0] == '~' && !cmd[1][1]))
 	{

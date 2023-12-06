@@ -43,7 +43,7 @@ int	open_heredoc_file(void)
 	get_ms()->hd_filename = file_name;
 	gc_free(n);
 	heredoc_i++;
-	return (open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777));
+	return (ft_open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777));
 }
 
 void	heredoc_write(char*eof, int fd, bool expansion)
@@ -71,8 +71,7 @@ void	heredoc_write(char*eof, int fd, bool expansion)
 		get_ms()->hdline = NULL;
 	}
 	close(fd);
-	gc_free_all();
-	exit(0);
+	ft_free_n_exit(0);
 }
 
 int	heredoc_wait_open(int fd, int id, int wstat)
@@ -88,7 +87,7 @@ int	heredoc_wait_open(int fd, int id, int wstat)
 			return (-1);
 		}
 	}
-	fd = open(get_ms()->hd_filename, O_RDONLY, 0777);
+	fd = ft_open(get_ms()->hd_filename, O_RDONLY, 0777);
 	get_ms()->heredeoc_mode = false;
 	if (fd == -1)
 	{
