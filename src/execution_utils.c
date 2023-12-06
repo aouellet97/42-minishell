@@ -2,6 +2,11 @@
 #include "parsing.h"
 #include "testing.h"
 
+int	ft_is_dir(char *str)
+{
+	return ft_strchr("./", str[0]) || ft_strchr(str, '/');
+}
+
 /*
 	@brief Search and check access to a command in PATH
 
@@ -19,7 +24,7 @@ char	*ft_get_cmd_path(char *cmd, char *const envp[])
 	i = -1;
 	path_tab = ft_get_envpaths(envp);
 	res = -1;
-	if (cmd && ft_strchr("./", cmd[0]) && access(cmd, R_OK) == 0)
+	if (cmd && ft_is_dir(cmd) && access(cmd, X_OK) == 0)
 		return (cmd);
 	else
 	{
