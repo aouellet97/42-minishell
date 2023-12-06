@@ -52,8 +52,6 @@ SRCS	:=	builtins.c			\
 			str_utils.c			\
 			tokens.c			\
 			tokens_utils.c		\
-			testing.c			\
-
 
 
 
@@ -82,11 +80,6 @@ exe :
 $(NAME) : $(LIBS) $(OBJS)
 	@echo "$(GREEN)	Compiling $@ ... $(NC)"
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -lncurses -o $(NAME) -I. $(INCLUDES)
-
-test: fclean $(LIBS) $(T_OBJS)
-	@echo "$(GREEN)	Compiling $@ ... $(NC)"
-	@$(CC) $(CFLAGS) $(T_OBJS) $(LIBS) -lncurses -o $@ -I. $(INCLUDES)
-	./$@
 
 # Compile objects
 $(OBJDIR)%.o : $(SRCDIR)%.c
