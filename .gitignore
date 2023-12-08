@@ -1,0 +1,19 @@
+# Ignore all
+*
+
+# Except
+!Makefile
+
+!lib/
+!lib/libft
+
+!src/
+!*.c
+
+!include/
+!include/readline
+!*.h
+
+!supp.txt
+
+!.gitignore
